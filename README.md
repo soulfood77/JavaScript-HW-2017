@@ -13,6 +13,6 @@ Season 8 homework
 1. [Functions](./08Functions)
 1. Using Objects
 1. Methods on Arrays and Objects
-1. Strings	Fix typo
+1. Strings
 1. Regular Expressions
 1. Exam preparation
