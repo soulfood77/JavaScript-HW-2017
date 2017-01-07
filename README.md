@@ -3,7 +3,6 @@ Season 8 homework
 
 ### Topics list
 
-1. Course-intro
 1. Javascript-Development
 1. Introduction to JavaScript Development
 1. [Data types and Variables](./03DataTypes)
