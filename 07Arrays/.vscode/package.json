@@ -1,0 +1,18 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "test1",
+  "main": "07Arrays",
+  "scripts": {
+    "test": "test11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "no"
+  },
+  "keywords": [
+    "no"
+  ],
+  "author": "Nadia",
+  "license": "ISC"
+}
