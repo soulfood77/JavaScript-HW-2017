@@ -58,3 +58,5 @@ solve([
     '5', '6', '2', '2',
     '95', '-14.5', '0', '-0.123'
 ]);
+
+// solution help from Daniela_Popova https://github.com/DanielaPopova/TelerikAcademy_Homeworks/blob/master/JS%20Fundamentals/07.%20UsingObjects/01.PlanarCoordinates.js
