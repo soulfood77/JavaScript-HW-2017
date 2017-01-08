@@ -7,15 +7,17 @@ On the next N lines the numbers of the array will be given
 Print the sorted array
 Each number should be on a new line*/
 
-function selectionSort(input) {
-    let i, j, k,
+function selectionSort(args) {
+    let i, j, k, minValue,
         //input = args[0].split('\n'), //old input
-        minValue = Number.MAX_VALUE,
+        input = args.map(Number),
         length = +input[0];
 
     // loop through the array
     for (i = 1; i <= length; i++) {
-        //find min value
+        //reset min value
+        minValue = Number.MAX_VALUE;
+        //loop to find min value
         for (j = 1; j <= length; j++) {
             if (input[j] < minValue) {
                 minValue = input[j];
@@ -30,11 +32,9 @@ function selectionSort(input) {
                 break;
             }
         }
-        //reset min value
-        minValue = Number.MAX_VALUE;
     }
 }
 
 // ZERO TESTS
 //selectionSort(['6', '3', '4', '1', '5', '2', '6']);
-//selectionSort(['10\n36\n10\n1\n34\n28\n38\n31\n27\n30\n20']); //test with old input, still doesn't work
+selectionSort(['10', '36', '10', '1', '34', '28', '38', '31', '27', '30', '20']);

@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Debug current file",
             "program": "${file}"//,
             // "cwd": "${workspaceRoot}",
             // "outFiles": [],
