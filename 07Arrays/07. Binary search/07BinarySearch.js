@@ -15,19 +15,19 @@ function binSear(input) {
 
     while (start <= end) {
         midPoint = Math.round((start + end) / 2);
-        //if array contains all the same numbers (BGCoder test 10), get first
+        
         if (+slicedArr[0] === searNum) {
             return '0'; //BGCoder expects '0' , not number 0
-        }
+        } 
         else if (+slicedArr[midPoint] < searNum) {
             start = midPoint + 1;
-        }
+        } 
         else if (+slicedArr[midPoint] > searNum) {
             end = midPoint - 1;
-        }
-        else if (+slicedArr[midPoint] === searNum) {
+        } else if (+slicedArr[midPoint] === searNum) {
+            return midPoint;
             //check for repeating numbers to the left to find the first (BGCoder gives time limit exceeded)
-            for (i = midPoint; i > 0; i--) {
+            for (i = midPoint; i > start; i--) {
                 if (+slicedArr[i] != +slicedArr[i - 1]) {
                     return i;
                 }
