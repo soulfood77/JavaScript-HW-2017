@@ -1,15 +1,13 @@
-// BG Coder 40/100 time limit
+// BG Coder 50/100 time limit
 function parseTags(args) {
     let splitTxt = args[0].replace(/\\/g).split(/[<>]/g).filter(n => n); //filter removes empty entries
-    let len = splitTxt.length;
+    let upStart = -1, upEnd = -1, loStart = -1, loEnd = -1;
 
     while (true) {
-        let upStart = splitTxt.indexOf('upcase'),
-            upEnd = splitTxt.indexOf('/upcase'),
-            loStart = splitTxt.indexOf('lowcase'),
-            loEnd = splitTxt.indexOf('/lowcase'),
-            orStart = splitTxt.indexOf('orgcase'),
-            orEnd = splitTxt.indexOf('/orgcase');
+        upStart = splitTxt.indexOf('upcase', upStart + 1);
+        upEnd = splitTxt.indexOf('/upcase', upEnd + 1);
+        loStart = splitTxt.indexOf('lowcase', loStart + 1);
+        loEnd = splitTxt.indexOf('/lowcase', loEnd + 1);
 
         if (upStart < loStart && loStart < upEnd && loStart !== -1) {
             splitTxt = toUp(upStart, upEnd, splitTxt);
@@ -17,19 +15,12 @@ function parseTags(args) {
         else if (loStart < upStart && upStart < loEnd && upStart !== -1) {
             splitTxt = toLo(loStart, loEnd, splitTxt);
         }
-        else if (loStart !== -1 && (upStart === -1 || upStart> loEnd)) {
+        else if (loStart !== -1 && (upStart === -1 || upStart > loEnd)) {
             splitTxt = toLo(loStart, loEnd, splitTxt);
         }
         else if (upEnd !== -1 && (loStart === -1 || loStart > upEnd)) {
             splitTxt = toUp(upStart, upEnd, splitTxt);
         }
-        upStart = splitTxt.indexOf('upcase', upStart + 1);
-        upEnd = splitTxt.indexOf('/upcase', upEnd + 1);
-        loStart = splitTxt.indexOf('lowcase', loStart + 1);
-        loEnd = splitTxt.indexOf('/lowcase', loEnd + 1);
-        orStart = splitTxt.indexOf('orgcase', orStart + 1);
-        orEnd = splitTxt.indexOf('/orgcase', orEnd + 1);
-
         if (upStart === -1 && loStart === -1) {
             break;
         }
@@ -41,15 +32,10 @@ function parseTags(args) {
 
     // functions
     function tagsToRemove(value) {
-        if (value === 'lowcase' || value === '/lowcase') {
+        let removeArr = ['lowcase', '/lowcase', 'upcase', '/upcase', 'orgcase', '/orgcase']
+        if (removeArr.indexOf(value) !== -1) {
             return false;
-        }
-        else if (value === 'upcase' || value === '/upcase') {
-            return false;
-        }
-        else if (value === 'orgcase' || value === '/orgcase') {
-            return false;
-        }
+        }        
         else {
             return true;
         }
@@ -78,10 +64,8 @@ function parseTags(args) {
                 strArr[i] = strArr[i].toLowerCase();
             }
         }
-
         return strArr;
     }
-
 }
 
 // ZERO TESTS
