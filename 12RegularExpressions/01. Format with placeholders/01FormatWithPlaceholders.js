@@ -22,4 +22,4 @@ formatWithPlaceholders([
 ]);
 
 // Properties in string and in object might be in different order!
-// How to pass a variable to a RegExp? From Daniela Popva
+// How to pass a variable to a RegExp? From Daniela Popva and StackOverflow
