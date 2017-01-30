@@ -31,17 +31,17 @@ function solve() {
 
 			if (arguments.length === 0) {
 				result = books;
-			}			
-			else if (arguments[0].author){
-				result = books.filter(book => book.author === arguments[0].author);				
 			}
-			else if (arguments[0].category){
+			else if (arguments[0].author) {
+				result = books.filter(book => book.author === arguments[0].author);
+			}
+			else if (arguments[0].category) {
 				result = books.filter(book => book.category === arguments[0].category);
 			}
-				return result;
+			return result;
 		}
 
-		function addBook(book) {
+		function addBook(book) {s
 			book.ID = books.length + 1;
 
 			// title between 2 and 100 chars long and unique
@@ -68,7 +68,6 @@ function solve() {
 			}
 			if (categories.indexOf(book.category) === -1) {
 				categories.push(book.category);
-
 			}
 
 			books.push(book);
