@@ -1,0 +1,4 @@
+## Ignore Visual Studio Code test files
+
+# Build results
+node_modules/
