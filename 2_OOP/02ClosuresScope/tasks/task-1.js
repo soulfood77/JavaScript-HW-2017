@@ -41,7 +41,7 @@ function solve() {
 			return result;
 		}
 
-		function addBook(book) {s
+		function addBook(book) {
 			book.ID = books.length + 1;
 
 			// title between 2 and 100 chars long and unique
@@ -118,9 +118,17 @@ module.exports = solve;
 //     title: "BOOK #"
 //   };
 
+// var book5 = {
+// 	title: 'Farenheit 451',
+// 	isbn: '9001234567890',
+// 	author: 'Ray Bradbury',
+// 	category: 'Fiction'
+// };
+
 // lib.books.add(boo2);
 // lib.books.add(book3)
 // lib.books.add(book4);
+// lib.books.add(book5);
 // console.log('============== Books created successfully ==============');
 
 // console.log(lib.books.list());
