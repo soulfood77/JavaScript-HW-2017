@@ -83,10 +83,10 @@ function solve() {
       let names = name.split(' ');
       let regex = /^[A-Z][a-z]*/;
       if (names.length !== 2) {
-        throw 'Invalid student name(s)';
+        throw 'Invalid count of student name(s)';
       }
       if (!names.every(n => regex.test(n))) {
-        throw 'Invalid student name(s)';
+        throw 'Invalid characters of student name(s)';
       }
       let student = {
         fname: names[0],
@@ -103,24 +103,27 @@ function solve() {
     // GET ALL STUDENTS
     getAllStudents: function () {
 
-      return this.students.map(s => {
-        return {
-          fname: s.fname,
-          lname: s.lname,
-          id: s.id
-        };
-      });
+      // return this.students.map(s => {
+      //   return {
+      //     fname: s.fname,
+      //     lname: s.lname,
+      //     id: s.id
+      //   };
+      // });
 
-      // let printStudents = [];
-      // for (let student of this.students) {
-      //   let st = {
-      //     fname: student.fname,
-      //     lname: student.lname,
-      //     id: student.id
-      //   }
-      //   printStudents.push(st);
-      // }
-      // return printStudents;
+      let printStudents = [];
+      if (this.students.length < 1) {
+        return printStudents;
+      }
+      for (let student of this.students) {
+        let st = {
+          fname: student.fname,
+          lname: student.lname,
+          id: student.id
+        }
+        printStudents.push(st);
+      }
+      return printStudents;
     },
 
     // SUBMIT HOMEWORK
@@ -138,33 +141,42 @@ function solve() {
     //EXAM RESULSTS
     pushExamResults: function (results) {
       if (results.some(r => isNaN(r.StudentID))) {
-        throw 'StudentID is not a number'
+        throw 'StudentID is not a number';
       }
-      // if no score provided - not working in Mocha... don't know why
-      // if(results.some(r => r.score)){
-      //   throw 'No score provided';
-      // }
+      if (results.some(r => r.StudentID > this.students.length)) {
+        throw 'StudentID is larger than students number';
+      }
+      if (results.some(r => r.StudentID < 1)) {
+        throw 'StudentID is smaller than first student\'s number';
+      }
       if (results.some(r => isNaN(r.score))) {
         throw 'Score is not a number';
       }
-      //duplicate check not working in Mocha... don't know why
       let checkForDuplicates = results.filter((results, index, self) => self.findIndex(r => r.StudentID === results.StudentID) !== index);
       if (checkForDuplicates.length > 0) {
         throw 'Repeating student. Tried to cheat';
       }
-      
-      //let student = this.students.find(s => s.id === studentID);
-      // for (let student of this.students) {
-      //   let getStudent = results.filter(r => r.StudentID === student.id);
-      //   if (getStudent.length < 1) {
-      //     continue;
-      //   }
-      //   student.examScore = getStudent[0].score;
-      // }
+
+      for (let student of this.students) {
+        let sIndex = results.findIndex(s => s.StudentID === student.id);
+        if (sIndex !== -1) {
+          student.examScore = results[sIndex].score;
+        }
+      }
     },
 
     // TOP STUDENTS
     getTopStudents: function () {
+      for (let student of this.students) {
+        student.finalScore = (student.examScore * 0.75) + ((student.homeworks.length / this.presentations.length) * 0.25);
+      }
+      this.students.sort((a, b) => a.finalScore < b.finalScore);
+      if(this.students.length < 10){
+        return this.students;
+      }
+      else{
+        return this.students.slice(0, 10);
+      }
     }
   };
 
@@ -183,11 +195,18 @@ module.exports = solve;
 // cour.addStudent('J P');
 // cour.addStudent('Lyudmila Zhivkova');
 
+// cour.submitHomework(2, 1);
+// cour.submitHomework(2, 2);
 // cour.submitHomework(2, 3);
+// cour.submitHomework(1, 1);
+// cour.submitHomework(1, 2);
+// cour.submitHomework(3, 1);
+
 // cour.pushExamResults([{ StudentID: 2, score: 5 }, { StudentID: 1, score: 4 }, { StudentID: 3, score: 2 }]);
 
+// let top = cour.getTopStudents();
 // console.log(cour.getAllStudents());
 
-// console.log('the end');
+//console.log('the end');
 
 //Find duplicate object properties http://stackoverflow.com/questions/2218999/remove-duplicates-from-an-array-of-objects-in-javascript
