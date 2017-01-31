@@ -1,5 +1,7 @@
 # JavaScript-2017-HW
-Season 8 homework
+Season 8 homework - Frond-end track - JavaScript
+
+## JavaScript Fundamentals - December 2016
 
 ### Topics list
 
