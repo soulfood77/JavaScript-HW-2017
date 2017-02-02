@@ -89,52 +89,60 @@ function solve() {
         throw 'Invalid characters of student name(s)';
       }
       let student = {
-        fname: names[0],
-        lname: names[1],
-        id: this.students.length + 1,
+        firstname: names[0],
+        lastname: names[1],
+        ID: this.students.length + 1,
         homeworks: [],
         examScore: 0,
         finalScore: 0
       }
       this.students.push(student);
-      return student.id;
+      return student.ID;
     },
 
-    // GET ALL STUDENTS
+    // GET ALL STUDENTS ===== property names must be as in task description, they get validated!
     getAllStudents: function () {
 
+      // from Daniela Popova
       // return this.students.map(s => {
       //   return {
-      //     fname: s.fname,
-      //     lname: s.lname,
-      //     id: s.id
+      //     firstname: s.firstname,
+      //     lastname: s.lastname,
+      //     id: s.ID
       //   };
       // });
+
 
       let printStudents = [];
       if (this.students.length < 1) {
         return printStudents;
       }
-      for (let student of this.students) {
-        let st = {
-          fname: student.fname,
-          lname: student.lname,
-          id: student.id
-        }
-        printStudents.push(st);
-      }
+
+      // from MitkoP
+      this.students.forEach(x =>
+        printStudents.push({ firstname: x.firstname, lastname: x.lastname, id: x.ID }));
+
+      // for (let student of this.students) {
+      //   let st = {
+      //     firstname: student.firstname,
+      //     lastname: student.lastname,
+      //     id: student.ID
+      //   }
+      //   printStudents.push(st);
+      // }
+
       return printStudents;
     },
 
     // SUBMIT HOMEWORK
     submitHomework: function (studentID, homeworkID) {
-      if (!this.students.some(s => s.id === studentID)) {
+      if (!this.students.some(s => s.ID === studentID)) {
         throw 'No student with such ID';
       }
       if (!this.presentations[homeworkID - 1]) {
         throw 'No matching presentation for this homework';
       }
-      let student = this.students.find(s => s.id === studentID);
+      let student = this.students.find(s => s.ID === studentID);
       student.homeworks.push(homeworkID);
     },
 
@@ -152,13 +160,16 @@ function solve() {
       if (results.some(r => isNaN(r.score))) {
         throw 'Score is not a number';
       }
-      let checkForDuplicates = results.filter((results, index, self) => self.findIndex(r => r.StudentID === results.StudentID) !== index);
+      let checkForDuplicates = results.filter((results, index, self) =>
+        self.findIndex(r =>
+          r.StudentID === results.StudentID)
+        !== index);
       if (checkForDuplicates.length > 0) {
         throw 'Repeating student. Tried to cheat';
       }
 
       for (let student of this.students) {
-        let sIndex = results.findIndex(s => s.StudentID === student.id);
+        let sIndex = results.findIndex(s => s.StudentID === student.ID);
         if (sIndex !== -1) {
           student.examScore = results[sIndex].score;
         }
@@ -171,10 +182,10 @@ function solve() {
         student.finalScore = (student.examScore * 0.75) + ((student.homeworks.length / this.presentations.length) * 0.25);
       }
       this.students.sort((a, b) => a.finalScore < b.finalScore);
-      if(this.students.length < 10){
+      if (this.students.length < 10) {
         return this.students;
       }
-      else{
+      else {
         return this.students.slice(0, 10);
       }
     }
@@ -186,27 +197,29 @@ function solve() {
 
 module.exports = solve;
 
-// let cour = solve();
-// let tit = 'Test valid title';
-// let pre = ['pres1', 'pres2', 'pres3'];
+// TESTS
 
-// cour.init(tit, pre);
-// cour.addStudent('Ivan Petrov');
-// cour.addStudent('J P');
-// cour.addStudent('Lyudmila Zhivkova');
+let cour = solve();
+let tit = 'Test valid title';
+let pre = ['pres1', 'pres2', 'pres3'];
 
-// cour.submitHomework(2, 1);
-// cour.submitHomework(2, 2);
-// cour.submitHomework(2, 3);
-// cour.submitHomework(1, 1);
-// cour.submitHomework(1, 2);
-// cour.submitHomework(3, 1);
+cour.init(tit, pre);
+cour.addStudent('Ivan Petrov');
+cour.addStudent('J P');
+cour.addStudent('Lyudmila Zhivkova');
 
-// cour.pushExamResults([{ StudentID: 2, score: 5 }, { StudentID: 1, score: 4 }, { StudentID: 3, score: 2 }]);
+cour.submitHomework(2, 1);
+cour.submitHomework(2, 2);
+cour.submitHomework(2, 3);
+cour.submitHomework(1, 1);
+cour.submitHomework(1, 2);
+cour.submitHomework(3, 1);
 
-// let top = cour.getTopStudents();
-// console.log(cour.getAllStudents());
+cour.pushExamResults([{ StudentID: 2, score: 5 }, { StudentID: 1, score: 4 }, { StudentID: 3, score: 2 }]);
 
-//console.log('the end');
+let top = cour.getTopStudents();
+console.log(cour.getAllStudents());
+
+console.log('the end');
 
 //Find duplicate object properties http://stackoverflow.com/questions/2218999/remove-duplicates-from-an-array-of-objects-in-javascript
