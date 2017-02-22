@@ -119,7 +119,7 @@ function solve() {
 			if(items.length === 0){
 				throw 'No items were passed';
 			}
-
+			// tova pyk koi mi go izmisli!? 
 			items.forEach(item => {
 				if(item !== 'object'){
 					throw 'All items must be objects';
@@ -209,5 +209,5 @@ module.exports = solve;
 const test1 = solve();
 const book1 = test1.getBook('Fahrenheit 451', '9781439142', 'Science Fiction', 'Books are outlawed and firemen burn them')
 const media1 = test1.getMedia('Life Is Beautiful', 4, 116, 'When an open-minded Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor and imagination to protect his son from the dangers around their camp.')
-const 
-console.log('Beauty is in the eye of the beholder. The end!');
+//const 
+//console.log('Beauty is in the eye of the beholder. The end!');
