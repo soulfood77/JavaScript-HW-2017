@@ -14,7 +14,7 @@ function solve() {
 
 		function add(product) {
 			// TODO: validations
-			// Can be used withot this keyword because not in object/class and products is accessible
+			// Can be used without this keyword because not in object/class and products is accessible?
 			// Use getProduct to benefit from validations of getProduct method (if any)
 			this.products.push(getProduct(product.productType, product.name, product.price));
 			return this;
