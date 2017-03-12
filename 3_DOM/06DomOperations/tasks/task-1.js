@@ -17,73 +17,45 @@ Create a function that takes an id or DOM element and an array of contents
     * In that case, the content of the element **must not be** changed   
 */
 function solve() {
-  const VALIDATOR = {
-    isDefined: function (arg) {
-      if (arg === undefined) {
-        throw 'Function argument is missing / undefined';
-      }
-      return true;
-    },
-    isString: function (str) {
-      if (typeof str !== 'string') {
-        return false;
-      }
-      return true;
-    },
-    isNumber: function (num) {
-      if (typeof num !== 'number') {
-        return false;
-      }
-      return true;
-    },
-    isArray: function (arr) {
-      if (!Array.isArray(arr)) {
-        throw 'Not an array';
-      }
-    },
-    strOrDom: function (element) {
-      if (VALIDATOR.isString(element)) {
-        const result = document.getElementById(element);
-        if (result === null) {
-          throw 'No such Id';
-        }
-        return result;
-      }
-      else if (element instanceof HTMLElement) {
-        return element;
-      }
-      throw 'Not a string or DOM element';
-    },
-    strOrNum: function (item) {
-      if (!VALIDATOR.isString(item) && !VALIDATOR.isNumber(item)) {
-        throw 'Must be string or number';
-      }
-    }
-  };
 
   return function (element, contents) {
     const frag = document.createDocumentFragment();
     const div = document.createElement('div');
-    var divElement;
+    var divClone;    
 
-    VALIDATOR.isDefined(element);
-    VALIDATOR.isDefined(contents);
+    if (typeof element === 'string') {
+      element = document.getElementById(element);
+      if (element === null) {
+        throw 'No such Id';
+      }
+    }
+    else if (element instanceof HTMLElement) {
+      element = element;
+    }
+    else {
+      throw 'Element is not a string';
+    }
 
-    // if an id is provided, select the element
-    element = VALIDATOR.strOrDom(element);
-    VALIDATOR.isArray(contents);
+    //lambdas don't work in BGCoder, works in Mocha
+    //contents.some(item => typeof item !== 'string' && typeof item !== 'number'))
+    if (!Array.isArray(contents) || contents.some(function(item){
+      return typeof item !== 'string' && typeof item !== 'number';
+    })) {
+      throw 'Error in array';
+    }
 
+    //lambdas don't work in BGCoder, works in Mocha
+    //contents.forEach(item =>
     for (var item of contents) {
-      VALIDATOR.strOrNum(item);
-      divElement = div.cloneNode(true);
-      divElement.innerHTML = item;
-      frag.appendChild(divElement);
+      divClone = div.cloneNode(true);
+      divClone.innerHTML = item;
+      frag.appendChild(divClone);
     };
 
     element.innerHTML = '';
     element.appendChild(frag);
   };
-};
+}
 
 module.exports = solve;
 
