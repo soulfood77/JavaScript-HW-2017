@@ -16,7 +16,7 @@ Create a function that takes an id or DOM element and an array of contents
   * Any of the contents is neight `string` or `number`
     * In that case, the content of the element **must not be** changed   
 */
-module.exports = function () {
+function solve() {
   const VALIDATOR = {
     isDefined: function (arg) {
       if (arg === undefined) {
@@ -26,56 +26,67 @@ module.exports = function () {
     },
     isString: function (str) {
       if (typeof str !== 'string') {
-        throw 'Not a string';
-      }
-      if (str === '') {
-        throw 'Empty string not valid';
+        return false;
       }
       return true;
     },
     isNumber: function (num) {
       if (typeof num !== 'number') {
-        throw 'Not a number';
+        return false;
       }
+      return true;
     },
     isArray: function (arr) {
       if (!Array.isArray(arr)) {
         throw 'Not an array';
       }
     },
-    strOrDom: function (arg) {
-      if (VALIDATOR.isString(arg)) {
-        const result = document.getElementById(arg);
-        if (result === null){
+    strOrDom: function (element) {
+      if (VALIDATOR.isString(element)) {
+        const result = document.getElementById(element);
+        if (result === null) {
           throw 'No such Id';
         }
         return result;
       }
-      else if (arg instanceof HTMLElement) {
-        return arg;
+      else if (element instanceof HTMLElement) {
+        return element;
       }
       throw 'Not a string or DOM element';
+    },
+    strOrNum: function (item) {
+      if (!VALIDATOR.isString(item) && !VALIDATOR.isNumber(item)) {
+        throw 'Must be string or number';
+      }
     }
-  }
+  };
+
   return function (element, contents) {
-    VALIDATOR.isDefined(element);
-    // if an id is provided, select the element
-    element = VALIDATOR.strOrDom(element);
-
-    VALIDATOR.isDefined(contents);
-    VALIDATOR.isArray(contents);
-    contents.forEach(item => VALIDATOR.isString(item) || VALIDATOR.isNumber(item));
-
     const frag = document.createDocumentFragment();
     const div = document.createElement('div');
-    contents.forEach(item => {
-      div.innerText = item;
-      frag.appendChild(div.cloneNode(true));
-    });
+    var divElement;
+
+    VALIDATOR.isDefined(element);
+    VALIDATOR.isDefined(contents);
+
+    // if an id is provided, select the element
+    element = VALIDATOR.strOrDom(element);
+    VALIDATOR.isArray(contents);
+
+    for (var item of contents) {
+      VALIDATOR.strOrNum(item);
+      divElement = div.cloneNode(true);
+      divElement.innerHTML = item;
+      frag.appendChild(divElement);
+    };
+
     element.innerHTML = '';
     element.appendChild(frag);
   };
 };
 
+module.exports = solve;
+
 //TEST VALIDATION
 //test('root', ['mam', 'pap', 'String']);
+//test('root', [1, 2, 3, 4, 6, 8]);
