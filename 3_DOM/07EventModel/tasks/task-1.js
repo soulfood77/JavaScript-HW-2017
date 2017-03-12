@@ -9,6 +9,9 @@ Create a function that takes an id or DOM element and:
 
 function solve() {
   function changeDisplay(event) {
+    if (event.target.className !== 'button') {
+      return;
+    }
     var next = event.target.nextElementSibling;
     while (next !== null && next.className !== 'button') {
       if (next.className === 'content') {
@@ -41,13 +44,17 @@ function solve() {
     }
 
     var foundButtons = selector.getElementsByClassName('button');
-    //convert HTML Collection to array the old fashioned way
+
     //Array.from(foundBut)
+    //convert HTML Collection to array the old fashioned way
     var convertedButtons = [].slice.apply(foundButtons);
+
     for (var button of convertedButtons) {
       button.innerHTML = 'hide';
-      button.addEventListener('click', changeDisplay, false);
     };
+
+    //addEventListener to parent of all for optimisation
+    selector.addEventListener('click', changeDisplay, false);
   };
 };
 
