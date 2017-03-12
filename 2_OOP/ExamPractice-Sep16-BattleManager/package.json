@@ -1,15 +1,19 @@
 {
-  "name": "test-driven-hw-mocha",
+  "name": "battlemanager",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "exam task",
+  "main": "solution.js",
+  "directories": {
+    "test": "tests"
+  },
   "scripts": {
-    "test": "mocha -R spec ./tests"
+    "test": "mocha -R spec ./tests/tests.js",
+    "build": "tsc --watch"
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "chai": "^3.5.0",
-    "mocha": "^3.2.0"
+    "mocha": "^3.0.2"
   }
 }
