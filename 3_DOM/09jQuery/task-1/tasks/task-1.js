@@ -6,51 +6,58 @@ function solve() {
 
   function makeSelection(event) {
     var newCurrent = event.target.innerHTML;
-    $(".current").html(newCurrent);
-    $(".options-container").hide();
+    $(".current")
+      .html(newCurrent)
+      .attr("data-value", "aou");
+    $(".options-container")
+      .hide();
   }
 
-// must fix
+  // must fix
   return function (selector) {
+
+    // MAIN
+    var $mainDiv = $("<div>")
+      .addClass("dropdown-list");
+
+    // SELECT
     var $select = $(selector)
-      .hide();
+      .hide()
+      .appendTo($mainDiv)
 
-    var $newDiv = $("<div>")
-      .addClass("dropdown-list")
-      .append($select);
-
-    var prevSibling = $select.prev();
-
-
-    var $current = $("<div>")
+    // CURRENT
+    $("<div>")
       .addClass("current")
       .attr("data-value", "")
-      .html("Option 1")
-      .on("click", showDropdown);
+      .html($select.children().first().html())
+      .on("click", showDropdown)
+      .appendTo($mainDiv);
 
+    // OPTIONS
     var $options = $("<div>")
       .addClass("options-container")
-      .css({ position: 'absolute' })
+      .css('position', 'absolute')
       .hide()
-      .on("click", makeSelection);
+      .on("click", makeSelection)
+      .appendTo($mainDiv);
 
-    for (var i = 0; i < 5; i += 1) {
-      var $text = $select.children().get(i).innerHTML;
-      var $newItem = $("<div>")
-        .addClass("dropdown-item")
-        .attr("data-value", "value-" + (i + 1))
-        .attr("data-index", i)
-        .html($text);
+    // ITEMS
+    $select
+      .children()
+      .each(function (i) {
+        $("<div>")
+          .addClass("dropdown-item")
+          .attr("data-value", $(this).attr('value'))
+          .attr("data-index", i)
+          .html($(this).html())
+          .appendTo($options);
+      });
 
-      $options.append($newItem);
-    }
-
-    $newDiv
-      .append($current)
-      .append($options);
-
-    $("body").append($newDiv);
+    var $body = $("body")
+      .after($mainDiv);
   };
 }
 
 module.exports = solve;
+
+// Optimisation of code help from https://telerikacademy.com/Forum/Questions/207342/10-jQuery-Plugins-Task-1-Dropdown-list
