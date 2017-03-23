@@ -1,17 +1,4 @@
 function solve() {
-  function showDropdown() {
-    $(".options-container").toggle();
-    $(".current").html("Select an option");
-  }
-
-  function makeSelection(event) {
-    var newCurrent = event.target.innerHTML;
-    $(".current")
-      .html(newCurrent)
-      .attr("data-value", "aou");
-    $(".options-container")
-      .hide();
-  }
 
   // must fix
   return function (selector) {
@@ -30,7 +17,10 @@ function solve() {
       .addClass("current")
       .attr("data-value", "")
       .html($select.children().first().html())
-      .on("click", showDropdown)
+      .click(function () {
+        $options.toggle();
+        $(this).html("Select an option");
+      })
       .appendTo($mainDiv);
 
     // OPTIONS
@@ -38,7 +28,7 @@ function solve() {
       .addClass("options-container")
       .css('position', 'absolute')
       .hide()
-      .on("click", makeSelection)
+      .on("click", ".dropdown-item", makeSelection)
       .appendTo($mainDiv);
 
     // ITEMS
@@ -53,8 +43,16 @@ function solve() {
           .appendTo($options);
       });
 
-    var $body = $("body")
-      .after($mainDiv);
+
+    function makeSelection(event) {
+      $(".current")
+        .html($(this).html())
+        .attr("data-value", $(this).attr("data-value"));
+      $options.hide();
+    }
+
+    $("body").append($mainDiv);
+
   };
 }
 
