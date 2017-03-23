@@ -49,7 +49,7 @@ function solve() {
       .append($current)
       .append($options);
 
-    prevSibling.after($newDiv);
+    $("body").append($newDiv);
   };
 }
 
