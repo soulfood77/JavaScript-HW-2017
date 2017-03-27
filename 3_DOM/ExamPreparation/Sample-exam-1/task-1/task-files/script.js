@@ -4,7 +4,7 @@ function createCalendar(selector, events) {
     const weeksCount = (daysInMonth / 7) + 1 | 0;
     const daysNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-    const element = document.querySelectorAll(selector);
+    const element = document.querySelector(selector);
 
     const cal = document.createDocumentFragment();
     const tab = document.createElement("table");
@@ -27,11 +27,21 @@ function createCalendar(selector, events) {
             td2.style.verticalAlign = "top";
 
             // Could be better done with event listener on the table using its target
+            td1.onmouseover = function() {
+                td1.style.backgroundColor = "blue";
+                td1.style.cursor = "pointer";
+            }
+            td1.onmouseout = function() {
+                td1.style.backgroundColor = "#999";
+                td1.style.cursor = "initial";
+            }
             td2.onmouseover = function() {
                 td1.style.backgroundColor = "blue";
+                td2.style.cursor = "pointer";
             }
             td2.onmouseout = function() {
                 td1.style.backgroundColor = "#999";
+                td2.style.cursor = "initial";
             }
             td1.onmousedown = function() {
                 td1.style.backgroundColor = "green";
@@ -73,5 +83,6 @@ function createCalendar(selector, events) {
     }
 
     cal.appendChild(tab);
-    document.body.appendChild(cal);
+    console.log(element);
+    element.appendChild(cal);
 }
