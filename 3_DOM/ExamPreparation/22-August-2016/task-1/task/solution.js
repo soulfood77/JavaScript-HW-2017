@@ -28,8 +28,9 @@ function solve() {
             var newLiCont = document.createElement("li");
             newLiCont.className = "tab-content";
             if (i === 0) {
+                // classList doesn't work in BGCoder
                 newLiCont.className += " visible";
-                //newLiCont.classList.add("visible");
+                // newLiCont.classList.add("visible");
             }
 
             var newP = document.createElement("p");
@@ -52,16 +53,19 @@ function solve() {
 
         ulCont.addEventListener("click", editCont);
 
+        var contents = ulCont.getElementsByClassName("tab-content");
+
         function showBook(event) {
             var clickedItemIndex = +event.target.getAttribute('tab-index');
 
-            var contents = document.getElementsByClassName("tab-content");
             var len = contents.length;
             for (var i = 0; i < len; i += 1) {
                 if (i === clickedItemIndex) {
-                    contents[i].classList.add("visible");
-                } else if (contents[i].classList.contains("visible")) {
-                    contents[i].classList.remove("visible");
+                    contents[i].className = "tab-content visible";
+                    // contents[i].classList.remove("visible");
+                } else {
+                    contents[i].className = "tab-content";
+                    // contents[i].classList.add("visible");
                 }
             }
         }
