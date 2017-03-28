@@ -22,18 +22,18 @@ function solve() {
                     uniq.push(initialSuggestions[i]);
                 }
             }
-            // Load initial suggestions list because zero test wants it!
-            getList();
+            // Load initial unique suggestions list (hidden)  because zero test wants it!
+            getList("none");
         }
 
         inField.addEventListener("input", loadSuggestions);
         addBtn.addEventListener("click", addNewSuggestion);
         listSuggestions.addEventListener("click", fillSuggestion);
 
-        function getList() {
+        function getList(visibility) {
             listSuggestions.innerHTML = "";
             uniq.forEach(function(sug) {
-                listSuggestions.innerHTML += "<li class='suggestion' style='display:none'><a href='#' class='suggestion-link'>" + sug + "</a></li>";
+                listSuggestions.innerHTML += "<li class='suggestion' style='display:" + visibility + "'><a href='#' class='suggestion-link'>" + sug + "</a></li>";
             })
         }
 
@@ -41,18 +41,15 @@ function solve() {
             var inputTxt = event.target.value;
 
             if (inputTxt && sugExist) {
-                // Reload all suggestions list
-                getList();
-                // Filter suggestions on input
-                document
-                    .querySelectorAll(".suggestion")
-                    .forEach(function(sug) {
-                        if (sug.innerText.toLowerCase().includes(inputTxt.toLowerCase())) {
-                            sug.style.display = "block";
-                        } else {
-                            sug.style.display = "none";
-                        }
-                    });
+                // Reload all suggestions list by removing items from the unique array instead of just hiding them, because zero test wants it!
+                uniq = uniq.filter(function(value) {
+                    var result = value
+                        .toLowerCase()
+                        .indexOf(inputTxt.toLowerCase()) !== -1;
+                    console.log(result);
+                    return result;
+                })
+                getList("block");
             }
         }
 
