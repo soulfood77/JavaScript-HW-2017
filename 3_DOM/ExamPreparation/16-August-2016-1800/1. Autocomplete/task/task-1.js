@@ -46,7 +46,6 @@ function solve() {
                     var result = value
                         .toLowerCase()
                         .indexOf(inputTxt.toLowerCase()) !== -1;
-                    console.log(result);
                     return result;
                 })
                 getList("block");
@@ -66,7 +65,9 @@ function solve() {
         }
 
         function fillSuggestion(event) {
-            inField.value = event.target.innerHTML;
+            if (event.target.nodeName === "A") {
+                inField.value = event.target.innerHTML;
+            }
         }
     };
 }
