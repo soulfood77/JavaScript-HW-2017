@@ -1,0 +1,11 @@
+{
+  "name": "module-loaders-practice",
+  "version": "1.0.0",
+  "description": "Telerik Academy JS Apps course module loaders practice",
+  "license": "ISC",
+  "main": "main.js",
+  "dependencies": {
+    "systemjs": "^0.20.12",
+    "systemjs-plugin-babel": "0.0.21"
+  }
+}
