@@ -14,7 +14,7 @@ System.config({
         'homeController': 'js/controllers/home.js',
         'todosController': 'js/controllers/todos.js',
         'eventsController': 'js/controllers/events.js',
-        // 'userController': 'js/controllers/user.js',
+        'userController': 'js/controllers/user.js',
         // 'templates': 'js/templates.js',
 
         // Library files
