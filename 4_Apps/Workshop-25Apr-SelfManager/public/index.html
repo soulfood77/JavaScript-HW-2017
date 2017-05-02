@@ -16,11 +16,11 @@
         <p>Workshop 25.04.2017</p>
         <nav>
             <ul class="nav nav-pills">
-                <li><a href="">Reload</a></li>
-                <li><a href="#/">Init</a></li>
-                <li><a href="#/home">Home</a></li>
-                <li><a href="#/todos">Todos</a></li>
-                <li><a href="#/events">Events</a></li>
+                <li><a href="" class="">Reload</a></li>
+                <li><a href="#/" class="">Init</a></li>
+                <li id="home" class=""><a href="#/home" class="">Home</a></li>
+                <li id="todos" class=""><a href="#/todos">Todos</a></li>
+                <li id="events" class=""><a href="#/events">Events</a></li>
             </ul>
         </nav>
         <a id="auth-btn" class="btn btn-success" href="#/auth">Sign in / Register</a>
@@ -28,6 +28,7 @@
     <main id="app-container"></main>
 
     <script src="libs/systemjs/dist/system.js"></script>
+    <script src="libs/handlebars/dist/handlebars.min.js"></script>
     <script src="./system-config.js">
     </script>
 </body>

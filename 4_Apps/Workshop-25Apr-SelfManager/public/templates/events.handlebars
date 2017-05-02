@@ -1,0 +1,17 @@
+<h2>Events</h2>
+
+<p>Some text</p>
+<ul>
+    {{#each result}}
+        <li class="list-event">
+            <h2>{{category}}</h2>
+            <h3>{{title}}</h3>
+            <p>{{date}}</p>
+            <p>{{description}}</p>
+            {{!--check this--}}
+            {{#each users}}
+                <p>{{username}}</p>
+            {{/each}}
+        </li>
+    {{/each}}
+</ul>

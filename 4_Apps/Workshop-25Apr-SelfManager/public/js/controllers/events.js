@@ -1,7 +1,10 @@
 import * as data from 'data';
+import { load as loadTemplate } from 'templates';
 
 const $appContainer = $('#app-container');
 
 export function get() {
-    $appContainer.html('Events loaded');
+    loadTemplate('events').then(template => {
+        $appContainer.html(template());
+    })
 }

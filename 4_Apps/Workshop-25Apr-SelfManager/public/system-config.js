@@ -15,7 +15,7 @@ System.config({
         'todosController': 'js/controllers/todos.js',
         'eventsController': 'js/controllers/events.js',
         'userController': 'js/controllers/user.js',
-        // 'templates': 'js/templates.js',
+        'templates': 'js/templates.js',
 
         // Library files
         'jquery': 'libs/jquery/dist/jquery.min.js',

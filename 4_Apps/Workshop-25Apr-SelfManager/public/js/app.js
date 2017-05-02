@@ -18,8 +18,11 @@ router
     .on('/login', userController.login)
     .on('/logout', userController.logout);
 
-// Doesnt work window.on load event is already executed
-$(window).on('load', () => router.navigate())
+// Doesnt work: window.on load event is already executed
+$(window).on('load', () => router.navigate());
 $(window).on('hashchange', () => router.navigate());
 
 router.navigate();
+
+// TODOs:
+// Fix exports and imports to not use *
