@@ -13,6 +13,7 @@ System.config({
         'data': 'js/data.js',
         'homeController': 'js/controllers/home.js',
         'myCookieController': 'js/controllers/myCookie.js',
+        'userController': 'js/controllers/user.js',
         'templates': 'js/templates.js',
 
         // Library files

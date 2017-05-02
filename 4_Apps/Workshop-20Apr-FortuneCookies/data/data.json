@@ -13,6 +13,13 @@
       "usernameToLower": "minkov3",
       "id": "bd04b3b8-5586-47ad-bf8f-db6c531dbb73",
       "authKey": "bd04b3b8-5586-47ad-bf8f-db6c531dbb73erxSIAJyVOzIEIrpMFbanscO"
+    },
+    {
+      "username": "nad",
+      "passHash": "123",
+      "usernameToLower": "nad",
+      "id": "0bc4670e-14d3-4213-9263-9b92eaec7e11",
+      "authKey": "0bc4670e-14d3-4213-9263-9b92eaec7e11iUjLabhCIPxNplkkNztPglsz"
     }
   ],
   "cookies": [

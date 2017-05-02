@@ -6,7 +6,7 @@
     display: none;
 }
 
-.btn {
+header .btn {
     float: right;
     margin: 5px;
 }
