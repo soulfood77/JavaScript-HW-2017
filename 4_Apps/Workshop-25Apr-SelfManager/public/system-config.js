@@ -9,10 +9,11 @@ System.config({
         // App files
         'app': 'js/app.js',
         'myRouter': 'js/myRouter.js',
-        // 'requester': 'js/requester.js',
-        // 'data': 'js/data.js',
-        // 'homeController': 'js/controllers/home.js',
-        // 'myCookieController': 'js/controllers/myCookie.js',
+        'requester': 'js/requester.js',
+        'data': 'js/data.js',
+        'homeController': 'js/controllers/home.js',
+        'todosController': 'js/controllers/todos.js',
+        'eventsController': 'js/controllers/events.js',
         // 'userController': 'js/controllers/user.js',
         // 'templates': 'js/templates.js',
 
