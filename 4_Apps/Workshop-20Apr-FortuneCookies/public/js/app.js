@@ -3,17 +3,17 @@
 import 'jquery';
 
 import { MyRouter } from 'myRouter';
-import { homeController } from 'homeController';
-import { myCookieController } from 'myCookieController';
+import * as homeController from 'homeController';
+import * as myCookieController from 'myCookieController';
 
 const router = new MyRouter();
 
 router
     .on('', () => location.hash = '/home') // fix later
     .on('/', () => location.hash = '/home')
-    .on('/home', homeController)
-    .on('/home/:category', homeController)
-    .on('/my-cookie', homeController);
+    .on('/home', homeController.get)
+    .on('/home/:category', homeController.get)
+    .on('/my-cookie', homeController.get);
 
 $(window).on('load', () => router.navigate());
 $(window).on('hashchange', () => router.navigate());

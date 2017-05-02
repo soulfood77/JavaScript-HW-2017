@@ -3,7 +3,7 @@ import { load as loadTemplate } from 'templates';
 
 const $appContainer = $('#app-container');
 
-function homeController(params) {
+export function get(params) {
     const { category } = params;
 
     Promise.all([
@@ -15,5 +15,3 @@ function homeController(params) {
             $appContainer.html(template(cookies));
         });
 }
-
-export { homeController };
