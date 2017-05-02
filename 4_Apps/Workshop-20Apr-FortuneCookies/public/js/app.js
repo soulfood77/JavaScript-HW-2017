@@ -22,3 +22,8 @@ router
 
 $(window).on('load', () => router.navigate());
 $(window).on('hashchange', () => router.navigate());
+
+
+// remaining TODO:
+// pass x-auth-key pass as header
+// create other templates

@@ -22,11 +22,17 @@ export function login() {
     data.login(username, passHash)
         .then(
             result => {
-                localStorage.setItem(LOCALSTORAGE_AUTH_KEY_NAME, result.result.authKey)
+                localStorage.setItem(LOCALSTORAGE_AUTH_KEY_NAME, result.result.authKey);
+                $('#auth-btn').addClass('hidden');
+                $('#logout-btn').removeClass('hidden');
+                //toastr.success(`User ${username} logged in successfully`);
                 location.href = '#/home';
                 console.log(result)
             },
-            errorMsg => console.log(error));
+            errorMsg => {
+                //toastr.error(errorMsg);
+                console.log(error)
+            });
 }
 
 export function register() {
@@ -36,10 +42,17 @@ export function register() {
 
     data.register(username, passHash)
         .then(
-            result => login(),
+            result => {
+                //toastr.success(`User ${username} registered successfully`);
+                login()
+            },
             errorMsg => console.log(error));
 }
 
 export function logout() {
-
+    localStorage.removeItem(LOCALSTORAGE_AUTH_KEY_NAME);
+    $('#auth-btn').removeClass('hidden');
+    $('#logout-btn').addClass('hidden');
+    // toastr.success('Logged out');
+    location.href = '#/home';
 }
