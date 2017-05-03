@@ -2,8 +2,7 @@ import * as data from "data";
 import { load as loadTemplate } from "templates";
 
 const $appContainer = $("#app-container");
-const LOCALSTORAGE_AUTH_KEY_NAME = "authKey";
-const AUTH_KEY_HEADER = "x-auth-key";
+
 
 export function get() {
     loadTemplate("auth").then(template => {
@@ -19,11 +18,9 @@ export function get() {
 export function register() {
     const $username = $("#input-username").val();
     const $password = $("#input-password").val();
-    const passHash = $password; // TODO: Hash pass
 
-    data.register($username, passHash)
+    data.register($username, $password)
         .then(result => {
-                localStorage.setItem(LOCALSTORAGE_AUTH_KEY_NAME, result.result.authKey);
                 console.log(result);
                 login();
             },
@@ -33,12 +30,9 @@ export function register() {
 export function login() {
     const $username = $("#input-username").val();
     const $password = $("#input-password").val();
-    const passHash = $password; // TODO: Hash pass
-    const key = localStorage.getItem(LOCALSTORAGE_AUTH_KEY_NAME);
 
-    data.login($username, passHash, key)
+    data.login($username, $password)
         .then(result => {
-                //localStorage.setItem(LOCALSTORAGE_AUTH_KEY_NAME, result.result.authKey);
                 $("#auth-btn").addClass("hidden");
                 $("#logout-btn").removeClass("hidden");
                 location.href = "#/home";
