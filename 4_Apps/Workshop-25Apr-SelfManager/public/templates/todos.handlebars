@@ -1,12 +1,12 @@
 <h2>Todos</h2>
 
 <p>Some text</p>
+<a id="auth-btn" class="btn btn-success" href="#/newTodo">Add Todo</a>
 <ul>
     {{#each result}}
         <li class="list-todo">
-            <h2>{{category}}</h2>
-            <h3>{{text}}</h3>
-            <p>{{state}}</p>
+            <h3>{{category}}</h3>
+            <p>{{text}}</p>
         </li>
     {{/each}}
 </ul>

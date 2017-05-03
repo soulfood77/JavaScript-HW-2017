@@ -4,12 +4,11 @@ import { load as loadTemplate } from "templates";
 const $appContainer = $("#app-container");
 
 
-export function get() {
+export function load() {
     loadTemplate("auth").then(template => {
 
         // Why are we able to get the users?
-        data.getUsers()
-            .then(users => console.log(users));
+        data.getUsers();
 
         $appContainer.html(template());
     })

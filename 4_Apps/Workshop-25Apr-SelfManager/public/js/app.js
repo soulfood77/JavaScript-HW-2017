@@ -10,10 +10,12 @@ const router = new MyRouter();
 router
     .on('', () => location.hash = '/home') //Test if this works
     .on('/', () => location.hash = '/home')
-    .on('/home', homeController.get)
-    .on('/todos', todosController.get)
+    .on('/home', homeController.load)
+    .on('/todos', todosController.load)
+    .on('/newTodo', todosController.newTodo)
+    .on('/addTodo', todosController.add)
     .on('/events', eventsController.get)
-    .on('/auth', userController.get)
+    .on('/auth', userController.load)
     .on('/register', userController.register)
     .on('/login', userController.login)
     .on('/logout', userController.logout);
@@ -27,3 +29,4 @@ router.navigate();
 // TODOs:
 // Fix exports and imports to not use *
 // All errors to use toastr instead clg
+// Should all promises have error clause?

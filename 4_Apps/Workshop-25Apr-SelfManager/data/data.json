@@ -84,7 +84,35 @@
       "passHash": "123",
       "usernameLower": "nad",
       "authKey": "undefinedui!Zese-mqrbS%$)SZGpE-qxztXeq*gy=aqWmhG*HLdmYwJQ^E*",
-      "id": "47643f65-afba-4ae4-a341-e3046ef123e6"
+      "id": "47643f65-afba-4ae4-a341-e3046ef123e6",
+      "todos": [
+        {
+          "id": 137161,
+          "state": false,
+          "category": "uncategorized"
+        },
+        {
+          "id": 167334,
+          "state": false,
+          "category": "uncategorized"
+        },
+        {
+          "id": 178765,
+          "state": false,
+          "category": "uncategorized"
+        },
+        {
+          "id": 267672,
+          "text": "Do laundry",
+          "state": false,
+          "category": "Home"
+        },
+        {
+          "id": 588715,
+          "state": false,
+          "category": "uncategorized"
+        }
+      ]
     },
     {
       "username": "mama",
