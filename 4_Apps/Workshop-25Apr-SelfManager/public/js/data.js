@@ -7,10 +7,8 @@ const options = {};
 export function getUsers() {
     // Used in home to getLoggedUser
     getLoggedUser();
-    console.log(options);
 
-    return requester.get("api/users")
-        .then(users => console.log(users));
+    return requester.get("api/users");
 }
 
 export function getTodos() {
@@ -79,7 +77,7 @@ function setLocalStorage(user) {
     return user;
 }
 
-function getLoggedUser() {
+export function getLoggedUser() {
     options.body = {
         username: localStorage.getItem("username")
     };
@@ -90,4 +88,5 @@ function getLoggedUser() {
     if (options.body.username === 'undefined') {
         console.log("No user logged in");
     }
+    return options;
 }

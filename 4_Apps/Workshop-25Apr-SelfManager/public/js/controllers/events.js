@@ -13,7 +13,11 @@ export function load() {
             data.getEvents()
         ])
         .then(([template, events]) => {
-            $appContainer.html(template(events));
+            $appContainer.html(template(events))
+
+            $("#home").removeClass("active");
+            $("#todos").removeClass("active");
+            $("#events").addClass("active");
         });
 
 }
@@ -32,15 +36,15 @@ export function add() {
         users: $("#users").val()
     }
     console.log(event);
-    if (event.title === "" || event.date === "") {
-        // TODO Empty fields validation
-        console.log("empty fields");
-    } else {
-        data.addEvent(event)
-            .then(response => {
-                console.log("events.js add received response from data.addEvent");
-                console.log(response);
-                load();
-            })
-    }
+
+    // TODO Empty fields validation
+    // TODO Date picker
+    // TODO There is some problem with the date
+    data.addEvent(event)
+        .then(response => {
+            console.log("events.js add received response from data.addEvent");
+            console.log(response);
+            load();
+        })
+
 }

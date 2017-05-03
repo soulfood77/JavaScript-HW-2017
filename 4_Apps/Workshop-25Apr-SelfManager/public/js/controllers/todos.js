@@ -9,7 +9,13 @@ export function load() {
             loadTemplate("todos"),
             data.getTodos()
         ])
-        .then(([template, todos]) => $appContainer.html(template(todos)));
+        .then(([template, todos]) => {
+            $appContainer.html(template(todos))
+
+            $("#home").removeClass("active");
+            $("#todos").addClass("active");
+            $("#events").removeClass("active");
+        });
 }
 
 export function newTodo() {
@@ -23,7 +29,7 @@ export function add() {
         category: $("#category").val()
     }
     if (todo.text === "" || todo.category === "") {
-        // TODO Empty fields validation
+        // TODO Empty fields validation is not complete
         // TODO Find a better way to do this
         $("#txt-group").removeClass("has-warning");
         $("#txt-group").removeClass("has-success");

@@ -8,8 +8,8 @@ import * as userController from 'userController';
 const router = new MyRouter();
 
 router
-    .on('', () => location.hash = '/home') //Test if this works
-    .on('/', () => location.hash = '/home')
+    .on('', homeController.load)
+    .on('/', homeController.load)
     .on('/home', homeController.load)
     .on('/todos', todosController.load)
     .on('/newTodo', todosController.newTodo)
