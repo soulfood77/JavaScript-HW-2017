@@ -9,13 +9,7 @@ export function load() {
             loadTemplate("todos"),
             data.getTodos()
         ])
-        .then(([template, todos]) => {
-                $appContainer.html(template(todos));
-                console.log(todos.result);
-            },
-            errorMsg => {
-                console.log(errorMsg.responseText);
-            });
+        .then(([template, todos]) => $appContainer.html(template(todos)));
 }
 
 export function newTodo() {
@@ -24,16 +18,31 @@ export function newTodo() {
 }
 
 export function add() {
-    // TODO Empty fields validation
     const todo = {
-        text: $("#todo-text").val(),
-        category: $("#todo-category").val()
+        text: $("#text").val(),
+        category: $("#category").val()
     }
-
-    data.addTodo(todo)
-        .then(response => {
-            console.log("todo.js add received response from data.addTodo");
-            console.log(response);
-            load();
-        })
+    if (todo.text === "" || todo.category === "") {
+        // TODO Empty fields validation
+        // TODO Find a better way to do this
+        $("#txt-group").removeClass("has-warning");
+        $("#txt-group").removeClass("has-success");
+        $("#txt-group").addClass("has-error");
+        $("#txt-ok").addClass("hidden");
+        $("#txt-nb").addClass("hidden");
+        $("#txt-err").removeClass("hidden");
+        $("#txt-help").removeClass("hidden");
+        console.log("empty fields");
+    } else {
+        $("#txt-group").removeClass("has-warning");
+        $("#txt-group").addClass("has-success");
+        $("#txt-ok").removeClass("hidden");
+        $("#txt-nb").addClass("hidden");
+        $("#txt-err").addClass("hidden");
+        $("#txt-help").addClass("hidden");
+        data.addTodo(todo)
+            .then(response => {
+                load();
+            })
+    }
 }

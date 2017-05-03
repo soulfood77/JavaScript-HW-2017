@@ -5,7 +5,6 @@ const LOCALSTORAGE_USERNAME = "username";
 const options = {};
 
 export function getUsers() {
-    // This function has no purpose yet
     // Used in home to getLoggedUser
     getLoggedUser();
     console.log(options);
@@ -20,21 +19,30 @@ export function getTodos() {
     return requester.get("api/todos", options);
 }
 
+export function getEvents() {
+    getLoggedUser();
+
+    return requester.get("api/events", options);
+}
+
 export function addTodo(todo) {
     getLoggedUser();
     options.body = todo;
 
     return requester.post("api/todos", options)
         .then(response => {
-            console.log("data.js recieved respnse from requester.post api/todos");
-            console.log(response);
             return response.result;
         });
 }
 
-export function getEvents() {
+export function addEvent(event) {
     getLoggedUser();
-    return requester.get("api/events", options);
+    options.body = event;
+
+    return requester.post("api/events", options)
+        .then(response => {
+            return response.result;
+        });
 }
 
 export function register(username, password) {
@@ -43,9 +51,8 @@ export function register(username, password) {
         passHash: password // TODO Hash pass here
     };
 
-    return requester.post("api/users", options) //setLocalItem(response.result)
-        .then(response => setLocalStorage(response.result),
-            error => console.log(error.responseText));
+    return requester.post("api/users", options)
+        .then(response => setLocalStorage(response.result));
 }
 
 export function login(username, password) {
@@ -55,8 +62,7 @@ export function login(username, password) {
     };
 
     return requester.put("api/users/auth", options)
-        .then(response => setLocalStorage(response.result),
-            error => console.log(error.responseText));
+        .then(response => setLocalStorage(response.result));
 }
 
 export function logout() {
@@ -84,5 +90,4 @@ function getLoggedUser() {
     if (options.body.username === 'undefined') {
         console.log("No user logged in");
     }
-    return options;
 }
