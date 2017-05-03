@@ -1,7 +1,7 @@
 import * as requester from "requester";
 
 const LOCALSTORAGE_AUTHKEY_NAME = "authKey";
-const LOCALSTORAGE_USERNAME_NAME = "x-auth-key";
+const LOCALSTORAGE_USERNAME_NAME = "username";
 
 export function getUsers() {
     return requester.get("api/users");
@@ -46,13 +46,17 @@ export function login(username, password) {
 
     return requester.put("api/users/auth", options)
         .then(response => {
-                return
-                setLocalStorage(response.result);
+                return setLocalStorage(response.result);
             },
             error => console.log(error.responseText));
 }
 
-// Check if this works and if it should be in this file/module
+export function logout() {
+    localStorage.removeItem(LOCALSTORAGE_USERNAME_NAME);
+    localStorage.removeItem(LOCALSTORAGE_AUTHKEY_NAME);
+}
+
+// Check if this should be in this file/module
 function setLocalStorage(user) {
     localStorage.setItem(LOCALSTORAGE_USERNAME_NAME, user.username);
     localStorage.setItem(LOCALSTORAGE_AUTHKEY_NAME, user.authKey);

@@ -41,7 +41,7 @@ export function login() {
 }
 
 export function logout() {
-    localStorage.removeItem(LOCALSTORAGE_AUTH_KEY_NAME);
+    data.logout();
     $("#auth-btn").removeClass("hidden");
     $("#logout-btn").addClass("hidden");
     location.href = "#/home";
