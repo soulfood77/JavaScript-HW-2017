@@ -78,6 +78,27 @@
       "usernameLower": "cuki3",
       "authKey": "undefined&a*=xajP_XX&NIPuGIJIgcTfFWlZ&#BdA*zD*@TUUvNc^TmOfw(",
       "id": "22402c86-f18e-4689-9fc3-237205fad856"
+    },
+    {
+      "username": "nad",
+      "passHash": "123",
+      "usernameLower": "nad",
+      "authKey": "undefinedui!Zese-mqrbS%$)SZGpE-qxztXeq*gy=aqWmhG*HLdmYwJQ^E*",
+      "id": "47643f65-afba-4ae4-a341-e3046ef123e6"
+    },
+    {
+      "username": "mama",
+      "passHash": "1234",
+      "usernameLower": "mama",
+      "authKey": "undefined%uaTIwCXC(GqGcfKqZ*p!WdZOyAE+qEbqSCUnWq%LbmUu!W#&%m",
+      "id": "24b7e23d-1f16-44fa-93aa-336495595d30"
+    },
+    {
+      "username": "tate",
+      "passHash": "123",
+      "usernameLower": "tate",
+      "authKey": "undefinedi^bjBld@M*onTwRz&*QnOegvPvOq(apEBlNAydDGUgoHZA^uCvc",
+      "id": "298be9a5-ad4b-4929-a2a6-718789911e77"
     }
   ]
 }
