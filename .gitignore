@@ -3,3 +3,8 @@
 # Build results
 node_modules/
 .vscode/
+
+CSS-hw/
+HTML-hw/
+
+*.zip
