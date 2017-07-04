@@ -302,7 +302,9 @@ _20.06.2017 - Doncho_
     } = require('path to module');
     ```
 
-    - **Index.js** file/module - default module for the folder - can be imported with only the folder name, without the file name. Useful for automatic loading of all the modules in the folder.
+    - **Index.js** file/module - default module for the folder - can be imported with only the folder name, without the file name. Useful for automatic loading of all the modules in the folder. 
+
+    > In index.js only `require` files with the implementation logic, name them with the same name as the folder.
 
     ```js
     require('folder name');
@@ -314,7 +316,7 @@ _20.06.2017 - Doncho_
 
     > browse [npmjs.com](https://www.npmjs.com/)
     
-    - **Fetch** - api from browser (from HTML5) which replaces the XHR object - makes HTTP requests easier. Because it's not part of the JavaScript standard, it's not accessible in Node.js. But can be downloaded and installed with NPM.  
+    - **Fetch** - api from browser (from HTML5) which replaces the XHR object - makes HTTP requests easier, native to JavaScript, works with promises. Because it's not part of the JavaScript standard, it's not accessible in Node.js. But can be downloaded and installed with NPM.  
         
     ```js
     const fetch = require(node-fetch);
@@ -372,11 +374,11 @@ _22.06.2017 - Doncho_
     
     Custom commands:
 
-    `"scripts" { "dev": nodemon app.js }` - restarts server? Nodemon package - screens changes to files (install global).
+    `"scripts" { "dev": "nodemon app.js" }` - restarts server? Nodemon package - screens changes to files (install global).
 
     `$ npm run dev` - run custom commands  
 
-    Main script - Defines startup/entry point of the application with `node .` (optional, mainly used for npm packages)
+    `"main": {"fileName.js"}` - main script - Defines startup/entry point of the application with `node .` (optional, mainly used for npm packages)
 
     .eslintrc - dot signifies hidden files in Linux
 
@@ -652,10 +654,10 @@ _== The live demo?_
 _22.06.2017 - Doncho live demo_
 
 0. Using:
-    - Promises - Async
+    - Promises - Async programming
     - Http
     - Modules
-    - IO
+    - IO - LoweDB file database
     - DSA - queue, DFS
 
     Source: Goodreads.com public data, IMDB
@@ -667,12 +669,49 @@ _22.06.2017 - Doncho live demo_
     2. Save data
 
 2. Libraries:
-    - Fetch or 
-    - isomorphic-fetch - better because can be required once, attaches to global scope; futuristic
-    - jquery
-    - jsdom
+    - **isomorphic-fetch** - better than node-fetch because can be required once, attaches `fetch`, `Response`, `Headers`, `Request` to global scope, can be used everywhere; futuristic
+    - **jquery**
+    - **jsdom**
 
-    Better to always return promises even for synchronous operations = consistency
+3. History of Node.js
+    - Node start (2009)
+    - phantomjs - headless browser, old Chrome working with webkit (not with blink) used for image processing and automation of testing 
+    - HTML5 (new HTML + extended JS and CSS)
+    - Node 0.10
+    - Split to Node 0.11,12,13,14 and IO.js = forked Node.js with added new features - lambda, classes - v.1,2,3
+    - Merge two forks to Node.js 4.X
+
+3. Process:
+   
+    -  Set up **eslint**: `npm install -g eslint eslint-config-google babel-eslint`, add rule about line breaks `rules{"linebreak-style": ["error", "windows"]}`, configure VSCode to add empty line at the end of file (issue with JS-CSS-HTML Formatter extension - change to true "end_with_new_line")
+
+    > Have only config files in the main directory and main.js- split js files to folders
+
+    - `$ npm init` -> package.json file
+    - `$ yarn add isomorphic-fetch` - create folder 'polyfills' with index.js `require('isomorphic-fetch')`, in app.js `require('./polyfills');`
+    - define/import url to use - can hard code values of genres to crawl in an array (or program crawler to extract genres from genres list from the website)
+    - `$ node app.js > result.html` - output to file instead of the console
+    - parse received html data to json
+    - `yarn add jquery` jQuery is a JavaScript library for DOM manipulation but could be used on server side too, not only client side.
+    - `yarn add jsdom` - simulates DOM tree - enables use of $ in Node. Check instructions at npmjs.com jQuery and jsdom. Create folder 'dom-parser' with 
+    index.js `module.exports = require('./dom-parser.js');` 
+    file dom-parser.js `const jsdom = require('jsdom');` and implementation logic function exporting the '$'.
+    - find selectors from the returned html result and parse title and poster img url of movie.
+
+    > Better always return promises even for synchronous operations = consistency
+
+    - Create folder 'models' with 
+    movie.model.js defining class Movie with constructor
+    movies.extensions.js - move parsing logic there dynamic add static method to the movie class
+    `Movie.prototype.newMethod = () => {}` - instance method
+    `Movie.newMethod` - static method;
+
+    - Create folder 'parsers' and move getMovieData from app.js
+    - Create genre parse logic
+    - Make extensions load dynamically - now we don't need to add new extensions explicitly
+    - Get list of movies ids from genres in an array
+    - Create queue to replace the array - don't need classes for it - we need an object with the certain properties, but we don't always need to create a class for that. Classes in js are used only when inheritance is needed.
+
 .
 
 # Unit Testing
