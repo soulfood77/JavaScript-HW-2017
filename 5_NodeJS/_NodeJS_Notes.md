@@ -1,16 +1,22 @@
 # Node.js 
-1. [Course Intro and Project Requirements](#intro) - _20.06.2017 - Doncho_
-2. [Node.js Overview](#overview) - no video?
-3. [Modules](#modules)
-4. [Asynchronous Operations](#asynchronous-operations), [File Databases](#file-databases) - _22.06.2017 - Doncho live demo Web crawler_
-5. [Unit Testing](#unit-testing) 
-6. [Tooling](#tooling) - _27.06.2017 - Doncho_
-7. [Express Pug & Passport](#express-pug-passport) - _29.06.2017 - Doncho_*
+
+| #   | Topic                                               | Date       | Lecturer |
+| --- | --------------------------------------------------- | ---------- | -------- |
+| 1.  | [Course Intro ](#intro)                             | 20.June | Doncho   |
+| 2.  | [Course Project Requirements](#intro)               | 20.June | Doncho   |
+| --  | [Node.js Overview](#overview)                       | 20.June  | no video |
+| 3.  | [Modules](#modules)                                 | 20.June | Doncho   |
+| --  | [Asynchronous Operations](#asynchronous-operations) | 22.June | no video |
+| --  | [File Databases](#file-databases)                   | --         | --       |
+| 4.  | [Live demo Web crawler](#web-crawler)               | 22.June | Doncho   |
+| 5.  | [Unit Testing](#unit-testing)                       | 27.June | Doncho   |
+| 6.  | [Tooling](#tooling)                                 | 27.June | Doncho   |
+| 7*  | [Express Pug & Passport](#express-pug-passport)     | 29.June | Doncho   |
 
 # Intro
 _20.06.2017 - Doncho_
 
-1.  **Topics**
+1.  ## Topics
 
     - File IO we'll use for practising **async calls** - 5 types (promises - most widely used, callbacks, observables, yield, async/await from ES2017).
 
@@ -28,7 +34,9 @@ _20.06.2017 - Doncho_
 
     - **Cloud** - Amazon Web Services (AWS) - launch instance, deploy. Has free trial.
 
-2.  **Course project** - in intro and in separate video
+2.  ## Course project
+    
+    (in intro and in separate video)
 
     Standard web app not SPA and AJAX only, AWS hosting. Use Node.js, Express, MongoDB.
 
@@ -89,7 +97,7 @@ _20.06.2017 - Doncho_
         - Containers
     .
 
-3.  **Tools**
+3.  ## Tools
 
     - OS: Windows, Linux, Mac - Node.js is not perfect in Windows (launches slower), was designed for Linux initially.
     - Text editor: VS Code preferred 
@@ -100,7 +108,7 @@ _20.06.2017 - Doncho_
 # Overview
 _20.06.2017 - Doncho_
 
-1. **Node.js Overview**
+1. ## Node.js Overview
     - What
 
         Initially Node.js was V8 webkit Chrome engine mocked to work on server.
@@ -119,7 +127,7 @@ _20.06.2017 - Doncho_
         
         Single-threaded - libuv allows async operations
 
-    - Event loop (*learn more)
+    - **Event loop** (*learn more)
 
         V8 = browser without UI
 
@@ -127,9 +135,10 @@ _20.06.2017 - Doncho_
 
         Libuv (= middle man to the OS) - Event queue - queues all async operations - event loop sends them to the OS. while the OS is completing this operation, the event loop does nothing, if all threads are busy. When a thread slot is freed, the event loop returns the execute callback to the event queue and takes the next operation in the queue.
 
-2. **Setup**
-
+2. ## Setup    
+    
     **Installation:**
+
 
     - Standard installation - install from website, check if added to $PATH. Not so flexible for development because only one version of Node.js is possible.
 
@@ -168,118 +177,183 @@ _20.06.2017 - Doncho_
 # Modules
 _20.06.2017 - Doncho_
 
-1. **Modules in Node.js**
+1. ## Modules in Node.js
 
     - **Scope**
 
         Issues with global variables in JavaScript - solved with IIFEs which create function scope.
 
-        In Node.js **global scope is explicit** - have to specially define it. Every file is a node.js module. Variables by default are accessible only in the file they are declared in. Solves issues with global variables.
+        In Node.js **global scope is explicit** - have to specially define variables which belong to it. Every file is a node.js module. Variables by default are accessible only in the file they are declared in. Solves issues with global variables.
 
         Modules in Node.js are different parts of an application (like classes in C#). Useful for splitting the code into smaller pieces.
 
-    - **Loading** modules
+2. ## Loading modules
 
-        **Build-in modules** (ie. modules which come with Node.js) are loaded with their name.
+    **Build-in modules** (ie. modules which come with Node.js) are loaded with their name.
 
-        `require(path_to_module)` - (like `using` in C#) - global function Node.js, loads exports from the respective module (eg. 
+    `require(path_to_module)` - (like `using` in C#) - global function Node.js, loads exports from the respective module (eg. 
 
-        `/* globals globalVarName */` - to resolve ESLint underlining global variables coming from other modules.
-        
-        ```js
-        /* globals __dirname */
-        const fs = require("fs") //fs = file system 
-        // read all files from directory
-        fs.readdirSync(__dirname)
-            foreach((file) => ){
-                console.log(file);
-            }
-        ```
+    `/* globals globalVarName */` - to resolve ESLint underlining global variables coming from other modules.
+    
+    ```js
+    /* globals __dirname */
+    const fs = require("fs") //fs = file system 
+    // read all files from directory
+    fs.readdirSync(__dirname)
+        foreach((file) => ){
+            console.log(file);
+        }
+    ```
 
-        **Third party modules** are loaded with `require("path/moduleId")`;
+    **Third party modules** are loaded with `require("path/moduleId")`;
 
-        Modules which we define - the id is the relative/absolute path to the file location. Always use `./` when referring to current directory.
+    Modules which we define - the id is the relative/absolute path to the file location. Always use `./` when referring to current directory.
 
-    - **Exporting** 
-        
-        `module` - another global object (like `exports`, `require`) used to handle modules.
+3. ## Exporting 
 
-        ```js
-        // file printer.js
-        const print = (msg) => {
+    `module` - another global object (like `exports`, `require`) used to handle modules.
+
+    ```js
+    // file printer.js
+    const print = (msg) => {
+        console.log(msg);
+    }
+
+    module.exports = {
+        /* like IIFEE, list functions to export */
+        print
+    }
+    
+    // file app.js
+    const printer = require('./utils/printer'); //printer, not printer.js
+    ```
+    
+    - Using **exports** - not recommended: 
+    ```js
+    // file printer.js
+    /* globals exports */ // for option 2
+    const print = (msg) => {
+        console.log(msg);
+    }
+
+    exports print = print;
+    
+    // file app.js
+    const printer = require('./utils/printer'); 
+    ```
+    
+    - Using **global** scope (not a good practice) - not recommended:
+    ```js
+    // file printer.js
+    /* globals global */ 
+    const print = (msg) => {
+        console.log(msg);
+    }
+
+    global.print = print;
+    
+    // file app.js
+    const printer = require('./utils/printer'); //?must it be assigned?
+    
+    const print3 = global.print;
+    ```
+
+    Global scope could be useful if using Node 4 where no promises exist, to attach an external library:
+    ```js
+    global.Promise = require('bluebird');
+    ```
+
+    - If using **classes**, the module could export the class itself or a function which creates an instance of the class (be consistent, use one of the two export options). JavaScript is more interested in the _properties_ of objects (duck typing). Classes in js are syntactic sugar for prototypal inheritance. Using `instanceof` is an anti-pattern because it breaks _duck typing_.
+    ```js
+    class Printer{
+        print(msg){
             console.log(msg);
         }
-        module.exports = {
-            /* list functions to export */
-            print
+    }
+
+    module.exports{
+        Printer,
+        getPrinter(){
+            return new Printer();
         }
-        const name = require('./utils/printer'); 
-        //the name of the js file without the extension
-        ```
+    }
+    ```
 
-    - **Other options** - not recommended:
+    `Export` and `import` from ES2015 are not supported in Node.js yet. 
+         
+        
+4. ## Importing functions (reading modules)
+    
+    Using .js extension when requiring modules is optional.
+    
+    ```js
+    const printerModule = require('./utils/printer');
+    let Printer = printerModule.Printer;
+    let printer = printerModule.getPrinter;
+    ```
 
-        epxports.print = print // funciton name, include at top /* globals exports */
+    - Using **destructuring assignment** to import (use new line for each property for better readability)
 
-        Attach to global scope - not recommended:
-        in module
-        global.print = print; 
-
-        to use in file
-            const print2 = global.print;
-
-        Not a good practice to use the global scope
-
-        Using destructuring assignment to import (use new line for each property)
-
-        ```js
-        const {
-        getPrinter,
+    ```js
+    /* file app.js */
+    const { 
+        getPrinter, 
         Printer 
-        } = require('path to module');
-        ```
+    } = require('path to module');
+    ```
 
-        Index.js file/module - default module for the folder - can be imported with
+    - **Index.js** file/module - default module for the folder - can be imported with only the folder name, without the file name. Useful for automatic loading of all the modules in the folder.
 
-        require('folder name');
-
-2. **Loading modules**
-3. **reating modules**
-4. **Using third-party modules**
-
-    Installed with npm
-
-    **Fetch** - for http requests, comes from browser, not available in Node.js - install from npm node-fetch (browse npmjs.com )
-
-    Using .js extension when requiring modules is optional
-
-    ```npm init -y``` - creates package.json file -y = yes
-
-    Node.js projects are folder-based 
-
-    ```npm install``` 
-    - recreates dependencies saved in package.json
+    ```js
+    require('folder name');
+    ```
 
 
-    **Yarn** package - does topological sort of the dependencies = resolves dependencies and installs them in parallel instead of synchronously = faster than npm install. Must be installed globally.
+5. ## Using third-party modules 
+    (eg. Nuget, Bower, Fetch) - installed with NPM or Yarn also required only with the name of the module.
 
-    ```npm install -g http-server``` 
-    `npm install --g yarn`
-    goes in node/[version]/lib/node_modules
+    > browse [npmjs.com](https://www.npmjs.com/)
+    
+    - **Fetch** - api from browser (from HTML5) which replaces the XHR object - makes HTTP requests easier. Because it's not part of the JavaScript standard, it's not accessible in Node.js. But can be downloaded and installed with NPM.  
+        
+    ```js
+    const fetch = require(node-fetch);
 
-    if node.js version is updated, global modules need to be reinstalled in the new version folder
+    fetch('http://localhost:3001/api/superheroes')
+        .then((response) =>{
+            return response.json();
+        })
+        .then((result) => {
+            console.log(result);
+        });
+    ```
+    
+    `npm node-fetch --save` - installs the module in the current directory. Must have package.json file to be saved as a dependency.
 
-    `yarn global add http-server`
-    `yarn global add http-server -dev`
+    `npm init -y` - creates package.json file -y = yes to skip questions. Node.js projects are folder-based - all subfolders are part of the project (not like in C# - solution, project, references, etc.). The package.json file stores meta data about the project, including dependencies which can be restored easily on other computers.
 
-    Dev dependencies
-    `npm install --save-dev packageName`
+    `npm install` - recreates/restores dependencies saved in package.json
+
+    `npm install -g http-server` - installs globally
+
+    `npm install --save-dev packageName` - saves as development dependencies
+    
     `npm uninstall --save-dev packageName`
 
+    - **Yarn** (npm package) - makes npm work better. Does topological sort of the dependencies = resolves dependencies and installs them in parallel instead of synchronously = faster than npm install. Must be installed globally.
 
+        `npm install -global yarn` - installs in node/[version]/lib/node_modules. Global packages can be used from any node project. If node.js version is updated (with NVM), global modules need to be reinstalled in the new version folder.
+
+        `yarn add eslint` - automatically adds dependencies in package.json
+
+        `yarn global add http-server`
+        
+        `yarn global add http-server -dev`
+
+        `yarn global remove http-server`
 .
 
-# Asynchronous operations
+# Asynchronous Operations
 _22.06.2017 - Doncho_
 
 1. **Intro**
@@ -289,44 +363,41 @@ _22.06.2017 - Doncho_
     **Package.json**
 
     **index.js**
+    
+    `"scripts": { "start": "node app.js" }` - Defines what to do on `$ npm start`. Accepts all valid power shell and bash scripts/commands.
 
+    `cygwin` = bash for windows
 
-    "scripts": {
-        "start": "node app.js" // defines what to do on cmd "npm start"
-        // Accepts all valid power shell and bash scripts/commands
-        // cygwin = bash for windows
-        // power shell =  bash for windows; script language allowing automation of commands
-    }
+    `power shell` =  bash for windows; script language allowing automation of commands
+    
+    Custom commands:
 
-    Custom commands in "scripts" eg.
+    `"scripts" { "dev": nodemon app.js }` - restarts server? Nodemon package - screens changes to files (install global).
 
-    "dev": nodemon app.js // restarts server?
-    nodemon package - install global, screens changes to files
-    Custom commands need "run" to work: npm run dev
+    `$ npm run dev` - run custom commands  
 
-    Main script
-    Defines startup/entry point of the application with "node ."
-    It's optional, mainly used for npm packages
+    Main script - Defines startup/entry point of the application with `node .` (optional, mainly used for npm packages)
 
     .eslintrc - dot signifies hidden files in Linux
 
 2. **Overview**
 
+    Node.js is single-threaded but the event loop is not. Operations can be run asynchronously - passed to the event queue of the event loop. When an async operation is ready, it fires an event handler.
+
     Various practices:
 
-    - callbacks - most popular, because they come from javascript and have been around for years. The problem with them is that they cause the pyramid of death. Very difficult error handling.
+    - **callbacks** - most popular, because they come from javascript and have been around for years. The problem with them is that they cause long nesting chains ("the pyramid of death"). Very difficult error handling.
 
-    - promises - good option - provide easy way to avoid nesting of async operations. Easy error handling (.catch at the end)
+    - **promises** - good option - provide easy way to avoid nesting of async operations. Easy error handling (`.catch` at the end)
 
-    - observables - external library - RxJS library (reactive extensions). Introduce functional principles of programming, works better with javascript.
+    - **observables** - external library - RxJS library (reactive extensions). Introduce functional principles of programming, works better with javascript.
 
-    - yield + generators = hack, can be used for handling async operations as a side effect.
+    - **yield + function generators** = hack, can be used for handling async operations as a side effect. Overhead for small projects.
 
-    - async + await - work with/like promises but can be used easier
+    - **async + await** - work with/like promises but can be used easier, ES2017?
 
 
 3. **Callbacks**
-
 4. **Promises**
 
     Promises flatten callbacks = better chaining.
@@ -354,7 +425,8 @@ _22.06.2017 - Doncho_
         console.log('1. It works');
         return waitSecodns(2); 
         // if return waitSeconds is missing, 
-        // the following then-s will not wait 2 seconds more but just print right away
+        // the following then-s will not wait 2 seconds more 
+        // but just print right away
     })
     .then(() => {
         console.log('2. It works');
@@ -386,7 +458,7 @@ _22.06.2017 - Doncho_
     ```
 
     ```js
-    //Creates an ok promise which can be chained
+    //Creates a resolved promise which can be chained
     Promise.resolve()
         .then((result) => {
             console.log(result);
@@ -570,7 +642,10 @@ _22.06.2017 - Doncho_
     Do something like async. Too complicated.
 .
 
-# File databases
+# File Databases
+_The live demo?_
+
+# Web Crawler
 _22.06.2017 - Doncho live demo_
 
 **Web crawler**
