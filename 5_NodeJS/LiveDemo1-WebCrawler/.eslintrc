@@ -13,6 +13,9 @@
             "error",
             "always"
         ],
+        // NH added
+        "linebreak-style": ["error", "windows"],
+        // Telerik
         "semi": 2,
         "no-undef": 2,
         "no-use-before-define": 0,

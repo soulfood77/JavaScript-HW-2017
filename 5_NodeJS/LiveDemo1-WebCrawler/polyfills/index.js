@@ -1,3 +1,3 @@
-//const fetch = require('node-fetch'); //? better isomorphic-fetch
+// const fetch = require('node-fetch'); //? better isomorphic-fetch
 
 require('isomorphic-fetch');

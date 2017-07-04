@@ -1,20 +1,12 @@
-const jsdom = require('jsdom');
-
+const { JSDOM } = require('jsdom');
 
 // must fix
 const initDomParser = (html) => {
     return new Promise((resolve) => {
-        jsdom.env('', (err, window) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
+        const dom = new JSDOM(html);
+        const $ = require('jquery')(dom.window);
 
-            const $ = require('jquery')(window);
-            $('html').html(html);
-
-            resolve($);
-        });
+        resolve($);
     });
 };
 
