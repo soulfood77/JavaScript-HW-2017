@@ -506,17 +506,20 @@ _22.06.2017 - Doncho_
     const f = async() =>{
 
     }
-
+    ```
+    ```js
     async function f1(){
 
     }
-
+    ```
+    ```js
     let obj = {
         async f3(){
 
         }
     }
-
+    ```
+    ```js
     class Person {
         async load(){
 
@@ -529,7 +532,8 @@ _22.06.2017 - Doncho_
     ```js
     const f = async () =>{
         await waitSeconds(1); 
-        // waits for this function to complete before moving to the next one
+        // waits for this function to complete 
+        // before moving to the next one
         console.log('1.');
         await waitSeconds(2);
         console.log('2.');
@@ -547,7 +551,6 @@ _22.06.2017 - Doncho_
         await waitSeconds(2);
         console.log ('Ready' + param);
         return param;
-
     };
 
     const main = async () =>{
@@ -561,18 +564,18 @@ _22.06.2017 - Doncho_
     Await & async are syntax sugar to promises.
 
     ```js
-    const f1 = async() =>{
+    const f1 = async() => {
         return await 5;
         return await Promise.resolve(5);
-        //return the result wrapped in a promise
-        //both are the same thing
+        // returns the result wrapped in a promise
+        // both are the same thing
     }
     ```
 
     Allow try-catch block similar to all other languages, instead of calling callbacks
 
     ```js
-    const main = async () =>{
+    const main = async () => {
         try{
             const result = await asyncOperation(5);
             console.log(result);
@@ -594,7 +597,7 @@ _22.06.2017 - Doncho_
     Used similarly to promises.
 
     ```js
-    const waitSeconds = (seconds) =>{
+    const waitSeconds = (seconds) => {
         return Observable.
             create((o) =>{
                 o.next();
@@ -643,12 +646,11 @@ _22.06.2017 - Doncho_
 .
 
 # File Databases
-_The live demo?_
+_== The live demo?_
 
 # Web Crawler
 _22.06.2017 - Doncho live demo_
 
-**Web crawler**
 0. Using:
     - Promises - Async
     - Http
@@ -656,7 +658,7 @@ _22.06.2017 - Doncho live demo_
     - IO
     - DSA - queue, DFS
 
-    Source: Goodreads.com public data
+    Source: Goodreads.com public data, IMDB
 
 1. Steps:
     1. Get data
@@ -670,7 +672,7 @@ _22.06.2017 - Doncho live demo_
     - jquery
     - jsdom
 
-    Better always return promises even for synchronous operations = consistency.
+    Better to always return promises even for synchronous operations = consistency
 .
 
 # Unit Testing
