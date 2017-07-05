@@ -353,14 +353,16 @@ _20.06.2017 - Doncho_
         `yarn global add http-server -dev`
 
         `yarn global remove http-server`
+
+        `yarn init -y` - initialise project with package.json
 .
 
 # Asynchronous Operations
 _22.06.2017 - Doncho_
 
-1. **Intro**
+1. # Intro
 
-    Always initialise a project with npm init -y
+    Always initialise a project with `npm init -y` (or `yarn init -y`?)
 
     **Package.json**
 
@@ -382,7 +384,7 @@ _22.06.2017 - Doncho_
 
     .eslintrc - dot signifies hidden files in Linux
 
-2. **Overview**
+2. # Overview
 
     Node.js is single-threaded but the event loop is not. Operations can be run asynchronously - passed to the event queue of the event loop. When an async operation is ready, it fires an event handler.
 
@@ -399,8 +401,8 @@ _22.06.2017 - Doncho_
     - **async + await** - work with/like promises but can be used easier, ES2017?
 
 
-3. **Callbacks**
-4. **Promises**
+3. # Callbacks
+4. # Promises
 
     Promises flatten callbacks = better chaining.
     resolve and reject are callbacks. Other callbacks - err, loading?
@@ -498,7 +500,7 @@ _22.06.2017 - Doncho_
     ```
 
 
-5. **Async & await**
+5. # Async & await
 
     Work with promises. Need to create an async function to use them. Similar to C# (...)
 
@@ -588,7 +590,7 @@ _22.06.2017 - Doncho_
     };
     ```
 
-6. **Observables**
+6. # Observables
 
     ```js
     const {Observable} = require('rxjs');
@@ -642,7 +644,7 @@ _22.06.2017 - Doncho_
 
     Can't be used because not implemented everywhere yet?
 
-7. **Yield & generators**
+7. # Yield & generators
 
     Do something like async. Too complicated.
 .
@@ -681,7 +683,7 @@ _22.06.2017 - Doncho live demo_
     - Split to Node 0.11,12,13,14 and IO.js = forked Node.js with added new features - lambda, classes - v.1,2,3
     - Merge two forks to Node.js 4.X
 
-3. Process:
+4. Process:
    
     -  Set up **eslint**: `npm install -g eslint eslint-config-google babel-eslint`, add rule about line breaks `rules{"linebreak-style": ["error", "windows"]}`, configure VSCode to add empty line at the end of file (issue with JS-CSS-HTML Formatter extension - change to true "end_with_new_line")
 
@@ -719,110 +721,135 @@ _27.06.2017 - Doncho_
 
 1. **UT Frameworks** - quick review
 
-    - JSUnit - rarely used 
-    - QUnit - created by John Resik (JQuery), mostly used for front end testing
-    - Jasmine - largely used
-    - Mocha - more powerful than Jasmine, largely used ; pluggable framework - accepts additions. Needs syntax for creating UT - assert, should, expect. Most popular syntax library - Chai. Should extends the object prototype and adds method should. Expect is mostly used because it's most expressive.
+    UT = Test one module/one file.
 
-    1. Example:
+    - JSUnit - rarely used, based on JUnit for Java
+    - QUnit - created by John Resik (creator of JQuery), mostly used for front end testing
+    - **Jasmine** - largely used
+    - **Mocha** - more powerful than Jasmine, largely used; flexible, pluggable framework - accepts additions. Needs syntax for creating UT - assert, should, expect. Most popular syntax library - **Chai**. `Should` extends the object prototype and adds method should to all objects. `Expect` is mostly used because it's most expressive.
 
     ```js
-    assert.areEqual(expected, actual)
-    expect(actual).to.be.eql(expected)
-    actual.should().equal(expected)
+    assert.areEqual(expected, actual);
+    expect(actual).to.be.eql(expected); // shallow?
+    actual.should().equal(expected); // deep?
     ```
 
-    1. Installation: `yarn add mocha chai --dev`
+2. **Demo**
 
-    1. create test folder and file simple.test.js for the tests
+    - Initialise: `yarn init -y`
 
-    1. load expect: `const {expect} = require ('chai');`
+    - Install as dev dependency. Testing is not part of the development process but in dev should put everything we don't want to be in the production: `yarn add mocha chai --dev`
 
-        - 
+    - Create 'test' folder and file 'simple.test.js' for the tests
 
-        ```js
-        it('should return 4', () => {
-            // Arrange
-            const x = 2;
-            const y = 2;
+    - Load expect: `const { expect } = require ('chai');`
 
-            // Act
-            const expected = x + y;
-
-            // Assert
-            expect(expected).to.eq(4);
-        })
-        ```
-
-    1. Running: 
-
-        - `mocha test/simple.test.js`
-
-        In this case Mocha is installed globally
-
-        - Another option - bin folder where shortcuts to the locally installed libraries
-
-        `./node_modules/.bin/mocha test/simple.test.js`
-
-        add to package.json
-
-        ```js
-        "scripts":{
-            "test": "./node_modules/.bin/mocha test/simple.test.js"
-        }
-        ```
-
-        run with npm test
-
-        Tests can be grouped into files.
-
-        Apart from `it` command, `describe` command to group other tests and add additional methods - before - runs before all tests in the current describe block, `after`, `beforeach`, `aftereach`. Can be more than one.
-
-        ```js
-        describe("Test sum", () =>{
-            before(() =>{
-
-            });
-
-            it('should return 4')
-        });
-        ```
-
-        Use describe.skip or it.skip to skip some group or test.
-
-2. **Asynchronous tests**
-
-    - Use `done` parameter.
+    - Create a simple test with `it('test name', () => {//AAA})`: 
 
     ```js
+    it('should return 4', () => {
+        // Arrange
+        const x = 2;
+        const y = 2;
+
+        // Act
+        const expected = x + y;
+
+        // Assert
+        expect(expected).to.eq(4);
+    });
+    ```
+
+    - Run tests through Mocha 
+
+    `$ mocha test/simple.test.js` if Mocha is installed globally. But that could be inconvenient for other users of the project who don't have global Mocha.
+    
+
+     `$ ./node_modules/.bin/mocha test/simple.test.js` is another (also not very convenient) option is to reference bin folder where shortcuts to the locally installed libraries, which are accessible after `$ npm install` (*works in Git bash, not in VS Code terminal): 
+   
+
+    **Best**: Add reference to package.json to be able to run with 
+    `$ npm test`
+
+    ```js
+    "scripts":{
+        "test": "./node_modules/.bin/mocha test/simple.test.js"
+    }
+    ```
+
+    - Group tests into files, or group into test suites(?).
+
+    `describe` statement groups other tests and adds methods:  
+    `before` runs before all tests in the current describe block, `after`, `beforeach`, `aftereach`. Describes can be nested - beforeach and afterach apply to the nested statements as well. Can be more than one.
+    
+    `describe.skip` or `it.skip` - skips a group or test. 
+
+    ```js
+    describe('Test group', () =>{
+        before(() =>{
+            // runs before all tests
+        });
+
+        aftereach(() => {
+            // runs after each test, incl. nested ones
+        });
+
+        describe.skip('Nested', () => {
+            it('should return 4', () => {
+                // Arrange, Act, Assert
+            });
+
+            it('should return 4', () => {
+                // Arrange, Act, Assert
+            });
+        });
+    });
+    ```
+
+3. **Asynchronous tests**
+
+    `It` are async. (?)
+
+    - **Avoid**: with `done` parameter/callback. The test will wait for the `done` callback to be called.
+
+    ```js
+    const getValueAfter = (value, seconds) => {
+        return new Promise((resolve) => {
+            return setTimeout(() => resolve(value), seconds * 1000);
+        });
+    };
+
     describe('Async tests', () =>{
         it('with done()', (done) => {
             getValueAfter(5, 1)
                 .then((value) => {
                     expect(value).to.equal(5);
-                    done();
+                    done(); // !important
                 });
         });
     });
     ```
 
-    - With promise
+    - **Recommended**: with `promise` (from newer versions of Mocha) - `it` knows that it has been attached a method returning a promise, it should execute it.
 
-    //check?
     ```js
     describe('Async tests', () =>{
-        it('with return promise', (done) => {
+        it('with return promise', () => {
             getValueAfter(5, 1)
                 .then((value) => {
                     expect(value).to.equal(5);
-                    done();
                 });
         });
     });
     ```
 
-    - Done and promise
-    // ...
+    - Mocha transpiles the test code, then analyses it.
+
+    ```js
+    it('without calling a funciton', () => {
+        expect(5).not.to.be.null;
+    });
+    ```
 
 .
 
@@ -832,8 +859,8 @@ _27.06.2017 - Doncho_
 0. **List**
     - IDEs - VSCode, WebStorm, Atom, ViM, etc.
     - Package managers - NPM, Yarn, (Bower)
-    - App scaffolding - Yeoman
-    - Task runners - Gulp, (Grunt, WebPack)
+    - Project scaffolding - Yeomank
+    - Task runners - **Gulp**, (Grunt, WebPack)
     - Debugging - Node
     - NodeMon - automatic app rerun
 
