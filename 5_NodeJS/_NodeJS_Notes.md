@@ -355,6 +355,8 @@ _20.06.2017 - Doncho_
         `yarn global remove http-server`
 
         `yarn init -y` - initialise project with package.json
+
+        `yarn` = npm install
 .
 
 # Asynchronous Operations
@@ -719,7 +721,7 @@ _22.06.2017 - Doncho live demo_
 # Unit Testing
 _27.06.2017 - Doncho_
 
-1. **UT Frameworks** - quick review
+1. # UT Frameworks - quick review
 
     UT = Test one module/one file.
 
@@ -730,11 +732,11 @@ _27.06.2017 - Doncho_
 
     ```js
     assert.areEqual(expected, actual);
-    expect(actual).to.be.eql(expected); // shallow?
-    actual.should().equal(expected); // deep?
+    expect(actual).to.be.eql(expected); // only value ==
+    actual.should().equal(expected); // absolute ===
     ```
 
-2. **Demo**
+2. # Demo
 
     - Initialise: `yarn init -y`
 
@@ -806,7 +808,7 @@ _27.06.2017 - Doncho_
     });
     ```
 
-3. **Asynchronous tests**
+3. # Asynchronous tests
 
     `It` are async. (?)
 
@@ -856,105 +858,196 @@ _27.06.2017 - Doncho_
 # Tooling
 _27.06.2017 - Doncho_
 
-0. **List**
-    - IDEs - VSCode, WebStorm, Atom, ViM, etc.
+0. # List
+    - IDEs - **VSCode**, WebStorm, Atom, ViM, etc.
     - Package managers - NPM, Yarn, (Bower)
-    - Project scaffolding - Yeomank
-    - Task runners - **Gulp**, (Grunt, WebPack)
+    - Project scaffolding - **Yeoman**
+    - Task runners - **Gulp**, (Grunt, WebPack - Angular2 works with it)
     - Debugging - Node
-    - NodeMon - automatic app rerun
+    - **NodeMon** - automatic app rerun on file change. Will be useful when working with Express because we'll work either in the IDE or in the browser and restarting the server from the console will not be convenient.
 
-1. **Package managers** - Bower
+1. # Package managers - **Bower**
 
-    - Bower - used to be used for front end packages
-    - NPM - used to be used for back-end packages
+    - Bower - a npm package
 
-    There was a shift to uploading packages only to npm and now Bower is less used.
+        Used to be used for front end packages
 
-    Bower - similar API to npm. init comand - creates `bower.json`, only local installation. Creates `bower_components` folder.
+    - NPM - installing locally/globally, adding dev dependencies, initialising apps. 
+    
+        Used to be used for back-end packages.
 
-    In package.json scripts add
-    `"postinstall": "bower install" `
-    to install all bower dependencies. Add bower to defDependencies.
+    The separation between front-end and back-end was useful. There was a shift to uploading packages only to npm and now Bower is less used.
 
-2. **App scaffolding**
+    Bower - similar API to npm. Only local installs, no global.
 
-    - Yeoman
+    `bower init` - creates 'bower.json' file and 'bower_components' folder
 
-    Scaffolding tool for web apps. Like in Visual Studio creating a new project and selecting the type - Console Application, etc.
+    `bower install --save jquery`
 
-    `yarn global add yo`
+    `bower install` recreates dependencies
 
-    `yarn global add generator-express`
+    To link to `npm install` and install all bower dependencies, add Bower to devDependencies `yarn add bower -dev`. In package.json add:
+
+    `"scripts" { "postinstall": "bower install" }` - for globally installed Bower
+
+    `"scripts" { "postinstall": "./node_modules/.bin/bower install" }` - for locally installed Bower   
+
+2. # App scaffolding
+
+    - [**Yeoman**](Yeoman.io)
+
+    **Scaffolding** tool for web apps. In Visual Studio like selecting the project type when creating an new project - some files are created automatically - i.e. Console Application, etc.
+
+    `yarn global add yo` or `npm install -g yo` - !?_yarn doesn't work on my computer_
+
+    `yarn global add generator-express` or `npm install -g generator-express`
 
     `yo express` - starts scaffolding the project - select options. Starts downloading npm packages, creates file system.
 
-    Used once when starting a project. Creates very basic projects which are not always the best and need to be changed later.
+    Used **once** when starting a project. Creates very basic projects which are not always the best and need to be changed later.
 
     `yo` command to look for other generators - eg: asp.net mvc
     
-3. **Task runners**
+3. # [**Task runners**](https://youtu.be/wet1WNvJ7vA?t=20m54s) - Gulp & Grunt
 
     - Allow process automation
 
     Transpiling with Babel can be automated by creating a task runner command.
 
-    Will run all future apps through Gulp.
+    Will run all future apps through Gulp. When we create integration tests we'll need a running server or a test database. All these tasks can be automated with test runners. The tests themselves should not create a fake database because this is too much of a responsibility. That's why we could set up task runners to do that.
 
+    Gulp and Grunt do the same thing, achieve the same result but with different means.
 
-    - Grunt - the old guy, works well, very stable, is being substituted with Gulp where writing is easier
+    - **Grunt** - the old guy, works well, very stable, is being substituted with Gulp where writing is easier. Hard to configure. Have to pass big js objects for every operation. If we want a stylus css files to be compiled to one minified file, we have to first merge them, then compile them to one file, then minify it. Each of these steps is a separate configuration.
 
-    Hard to configure.
+    *  **CoffeeScript** - js preprocessor, written using Python stuff, first use of lambda and classes, curly braces not obligatory for scope, significant whitespace. CoffeeScript is dying out with the development of js but is resurrected by Grunt because reduces configurations length.
 
-    // *  CoffeeScript - significant whitespace - resurrected by Grunt
+    - **Gulp** - more convenient, easier to execute the configurations. The start Gulp file is a standard js file where regular  JavaScript is accepted. 
 
-    - Gulp
+        `$ yarn init -y`
 
-    Uses streams (=chaining) which makes configuration easier.
+        `$ npm install -g gulp`
 
-    yarn global add gulp // problem installing through yarn
-    `npm install -g gulp`
+        `$ yarn global add gulp` (problem installing through yarn)
 
-    `yarn init -y`
+        `$ yarn add gulp` (install locally doesn't work)
 
-    touch gulpfile.js // creates file
+        `$ mkdir folderName` - creates folder
 
-    ```js
-    const gulp = require ('gulp'); 
+        `$ echo.>gulpfile.js` - creates file, `touch gulpfile.js` (Linux)
+        
+        Gulp uses **streams** (=chaining) which gives better readability, makes configuration easier.
 
-    gulp.task('sample', () =>{
-        // do stuff;
-    })
-    ```
+        ```js
+        const gulp = require ('gulp'); 
+        /* accepts all js code */
+        gulp.task('sample', () =>{
+            /* do stuff; */
+        })
+        ```    
 
-    gulp sample
+        `$ gulp sample` - executes the saved task
 
-    Stylus, CoffeScript, TypeScript can be compiled with one command with Gulp. First add locally plugins for Gulp gulp-stylus gulp-typescript etc. as dev dependencies (--save-dev). Gulp works with streams. Automates build/compilation process. Can combine several tasks into one.
+        Gulp automates build/compilation process. Can combine several tasks into one. Works with streams.   Stylus, CoffeScript, TypeScript files can be compiled with one command with Gulp. First add plugins for Gulp as local dev dependencies (`yarn add gulp-stylus gulp-babel gulp-typescript --dev`).
+    
+    * Stylus
+    
+        ```js
+        const stylus = require('gulp-stylus');
 
-    `yarn add -dev gulp-clean`
+        gulp.task('compile:stylus', () =>{
+            /* get files any folder down, 
+            with extension styl
+            !return stream */
+            return gulp.src('./app/styl/**/*.styl')
+                /* compile */
+                .pipe(stylus())
+                /* put temp css files in build folder */
+                .pipe(gulp.dest('./build/css'));
+        });
+        ```
+        `gulp compile:stylus`
 
-    Possible issue when we want to use `clean` to delete everything (all old build files) in the dest folder. Tasks are async and while cleaning, the other tasks in the group could be running and writing. Use clean as a synchronous operation or use `gulp-sync` library.
+    * Babel
 
-    Default task can be run with `gulp` command.
+        `yarn add babel-preset-2017 -dev`
 
-    Will start UT through Gulp in the future, it makes sense for integration tests. 
+        ```js
+        const babel = require('gulp-babel');
 
-    `yarn add gulp-mocha -dev`
+        gulp.task('compile:es2017', () =>{
+            return gulp.src('./app/babel/**/*.js')
+                /* set up preset */
+                .pipe(babel({
+                    presets: ['es2017']
+                }))
+                .pipe(gulp.dest('./build/es2017'));
+        })
+        ```
 
-    Create gulp task
+    * Group tasks
+    
+        ```js
+        gulp.task('compile', ['compile:es2017', 'compile:stylus'],
+        /* can also pass a callback 
+        executes after compilation */
+        () => {
+        });
+        ```
 
-    ```js
-    gulp.task('test:unit', () =>{
-        gulp.src('path to file ./test/unit/**/*.js')
-            .pipe(mocha({
-                reporter: 'nyan', // or another reporter dot
-            }))
-    });
+    * Clean tasks - delete old/tmp files
+    
+        `yarn add -dev gulp-clean`
 
-    gulp.task('clean', ) // check
-    ```
+        ```js
+        const clean = require('gulp-clean');
 
-    nyan reporter
+        gulp.task('clean', function(){
+            /* delte build folder */
+            return gulp.src('./build', 
+            /* don't load files to memory */
+            {read: false})
+                .pipe(clean());
+        })
+        ```
+
+        Possible issue when using `clean` to delete everything (all old build files) in the dest folder and grouping it with other tasks. Tasks are async and while cleaning, the other tasks in the group could be running and writing. Use clean as a **synchronous** operation or use `gulp-sync` library.
+
+        ```js
+        gulp.task('compile', 
+            ['clean']),
+            () => {
+                /* destructuring assignment */
+                ['compile:es2017', 'compile:stylus']
+                    .forEach((task) => gulp.start(task));
+            }
+        ```
+
+        * Default task - can be run with `gulp` or `gulp default` command.
+
+        ```js
+        gulp.task('default', () =>{
+
+        });
+        ```
+
+    * UT
+    
+        Will start UT through Gulp in the future, it makes sense for integration tests - to launch test server, create database. 
+
+        `yarn add gulp-mocha --dev`
+
+        ```js
+        const mocha = require('gulp-mocha');
+
+        gulp.task('test:unit', () =>{
+            gulp.src('./test/unit/**/*.js')
+                /* optional mocha settings */
+                .pipe(mocha({
+                    reporter: 'nyan', /* 'dot' */
+                }))
+        });
+        ```
 .
 
 # Express Pug & Passport
