@@ -5,7 +5,7 @@ const items = [{
     name: 'Cuki',
 }];
 
-const attach = (app) => {
+const attachRoutes = (app) => {
     const router = new Router();
 
     router
@@ -46,4 +46,4 @@ const attach = (app) => {
     app.use('/api/items', router);
 };
 
-module.exports = attach;
+module.exports = attachRoutes;
