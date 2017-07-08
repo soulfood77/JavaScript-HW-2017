@@ -10,8 +10,20 @@
 | --  | [File Databases](#file-databases)                   | --         | --       |
 | 4.  | [Live demo Web crawler](#web-crawler)               | 22.June | Doncho   |
 | 5.  | [Unit Testing](#unit-testing)                       | 27.June | Doncho   |
-| 6.  | [Tooling](#tooling)                                 | 27.June | Doncho   |
-| 7*  | [Express Pug & Passport](#express-pug-passport)     | 29.June | Doncho   |
+| 6.  | [Tooling - Yeoman, Gulp](#tooling)                                 | 27.June | Doncho   |
+| 7*  | [Express, Pug, Passport](#express-pug-passport)     | 29.June | Doncho   |
+| 8.  | [Functional Tests](#functional-tests)               | 6.July  | Doncho   |
+
+## Shortcuts
+
+| Shortcut             | Action           |
+| -------------------- | ---------------- |
+| **Ctrl + Space**     | possible options |
+| **Ctrl + k + 0**     | fold all         |
+| **Ctrl + k + j**     | unfold all       |
+| **Ctrl + Shift + [** | fold             |
+| **Ctrl + Shift + ]** | unfold           |
+| **Ctrl + Shift + v** | preview md       |
 
 # Intro
 _20.06.2017 - Doncho_
@@ -167,11 +179,7 @@ _20.06.2017 - Doncho_
     - Async - don't care how the operation is completed, less control
 
     - Multi-thread - more control, threads are created by the developer and, when completed, must be taken care for something from the main thread to call them back and identify what kind of data main will have access to, otherwise data in the main thread could be modified by other threads.
-
-    **Shortcuts**
-
-    **Ctrl + Space** = possible options
-
+  
 .
 
 # Modules
@@ -310,6 +318,22 @@ _20.06.2017 - Doncho_
     require('folder name');
     ```
 
+    
+    > If the result returned from require is a function with parameter, this parameter can be passed to it when requiring. See Express lecture. 
+
+    ```js
+    require('modulePath')(app);
+
+    /* module file - attaches methods to app object*/
+
+    const attach = (app) => {
+        app.get();
+        app.post();
+    }
+
+    module.exports = attach;
+    ```
+
 
 5. ## Using third-party modules 
     (eg. Nuget, Bower, Fetch) - installed with NPM or Yarn also required only with the name of the module.
@@ -362,7 +386,7 @@ _20.06.2017 - Doncho_
 # Asynchronous Operations
 _22.06.2017 - Doncho_
 
-1. # Intro
+1. ## Intro
 
     Always initialise a project with `npm init -y` (or `yarn init -y`?)
 
@@ -386,7 +410,7 @@ _22.06.2017 - Doncho_
 
     .eslintrc - dot signifies hidden files in Linux
 
-2. # Overview
+2. ## Overview
 
     Node.js is single-threaded but the event loop is not. Operations can be run asynchronously - passed to the event queue of the event loop. When an async operation is ready, it fires an event handler.
 
@@ -403,8 +427,8 @@ _22.06.2017 - Doncho_
     - **async + await** - work with/like promises but can be used easier, ES2017?
 
 
-3. # Callbacks
-4. # Promises
+3. ## Callbacks
+4. ## Promises
 
     Promises flatten callbacks = better chaining.
     resolve and reject are callbacks. Other callbacks - err, loading?
@@ -502,7 +526,7 @@ _22.06.2017 - Doncho_
     ```
 
 
-5. # Async & await
+5. ## Async & await
 
     Work with promises. Need to create an async function to use them. Similar to C# (...)
 
@@ -592,7 +616,7 @@ _22.06.2017 - Doncho_
     };
     ```
 
-6. # Observables
+6. ## Observables
 
     ```js
     const {Observable} = require('rxjs');
@@ -646,7 +670,7 @@ _22.06.2017 - Doncho_
 
     Can't be used because not implemented everywhere yet?
 
-7. # Yield & generators
+7. ## Yield & generators
 
     Do something like async. Too complicated.
 .
@@ -721,7 +745,7 @@ _22.06.2017 - Doncho live demo_
 # Unit Testing
 _27.06.2017 - Doncho_
 
-1. # UT Frameworks - quick review
+1. ## UT Frameworks - quick review
 
     UT = Test one module/one file.
 
@@ -736,7 +760,7 @@ _27.06.2017 - Doncho_
     actual.should().equal(expected); // absolute ===
     ```
 
-2. # Demo
+2. ## Demo
 
     - Initialise: `yarn init -y`
 
@@ -808,8 +832,8 @@ _27.06.2017 - Doncho_
     });
     ```
 
-3. # Asynchronous tests
-
+3. ## Asynchronous tests
+    
     `It` are async. (?)
 
     - **Avoid**: with `done` parameter/callback. The test will wait for the `done` callback to be called.
@@ -846,7 +870,7 @@ _27.06.2017 - Doncho_
     ```
 
     - Mocha transpiles the test code, then analyses it.
-
+    
     ```js
     it('without calling a funciton', () => {
         expect(5).not.to.be.null;
@@ -858,7 +882,7 @@ _27.06.2017 - Doncho_
 # Tooling
 _27.06.2017 - Doncho_
 
-0. # List
+0. ## List
     - IDEs - **VSCode**, WebStorm, Atom, ViM, etc.
     - Package managers - NPM, Yarn, (Bower)
     - Project scaffolding - **Yeoman**
@@ -866,7 +890,7 @@ _27.06.2017 - Doncho_
     - Debugging - Node
     - **NodeMon** - automatic app rerun on file change. Will be useful when working with Express because we'll work either in the IDE or in the browser and restarting the server from the console will not be convenient.
 
-1. # Package managers - **Bower**
+1. ## Package managers - **Bower**
 
     - Bower - a npm package
 
@@ -892,7 +916,7 @@ _27.06.2017 - Doncho_
 
     `"scripts" { "postinstall": "./node_modules/.bin/bower install" }` - for locally installed Bower   
 
-2. # App scaffolding
+2. ## App scaffolding - **Yeoman**
 
     - [**Yeoman**](Yeoman.io)
 
@@ -908,7 +932,7 @@ _27.06.2017 - Doncho_
 
     `yo` command to look for other generators - eg: asp.net mvc
     
-3. # [**Task runners**](https://youtu.be/wet1WNvJ7vA?t=20m54s) - Gulp & Grunt
+3. ## Task runners - **Gulp** & Grunt
 
     - Allow process automation
 
@@ -1050,7 +1074,476 @@ _27.06.2017 - Doncho_
         ```
 .
 
-# Express Pug & Passport
-_29.6.2017 Doncho_ *missed class
+# Express, Pug & Passport
+[29.6.2017 video Doncho](https://www.youtube.com/watch?v=buWs2aaml10) *missed class
+## Express
+1. ## Overview
+    
+    Express = framework for creating web apps in Node.js. Like ASP.NET for C#, Spring MVC for Java. **Runs a web server** which handles requests and sends responses.
+    
+    Creates server side web apps (in JSApps course we used the server as a black box returning json). 
+    
+    Will cover - creating server with Node.js & Express, RESTful API, standard web apps - returning html, returning json, getting data from forms. 
+
+    - Routes - a way for the user to request different pages (`get`, `post`, `put`, `delete`)
+    - **Middlewares** - do stuff before and after requests. Types - built-in, third-party, custom. Eg. an url for creating items to be accessible only to authenticated users.
+    - Views - most popular of the many view engines is **Pug** - allows flexible html, rendered when requested
+    - Working with Data - reading input, visualising data.
+
+    Express used to be the only framework for web apps in Node.js. Nowadays there are others, better, but it is still the most used. Express = library for Node.js = creating a web server easily with fluent api.
+
+    The benefit of Express is that it is **pluggable** and through middlewares, we can add any functionality we want.
+
+2. ## Running an Express app
+
+    Node.js with express can launch a simple RESTful api in 15 min. Express supports all the standard http verbs `get`, `post`, `put`, `delete`.
+
+    Have to restart the server on every change (= relaunch the server.js file).
+
+    `add yarn express`
+
+    `get(url, callback(request, response, next))` the callback accepts 3 parameters, 2 of them are required - the browser needs to know the details of the request and what response to send to the client (http request-response cycle). Usually the response sends some kind of an object.
+    
+    `res.send(jsObject or htmlCode or JSON)` is the simplest response function.
+
+    * **SERVER ROUTES**
+
+        ```js
+        /* server.js file */
+        const express = require("express");
+
+        let app = express();
+
+        app.get("/", (request, response) => {
+            response.send("It works!");
+        });
+
+        app.get("/home", (req, res) => {
+            res.send("<h1>Home</h1>");
+        });
+
+        app.get("/json", (req, res) => {
+            res.send({"id": 1,
+            "name": "Gosho",
+            "interests": ["Math", "JS"]});
+        });
+
+        app.listen(3000, () => console.log(`App running at :3000`));
+        ```
+
+        Difference between server- and client-side routing? Client-side (originates from links) is when navigating within a web-page by # (id), which SPAs routing is based on (Sammy, Navigo) using the `onHashChange` event from 'history api' in HTML5, similar to the Express functions. Routes (#) are caught in the client-side js.
+
+        When working with standard web apps (not using JSONs through AJAX = SPA) the two methods used are `get` and `post`. The way to transfer information between the client and the server is through a **form** and they work only with get and post.
+
+3. ## Routes
+
+    Routes have two parameters - `url` and `callback`.
+
+    - **URL** - a relative path to the resource/page
+
+    The url (= first parameter) passed to the route method is a RegEx (strings are RegEx)
+
+    - **Callback** - function called when the resource is reached, takes 2 parameters:
+        - `request` - holds information about the request (headers, agent, body, etc.). Properties: `body`
+        
+        - `response` - used to return a response to the client (body, headers, cookie, etc.). Has different methods: `send()`, `render()`, `sendFile()`, `status(404)`, `redirect('/404')`. The server tries to parse the value passed to send() to html. `post` - using json and Postman to create body.
+
+    In express the req does not have a body by default. Use **body-parser** middleware to parse json from post requests. The client must specify the data format in the header of the post request 'application/json'. The two most used options are `json` and `urlencoded` (=form data): 
+
+    `$yarn add body-parser` 
+
+    ```js
+    const bodyParser = require('body-parser');
+    app.use(bodyParser.json());
+    ```
+
+    Good practice when a post creates something - return 201 (created) and the item created `res.status(201).send(item)`, except when creating/registering an user because we don't want to return the user password in the response.
+
+    Import Router from Express - a middlewhare. Used to chain routes, instead of writing them in every post or get function. 
+    
+    ```js
+    /* file api.routes.js */
+    const { Router } = require('express');
+
+    const attach = (app) => {
+        router
+            .get('/', (req, res)=>{})
+            .post('/', (req, res)=>{});
+        app.use('/api/items', router);
+    };
+    ```
+    
+    * **RESTful ROUTES** - client side, AJAX
+
+    Routes can accept url/**route parameters** and query parameters `?searchTerm=gosho` (query params are not defined in the code, but are extracted from the req properties). Must parse the id from the url parameter to be able to search by id;
+
+    ```js
+    get('/:id', (req, res) => {
+        const id = parseInt(req.params.id);
+        /* find item by id 
+        if not found, can't redirect in AJAX/RESTful api
+        return status(404) and send error json object
+        */
+        const item = items.find((i) => items.id === id);
+        if(!item){
+            return res.status(404)
+                .send({
+                    error: 'Not found',
+                });
+        };
+        return res.send(item);
+    });
+    ```
+
+    **Routes order** matters in some cases - routes with url parameters (`/:id`) must be last (after `/form`).
+
+    **Query parameters** - extract from `req.query.q` and always check if a query parameter is present/passed `if(q){}`. Use url- localhost:3010/api/items?q=c
+
+    ```js
+    get('/', (req, res) => {
+        let q = req.query.q;
+        let result = items;
+        if (q) {
+            q = q.toLowerCase();
+            result = items.filter((item) => {
+                return item.name.toLocaleLowerCase().includes(q);
+            });
+        }
+        res.send(result);
+    });
+    ```
+
+    Paging - always parse url parameters, can assign default values if parameter not passed. Call at url - localhost:3001/api/items?page=2&size=3&q=ge
+
+    ```js
+    get('/', (req, res) => {
+        let { q, page, size } = req.query;
+        /* assign default values if parameter not passed */
+        page = parseInt(page, 10) || 1;
+        size = parseInt(size, 10) || 10;
+
+        let result = items;
+        if (q) {
+            /* search logic */
+        }
+        /* return proper results */
+        result = result.slice((page - 1) * size, page * size);
+        res.send(result);
+    });
+    ```
+
+4. ## Express views with **Pug** (at end of video too)
+
+    > Video [1:20:50](https://youtu.be/buWs2aaml10?t=1h21m5s)
+
+    Pug is a high performance template/view engine. Compiles to pure HTML. Runs with JavaScript for Node.js and browsers. Uses **significant whitespace** (indentation makes nesting).
+    
+    Former name **Jade**. Allows writing dynamic html. Similar to Handlebars (mostly used client-side) but more powerful. Mostly used server side - renders with Node.js and the client receives the rendered html, not render on the client like Handlebars. Express allows use of various view engines.
+
+    - Install: `$npm install -save pug` or `$yarn add pug`
+
+    - Write some pug code (in index.pug) - 
+
+    > Put pug files in 'views' folder
+
+    > **!+tab** - generates html header
+    
+    ```js
+    h1
+        | All
+    ul
+        each value, index in [1, 2, 3, 4, 5]
+            li
+                a(href="#item-" + value) 
+                    | Go to item 
+                    =value 
+                    | &nbsp;at index #{index}
+    ```
+
+    - Set app view engine. Don't use res.send - it just accepts a js object, serializes it to json and returns it as a result. To return a view, use res.render. Reference files which res.render returns. The name of the view is a path relative to the 'views' folder. The render function accepts a **string** (=name of the view file) and **object**(to fill data in the view). If passing an array, wrap it in an object with property model or context `{ model: [the array] }`.
+
+    ```js
+    app.set("view engine", "pug");
+    app.get("/",(req, res) => {
+        res.render("superheroes-list", superheroes);
+    });
+    ```
+
+    - Pug formatting
+        - Significant whitespace, no closing tags, no brackets. 
+        - Content is marked with tab + | Home.
+    
+        No need to restart the express server when changing pug files.
+
+    - Features: 
+        - conditionals (if-else, case-when)
+        - iteration (each, while, for loops)
+        - extending templates
+        - mixins
+        - executing code
+    
+    - Extending - Move common html to a '_master' file, name a block, page files extend the master file and under block name have individual html. Block names create issues if they mach in several files.
+        ```js
+        /* _master.pug file
+        shared html here */
+        block body
+
+        /* page.pug file */
+        extends shared/_master
+
+        block body
+            /* page html here */
+        ```
+    
+
+    * **Nodemon** - to restart server/applicaiton automatically on changes
+
+        - Install: `$yarn add nodemon`
+        - Launch: `./node_modules/.bin/nodemon server.js`
+        - Manual restart: `$ rs`
+        - Set up in 'package.json', starts with `$npm start` and `$npm run dev`
+        
+        ```js
+        "scripts" : {
+            "start": "node server.js",
+            "dev": "./node_modules/.bin/nodemon server.js"
+        }
+        ```
+    - Handling wrong urls - In server.js file after requiring all other routes (server.routes and api.routes) define a regex catching everything (*).
+
+        ```js
+        app.get('*', (req, res) => {
+            res.redirect('/404');
+        });
+        ```
+
+5. ## Middlewares
+
+    > Video [1:49:35](https://youtu.be/buWs2aaml10?t=1h49m35s)
+
+    Middlewares are callbacks that are executed "between" other executions.
+
+    The most important feature of Express. Without them, it is just a wrapper handling get, post requests. Can be executed before, after all routes, or before some routes. Accept url (optional, if connected to a specific url) and a callback with 3 parameters, `done` is required because they are designed to run async operations. Everything which uses `app.use` is a middleware, routers are actually middlewares, body-parser.  
+    
+    Define them in the **beginning** of the file if we want them to run before other code and at the end if will be run after other code.
+    
+    Mandatory call `done()` at the end, otherwise the request will not continue and will timeout.
+
+    ```js
+    app.use('url', (req, res, done) => {
+        //  do your stuff here
+        done();
+    });
+    ```
+
+    - **Morgan** - middleware which logs requests
+
+        `$ yarn add morgan`
+
+        ```js 
+        const morgan = require('morgan');
+        app.use(morgan('combined'));
+        ```
+
+    - **Express.static** - built in Express. Serves static/public files (css, js, imgs, etc.). Put them in 'public' or 'static' folder. Define static route, use **absolute path** with `path` and `__dirname`. 
+
+        ```js
+        const express = require('express');
+        app.use("static", express.static(pathToDirWithStaticFiles));
+        ```
+
+        - Dynamic load - read all folders and files in the 'static' folder
+        ```js        
+        /* globals __dirname */
+        const path = require('path');
+        app.use('/static',
+            express.static(
+                path.join(__dirname, './static'))
+        );
+        ```
+        - Dynamic load - files from 'node_modules' (same as above, change strings to refer to `libs/` and `./node_modules`) - serve libraries like bootstrap
+
+            `$yarn add bootstrap`
+
+
+    - **Custom middlewares** to record execution speed - don't pass url because we want it to run before all routes. Can create variables which are request based (=attach a var to every request) - useful with Passport. Create the custom middleware at the top (before others), attach an action to the `req.on('end', ()=.{})` event.
+
+        ```js
+        app.use((req, res, done) => {
+            const start = new Date();
+            req.on('end', () => {
+                const end = new Date();
+                console.log(`---- Execution time ${end - start} ---- `);
+            });
+            done();
+        });
+        ```
+    
+    - Project file architecture
+        - Static, bodyParser, middlewares - extract to separate module - app/app.js. 
+        Important for testing. 
+        Tests need to require the app -> it needs to be exported from a module. 
+        Tests need to mock the server -> the logic starting the server needs to be separate too.
+        - Move routes folder in app folder
+        - App folder should contain all the server logic
+        - Root folder should contain - static, views, database
+        - Good modules have zero 'require' - everything is passed with dependency injection. For the moment, create app/config/app.config.js which imports the required modules and configures the app, exports `configApp` function. This way the responsibility for creating the app is abstracted and can be tested (though the external libraries used don't need to be tested).
+
+
+
+4. ## Pug
+
+    > video at 2:53:00
+
+    - Views inheritance/extending, **blocks**
+
+    Client side javascript - separate eslintrc file to ignore defining functions without lambdas. 
+
+    - **Mixins** = functions
+
+    > video at 3:09:00
+
+6. ## Authentication
+
+    > Video 3:43:00
+
+    Authentication vs authorisation
+
+    Cookie auth = session auth , token auth - ajax
+
+    Cookie - sent by server with response, all future requests have it attached.
+
+    OAuth & OAuth2 - 2 levels of authenticaiton. First you get a route at which to auth, then authenticate to that route.
+
+    AJAX requests are easier to hack
+
+    Token - authorisation header in which we attach the token received from the server.
+
+    **Passport** library - not great, but thre's nothing better. Must set up a middleware. Provides auth strategies - facebook, token, local etc. Copy configuration from site /docs/configure. Both passport and the type of strategy need to be installed with yarn/npm
+
+    ! Read instructions from the website!
+
+    **html to jade** online tools
+.
+
+# Project Structure
+
+0. ## Overview
+
+    How to create a reusable application. Dependency injection - data app, server app, app app. DB -> data -> app, server will know about all of them.
+
+    ```js
+    const db = require('./db');
+    const data = require('./data').init(db);
+    const app = require('./data').init(data);
+    ```
+
+    - Set up app
+    - Set up data layer - use generic solution to create objects
+    - 3 level validation
+    - **express-messages** + **connect-flash** **connect-parser** + **express-session**
+.
+
+# Functional Tests
+
+0. ## Overview
+    - Selenium - imitates a human user and analyses the web page
+
+    Most tests are done by QAs but not all. Selenium tests are ...
+
+    - Set up to work with ChromeDriver and Phantomjs
+    - Automate with Gulp task - it is important for the functional tests to be independent from the framework on which the application was created. 
+
+1. ## Code coverage
+    Code coverage gives the % of code do tests go through, not what % of our code is covered.
+
+    - Function coverage - how many of the functions are called
+    - Statement coverage
+    - Branch coverage - if-else
+    - Condition coverage
+
+    * Istanbul - the only ? library for Node.js which creates code coverage info. Doesn't work well with the latest verion of Mocha (4) or Gulp Mocha (not sure), must use older 3rd version.
+
+    `npm install --save-dev istanbul`
+
+    `istanbul mocha tests/**/*.js`
+
+    - sinon - mocking
+
+2. ## Supertest
+    
+    A tool which mocks the Node.js http server (can mock express as well).
+
+    Integration tests = unit tests which cover more than one class. When we test the whole aplication.
+
+    Gulp sometimes doesn't exit and might have to Ctrl+C stopped .
+
+3. ## Selenium
+
+    Used more for functional tests. Checks if things work (the usage flow), but not if styles are applied. 
+    
+    Cipoly? used in Progress - works with image recognition - creating tests takes longer than manually testing stuff
+
+    Selenium launches a browser and starts clicking around the app. Needs to have drivers installed for the respective browser (ChromeDriver, SafariDriver, EdgeDriver, GeckoDriver). Works with headless browsers - PhantomJS (= old Chrome). Not all drivers work well - use ChromeDriver which is proven to be stable and PhantomJS.
+
+    Selenum can be used with other platforms, not only Node.js
+
+    - Set up
+
+    install server from [seite](http://www.seleniumhq.org/download/) - 'Selenium standalone server v3.4.0', 
+
+    `$ java -jar /path/to/selenium-server.jar` run server, 
+
+    `$ npm install -g chromedriver` install browser drivers
+
+    To create tests, need to install web-driver
+
+    `$ npm install --save-dev selenium-webdriver` or `$ yarn add selenium-webdriver --dev`
+
+    Copy set up function from presentation (or Doncho's demo file 'setup-driver.js'):
+
+    ```js
+    const webdriver = require('selenium-webdriver');
+    
+    const setupDriver = (browser) => {
+    const driver = new webdriver.Builder()
+        .usingServer('http://localhost:4444/wd/hub')
+        .withCapabilities({
+            browserName: browser,
+        }))
+        .build();
+
+    return driver;
+    };
+
+    module.exports = { setupDriver };
+    ```
+
+    ```js
+    const { setupDriver } = require('../utils/setup.driver.js');
+    describe('Tests', () => {
+        let driver = null;
+
+        beforeEach(() => {
+            driver = setupDriver('chrome');
+        });
+
+        it('telerikacademy.com title', () => {
+            return driver.get('http://telerikacademy.com')
+            .then(() => {
+                return driver.getTitle();
+            })
+            .then((title) => {
+                expect(title).to.equal(expectedTitle);
+            });
+        });
+    })
+    ```
+    
+    - Selenium and the webdrivers have a problem when testing clicks which cause page reload. Use 'ui.js' file fro mdemo
+    
+    If using PhantomJS, no selenium server is needed??
+
+    a
 
 .
