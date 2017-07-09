@@ -14,4 +14,14 @@ require('./routes')(app);
 //     res.redirect('/404');
 // });
 
+// Check if this chaining is ok?
+app
+    .get('/', (req, res) => {
+        console.log('---- HOME ----');
+        return res.render('home');
+    })
+    .get('/404', (req, res) => {
+        return res.render('404');
+    });
+
 module.exports = app;

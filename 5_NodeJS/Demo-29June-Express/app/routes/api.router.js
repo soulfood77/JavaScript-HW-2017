@@ -35,6 +35,7 @@ const attachRoutes = (app) => {
             result = result.slice((page - 1) * size, page * size);
             res.send(result);
         })
+        // test with Postaman
         .post('/', (req, res) => {
             const item = req.body;
             item.id = items.length + 1;

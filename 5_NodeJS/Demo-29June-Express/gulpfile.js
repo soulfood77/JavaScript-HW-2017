@@ -5,17 +5,22 @@ const nodemon = require('gulp-nodemon');
 // HACK not recommended
 // set port
 // eslint-disable-next-line no-process-env
-// const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3001;
 
-gulp.task('server', () => {
+gulp.task('serve', () => {
+    console.log('serving -------------------');
     const app = require('./app');
-    app.listen(3001, () => console.log('Server working at 3001'));
+    app.listen(port, () => console.log(`--- Server working at ${port} ---`));
 });
 
-gulp.task('dev', ['server'], () => {
+// !! Error: listen EADDRINUSE :::3001 if the tasks property is on
+gulp.task('dev', ['serve'], () => {
+    console.log('dev -------------------');
     return nodemon({
-        ext: 'js',
-        tasks: ['server'],
+        ext: 'js pug',
+        // tasks: ['serve'],
         script: 'server.js',
+    }).on('restart', () => {
+        console.log('restarted -------------------');
     });
 });

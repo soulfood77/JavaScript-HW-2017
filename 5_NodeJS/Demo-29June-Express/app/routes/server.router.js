@@ -15,17 +15,15 @@ const attachRoutes = (app) => {
 
     router
         .get('/', (req, res) => {
-            console.log('---- HOME ----');
-            res.send('<h1>Home</h1>');
-        })
-        .get('/all', (req, res) => {
-            console.log('---- ALL ----');
-            res.render('all', {
+            console.log('---- ex ALL ----');
+            res.render('items/all', {
                 model: items,
             });
         })
-        .get('/404', (req, res) => {
-            return res.render('404');
+        // form can be shown dynamically 
+        // as modal window with javascript - api.router?
+        .get('/form', (req, res) => {
+            return res.render('items/form');
         })
         .get('/:id', (req, res) => {
             const id = parseInt(req.params.id, 10);
@@ -36,12 +34,20 @@ const attachRoutes = (app) => {
                 console.log('----- WRONG ID -----');
                 return res.redirect('/404');
             }
-            return res.render('details', {
+            return res.render('items/details', {
                 model: item,
             });
+        })
+        .post('/', (req, res) => {
+            const item = req.body;
+            item.id = items.length + 1;
+            items.push(item);
+            return res
+                .status(201)
+                .redirect('/items');
         });
 
-    app.use('/', router);
+    app.use('/items', router);
 };
 
 module.exports = attachRoutes;

@@ -1,0 +1,9 @@
+extends shared/_master
+
+block main
+    form(action="/items", method="POST")
+        label
+            | Name:
+            input(type="text", name="name")
+        button
+            | Create
