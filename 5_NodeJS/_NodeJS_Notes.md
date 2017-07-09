@@ -203,14 +203,15 @@ _20.06.2017 - Doncho_
 
     `/* globals globalVarName */` - to resolve ESLint underlining global variables coming from other modules.
     
+    - ### Dynamic module loading
     ```js
     /* globals __dirname */
     const fs = require("fs") //fs = file system 
     // read all files from directory
     fs.readdirSync(__dirname)
-        foreach((file) => ){
+        .foreach((file) => {
             console.log(file);
-        }
+        )};
     ```
 
     **Third party modules** are loaded with `require("path/moduleId")`;
@@ -1148,7 +1149,7 @@ _27.06.2017 - Doncho_
         
         - `response` - used to return a response to the client (body, headers, cookie, etc.). Has different methods: `send()`, `render()`, `sendFile()`, `status(404)`, `redirect('/404')`. The server tries to parse the value passed to send() to html. `post` - using json and Postman to create body.
 
-    In express the req does not have a body by default. Use **body-parser** middleware to parse json from post requests. The client must specify the data format in the header of the post request 'application/json'. The two most used options are `json` and `urlencoded` (=form data): 
+    In express, the req does not have a body by default. Use **body-parser** middleware to parse json from post requests. The client must specify the data format in the header of the post request 'application/json'. The two most used options are `json` and `urlencoded` (=form data): 
 
     `$yarn add body-parser` 
 
@@ -1159,7 +1160,7 @@ _27.06.2017 - Doncho_
 
     Good practice when a post creates something - return 201 (created) and the item created `res.status(201).send(item)`, except when creating/registering an user because we don't want to return the user password in the response.
 
-    Import Router from Express - a middlewhare. Used to chain routes, instead of writing them in every post or get function. 
+    Import Router from Express - a middlewhare. Used shorten routes - instead of writing them in full in every post or get function (eg. 'api/items' -> '/'). Supports chianing. 
     
     ```js
     /* file api.routes.js */
@@ -1309,7 +1310,7 @@ _27.06.2017 - Doncho_
             "dev": "./node_modules/.bin/nodemon server.js"
         }
         ```
-    - Handling wrong urls - In server.js file after requiring all other routes (server.routes and api.routes) define a regex catching everything (*).
+    - **Handling wrong urls** - In server.js file after requiring all other routes (server.routes and api.routes) define a regex catching everything (*).
 
         ```js
         app.get('*', (req, res) => {
@@ -1317,9 +1318,19 @@ _27.06.2017 - Doncho_
         });
         ```
 
+    > Video at [2:55:13 - Pug part 2](https://youtu.be/buWs2aaml10?t=2h55m13s)
+
+    - Views inheritance/extending, **blocks** - used to define custom pieces of in the page master/template. Nested extends.
+
+    > Client side javascript can't use ES2015 -> separate eslintrc file to ignore defining functions without lambdas. 
+
+    - **Mixins** = functions - can be used for navigation. Allow to create reusable blocks, the html to be split int smaller parts like programme code.
+
+    - [**html to jade**](http://html2jade.org/) online tool
+
 5. ## Middlewares
 
-    > Video [1:49:35](https://youtu.be/buWs2aaml10?t=1h49m35s)
+    > Video at [1:49:35](https://youtu.be/buWs2aaml10?t=1h49m35s)
 
     Middlewares are callbacks that are executed "between" other executions.
 
@@ -1352,7 +1363,7 @@ _27.06.2017 - Doncho_
         app.use("static", express.static(pathToDirWithStaticFiles));
         ```
 
-        - Dynamic load - read all folders and files in the 'static' folder
+        - Serve public files - read all folders and files in the 'static' folder
         ```js        
         /* globals __dirname */
         const path = require('path');
@@ -1361,7 +1372,7 @@ _27.06.2017 - Doncho_
                 path.join(__dirname, './static'))
         );
         ```
-        - Dynamic load - files from 'node_modules' (same as above, change strings to refer to `libs/` and `./node_modules`) - serve libraries like bootstrap
+        - Serve libraries - files from 'node_modules' (same as above, change strings to refer to `libs/` and `./node_modules`) - like bootstrap
 
             `$yarn add bootstrap`
 
@@ -1379,51 +1390,134 @@ _27.06.2017 - Doncho_
         });
         ```
     
-    - Project file architecture
-        - Static, bodyParser, middlewares - extract to separate module - app/app.js. 
-        Important for testing. 
-        Tests need to require the app -> it needs to be exported from a module. 
-        Tests need to mock the server -> the logic starting the server needs to be separate too.
-        - Move routes folder in app folder
-        - App folder should contain all the server logic
-        - Root folder should contain - static, views, database
-        - Good modules have zero 'require' - everything is passed with dependency injection. For the moment, create app/config/app.config.js which imports the required modules and configures the app, exports `configApp` function. This way the responsibility for creating the app is abstracted and can be tested (though the external libraries used don't need to be tested).
+    - **Creating a post request** with standard web apps
+    > Video at [3:19:53](https://youtu.be/buWs2aaml10?t=3h19m53s)
+    
+6. ## Project file architecture (part 1)
+    - Static, bodyParser, middlewares - extract to separate module - app/app.js. 
+    Important for testing. 
+    Tests need to require the app -> it needs to be exported from a module. 
+    Tests need to mock the server -> the logic starting the server needs to be separate too.
+    - Move routes folder in app folder
+    - App folder should contain all the server logic
+    - Root folder should contain - static, views, database
+    - Good modules have zero 'require' - everything is passed with dependency injection. For the moment, create app/config/app.config.js which imports the required modules and configures the app, exports `configApp` function. This way the responsibility for creating the app is abstracted and can be tested (though the external libraries used don't need to be tested).
+    - Require routers dynamically (see [Dynamic module loading](#dynamic-module-loading))
+
+        ```js
+        /* globals __dirname */
+        const fs = require('fs');
+        const path = require('path');
+
+        const attachRoutes = (app) => {
+            // read all files from directory
+            fs.readdirSync(__dirname)
+                // filter by part of name
+                .filter((file) => file.includes('router.js'))
+                // concatenate file absolute path
+                .map((file) => path.join(__dirname, file))
+                // require all modules
+                .foreach((modulePath) => require(modulePath)(app));
+        };
+
+        module.exports = attachRoutes;
+
+        ```
+    - Automate server launch with Gulp - `$gulp server` and `$gulp dev` task with gulp-nodemon which listens for changes to js files. Doesn't make much sense at the moment, but will be useful when testing.
+
+        `$yarn add gulp` (add also global gulp to be able to pass cmd commands)
+
+        `$yarn add gulp-nodemon`
+
+        ```js
+        const gulp = require('gulp');
+        const nodemon = require('gulp-nodemon');
+
+        gulp.task('server', () => {
+            const app = require('./app');
+            app.listen(3001, () => console.log('Server working at 3001'));
+        });
+
+        gulp.task('dev', ['server'], () => {
+            return nodemon({
+                // which files to watch for changes
+                ext: 'js',
+                // which tasks to run
+                tasks: ['server'],
+                // needs a script to run
+                script: 'server.js',
+                // database connection string, port etc.
+                // env: '',
+            });
+        });
+        ```
+
+7. ## Forms
+    
+    Implementing post request in 'server.router.js' with a form. **Form attributes**:
+        
+    - **action** = url to which the post request is directed, 
+    - **method** - `post` (form data goes in the body of the request) or `get` (form data goes in the url, used for **search**)
+
+    Form **input attributes** - name (input attribute) - identifies what kind of object will be built when parsing the request -> Should match the properties of the objects in the database/array.
+    ```html
+    <label>Name:
+        <input type="text" name="name"/>
+    </label>
+    ```
+
+    ```js
+    const items = [{
+            id: 1,
+            name: 'Cuki',
+        },
+    ];
+    ```
+    - checkboxes and select multiple (dropdown) return an array
+
+8. ## Authentication
+
+    > Video at [3:43:00](https://youtu.be/buWs2aaml10?t=3h43m14s)
+
+    **Authentication vs authorisation**:
+    - Authentication = the user to be able to identify themselves for the application
+    - Authorisation = the process of granting rights to a user (access to functionalities)
+
+    Models for authentication:
+    - Cookie = session/local? auth, used for standard web apps
+    - Token - used for ajax working with json, xml
+
+    **Cookie** authentication - when we develop/use a web application, a session is created. The sessions save information about the user(s) using the application at the moment. A different session is created for every user. The cookie is a text (key-value pairs - name, expiry date, domaiin) sent by server with response to (an initial?) request. The client (browser), if cabable (curl can't), attaches the cookie to all future requests from the same client to the same server. Cookies are attached to an URL for the specific client (if a user logs in from Chrome, the cookie is saved for Chrome?). The reason to send the cookie with all requests is for the server to be able to decide whether to authorise the user (if the cookie is valid, server authorises the user, if not, it's a wrong cookie?). The reason is for the user to not always send their credentials. The cookie text contains an unique key used to identify the user on the server. For log-out - just delete the cookie from the client. The servers also support log-out - marks the key as invalid. Better log out at server level. Cookies are unique. When the server performs sign-out, it sends a cookie with the same name but with empty value thus rewriting (invalidating) the old cookie. Sign-out is implemented with a sing-out route handler on the server which deletes it from the database.
+
+    **Credentials** = username & password
+
+    (Cross-forgery keys - prevent if a cookie is copied and pasted to another computer, to be able to authenticate to the server)
+
+    **OAuth & OAuth2** authentication (won't use this for now) - used for ajax. 2 levels of authenticaiton. First  send request with credentials to get an unique route at which to auth, then authenticate to that route to get an auth token. More secure. AJAX requests are easier to hack.
+
+    **Token** authentication - client sends credentials to the server and receives a token from the server. It acts the same as a cookie- is unique key which we have to attach manually to each request authorisation header. 
+    `Authorization: <type> <credentials>` (eg. Authorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l)
+
+    [**Passport**](http://passportjs.org/) library for Node.js - not great, but thre's nothing better. Must set up a middleware. Provides a framework for auth and for different strategies (facebook, token, local etc.) we can set up different way for authentication. -> Copy configuration from site /docs/configure. Both passport and the type of strategy need to be installed with yarn/npm. Passport tries to imitate the way Express works middlewares -> creates its own middlewares.
+    
+    Install: `$yarn add passport passport-local` - passport + strategy
+    
+    Set up (copy from [website](http://passportjs.org/docs/configure)): 
+
+    - Configure - copy configuration settings to 'config/auth.config.js', add data object
+    - Middlewares for session authentication - it is important if we want to have authentication on all routes, because Passport is actually a router, it should be placed at top (before other routers) - `$yarn add cookie-parser express-session`
+    - Session serialisation/deserialisation - how to generate unique key(id) from passed user and vice-versa. Currently we use id but it would be better to have something generating unique key/session, saves it in the database and changes is on every log-in.
+    - Sign-in form
+    - Route '/auth/sign-in'
+    - Route '/aut/log-out'
+
+    > Video at [4:36:28](https://youtu.be/buWs2aaml10?t=4h36m28s) set up MongoDB persistent authentication storage
+
+    Currently we don't have persistence for the keys generated at log in and they are lost on app restart. Passport has support for persistent sessions (with [MongoDb](https://stackoverflow.com/questions/10164312/node-js-express-js-passport-js-stay-authenticated-between-server-restart) - add mongo and connect-mongo, Redis(faster for sessions, message queues, caching) - redis connect)
+    
+    > Hash passwords before saving them in database and when authenticating - compare hash
 
 
-
-4. ## Pug
-
-    > video at 2:53:00
-
-    - Views inheritance/extending, **blocks**
-
-    Client side javascript - separate eslintrc file to ignore defining functions without lambdas. 
-
-    - **Mixins** = functions
-
-    > video at 3:09:00
-
-6. ## Authentication
-
-    > Video 3:43:00
-
-    Authentication vs authorisation
-
-    Cookie auth = session auth , token auth - ajax
-
-    Cookie - sent by server with response, all future requests have it attached.
-
-    OAuth & OAuth2 - 2 levels of authenticaiton. First you get a route at which to auth, then authenticate to that route.
-
-    AJAX requests are easier to hack
-
-    Token - authorisation header in which we attach the token received from the server.
-
-    **Passport** library - not great, but thre's nothing better. Must set up a middleware. Provides auth strategies - facebook, token, local etc. Copy configuration from site /docs/configure. Both passport and the type of strategy need to be installed with yarn/npm
-
-    ! Read instructions from the website!
-
-    **html to jade** online tools
 .
 
 # Project Structure
