@@ -39,6 +39,7 @@ const attachRoutes = (app) => {
         .post('/', (req, res) => {
             const item = req.body;
             item.id = items.length + 1;
+            // hash password
             items.push(item);
             res.status(201)
                 .send(item);

@@ -9,7 +9,7 @@ const configApp = (app) => {
     app.set('view engine', 'pug');
 
     // logs requests
-    app.use(morgan('combined'));
+    // app.use(morgan('combined'));
 
     // enables (post) requests body parsing for json
     app.use(bodyParser.json());
