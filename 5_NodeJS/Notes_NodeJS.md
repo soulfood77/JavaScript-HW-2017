@@ -1,22 +1,31 @@
 # Node.js 
 [videos playlist](https://www.youtube.com/playlist?list=PLF4lVL1sPDSknRqUjl1PpGbI9Izn9pBqf)
 
-| Vid | Topic                                           | Date     |
-| --- | ----------------------------------------------- | -------- |
-| 1+  | [Course Intro ](#intro)                         | 20.June  |
-| 2+  | [Course Project Requirements](#intro)           | 20.June  |
-| no  | [Node.js Overview](#overview)                   | 20.June  |
-| 3+  | [Modules](#modules)                             | 20.June  |
-| no  | [Async Operations](#asynchronous-operations)    | 22.June  |
-| --  | [File Databases](#file-databases)               | --       |
-| 4+  | Demo: [Web crawler](#web-crawler)               | 22.June  |
-| 5+  | [Unit Testing](#unit-testing)                   | 27.June  |
-| 6+  | [Tooling - Yeoman, Gulp](#tooling)              | 27.June  |
-| 7+  | [Express, Pug, Passport](#express-pug-passport) | 29.June* |
-| 8.  | Demo: [Project Structure](#project-structure)   | 6.July   |
-| 9.  | [Testing a Web App](#testing-a-web-app)         | 6.July   |
-| no  | Workshop: [Data Mining](#workshop-1)            | 11.July  |
-| 9.  | [MongoDB](#mongodb)                             | 13.July  |
+| Vid | Topic                                           | Date     | C   | V   |
+| --- | ----------------------------------------------- | -------- | --- | --- |
+| 1   | [Course Intro ](#intro)                         | 20.June  | +   | +   |
+| 2   | [Course Project Requirements](#intro)           | 20.June  | +   | +   |
+| 0   | [Node.js Overview](#overview)                   | 20.June  | +   | !   |
+| 3   | [Modules](#modules)                             | 20.June  | +   | +   |
+| .   | [Async Operations](#asynchronous-operations)    | 22.June  | +   | .   |
+| --  | [File Databases](#file-databases)               | --       |     |     |
+| 4   | Demo: [Web crawler](#web-crawler)               | 22.June  | +   | +   |
+| 5   | [Unit Testing](#unit-testing)                   | 27.June  | +   | +   |
+| 6   | [Tooling - Yeoman, Gulp](#tooling)              | 27.June  | +   | +   |
+| 7   | [Express, Pug, Passport](#express-pug-passport) | 29.June  | *   | +   |
+| 8   | Demo: [Project Structure](#project-structure)   | 6.July   | ^   | +   |
+| 0   | [Testing a Web App](#testing-a-web-app)         | 6.July   | ^   | !>  |
+| .   | Workshop: [Data Mining](#workshop-1)            | 11.July  | ^   | .   |
+| 9   | [MongoDB](#mongodb)                             | 13.July  | ^   | !>  |
+| .   | Workshop                                        | 18.July  | *   |     |
+| --  | [RESTful APIs with Express](#restful-apis)      | March.17 | *   | +   |
+| 10  | Workshop, [REST Best practices](#rest)          | 20.July  | *   | +   |
+| 11  | [Containers](#containers)                       | 25.July  | +   | !   |
+
+
+- `*` - missed &emsp; `^` - present, didn't listen &ensp; 
+- `0` - video yes, not in playlist &emsp; `.` - lecture yes, no video  &emsp; `--` - lecture no
+
 
 ## Shortcuts
 
@@ -28,6 +37,11 @@
 | **Ctrl + Shift + [** | fold             |
 | **Ctrl + Shift + ]** | unfold           |
 | **Ctrl + Shift + v** | preview md       |
+
+## Resources
+ - Web app with Node.js & TypeScript - School Academy - March 2017 [course](https://telerikacademy.com/Courses/Courses/Details/416) 
+ - Web apps with Node.js - November 2016 [playlist](https://www.youtube.com/playlist?list=PLF4lVL1sPDSkGCPsLqgfGMavw-82_fWoF)  [course](https://telerikacademy.com/Courses/Courses/Details/400)
+ - MEAN stack - April 2014 [playlist](https://www.youtube.com/playlist?list=PLF4lVL1sPDSkhK8mMtrUg1A4CHllt5jh_)
 
 1. # Intro
     _20.06.2017 - Doncho_
@@ -122,7 +136,7 @@
     .
 
 0. # Overview
-    _20.06.2017 - Doncho_
+    20.06.2017 Doncho > [video not in playlist](https://youtu.be/RU0-ZGJYgMs)
 
     1. ## Node.js Overview
         - What
@@ -208,10 +222,10 @@
         `/* globals globalVarName */` - to resolve ESLint underlining global variables coming from other modules.
         
         - ### Dynamic module loading
-        ```js
+         ```js
         /* globals __dirname */
-        const fs = require("fs") //fs = file system 
-        // read all files from directory
+        const fs = require("fs") /* fs = file system */
+        /* read all files from directory */
         fs.readdirSync(__dirname)
             .foreach((file) => {
                 console.log(file);
@@ -226,38 +240,38 @@
 
         `module` - another global object (like `exports`, `require`) used to handle modules.
 
-        ```js
-        // file printer.js
+         ```js
+        /* file printer.js */
         const print = (msg) => {
             console.log(msg);
         }
 
         module.exports = {
-            /* like IIFEE, list functions to export */
+            /* like IIFE, list functions to export */
             print
         }
         
-        // file app.js
+        /* file app.js*/
         const printer = require('./utils/printer'); //printer, not printer.js
         ```
         
         - Using **exports** - not recommended: 
-        ```js
-        // file printer.js
-        /* globals exports */ // for option 2
+         ```js
+        /* file printer.js*/
+        /* globals exports / for option 2*/
         const print = (msg) => {
             console.log(msg);
         }
 
         exports print = print;
         
-        // file app.js
+        /* file app.js */
         const printer = require('./utils/printer'); 
         ```
         
         - Using **global** scope (not a good practice) - not recommended:
-        ```js
-        // file printer.js
+         ```js
+        /* file printer.js */ 
         /* globals global */ 
         const print = (msg) => {
             console.log(msg);
@@ -265,19 +279,21 @@
 
         global.print = print;
         
-        // file app.js
-        const printer = require('./utils/printer'); //?must it be assigned?
+        /* file app.js*/
+        const printer = require('./utils/printer'); /*must it be assigned??*/
         
         const print3 = global.print;
         ```
 
         Global scope could be useful if using Node 4 where no promises exist, to attach an external library:
-        ```js
+
+         ```js
         global.Promise = require('bluebird');
         ```
 
         - If using **classes**, the module could export the class itself or a function which creates an instance of the class (be consistent, use one of the two export options). JavaScript is more interested in the _properties_ of objects (duck typing). Classes in js are syntactic sugar for prototypal inheritance. Using `instanceof` is an anti-pattern because it breaks _duck typing_.
-        ```js
+
+         ```js
         class Printer{
             print(msg){
                 console.log(msg);
@@ -299,7 +315,7 @@
         
         Using .js extension when requiring modules is optional.
         
-        ```js
+         ```js
         const printerModule = require('./utils/printer');
         let Printer = printerModule.Printer;
         let printer = printerModule.getPrinter;
@@ -307,7 +323,7 @@
 
         - Using **destructuring assignment** to import (use new line for each property for better readability)
 
-        ```js
+         ```js
         /* file app.js */
         const { 
             getPrinter, 
@@ -319,14 +335,14 @@
 
         > In index.js only `require` files with the implementation logic, name them with the same name as the folder.
 
-        ```js
+         ```js
         require('folder name');
         ```
 
         
         > If the result returned from require is a function with parameter, this parameter can be passed to it when requiring. See Express lecture. 
 
-        ```js
+         ```js
         require('modulePath')(app);
 
         /* module file - attaches methods to app object*/
@@ -347,7 +363,7 @@
         
         - **Fetch** - api from browser (from HTML5) which replaces the XHR object - makes HTTP requests easier, native to JavaScript, works with promises. Because it's not part of the JavaScript standard, it's not accessible in Node.js. But can be downloaded and installed with NPM.  
             
-        ```js
+         ```js
         const fetch = require(node-fetch);
 
         fetch('http://localhost:3001/api/superheroes')
@@ -388,7 +404,7 @@
             `yarn` = npm install
     .
 
-00. # Asynchronous Operations
+0. # Asynchronous Operations
     _22.06.2017 - Doncho_
 
     1. ## Intro
@@ -399,7 +415,7 @@
 
         **index.js**
         
-        `"scripts": { "start": "node app.js" }` - Defines what to do on `$ npm start`. Accepts all valid power shell and bash scripts/commands.
+        `"scripts": { "start": "node app.js" }` - Defines what to do on `> npm start`. Accepts all valid power shell and bash scripts/commands.
 
         `cygwin` = bash for windows
 
@@ -409,7 +425,7 @@
 
         `"scripts" { "dev": "nodemon app.js" }` - restarts server? Nodemon package - screens changes to files (install global).
 
-        `$ npm run dev` - run custom commands  
+        `> npm run dev` - run custom commands  
 
         `"main": {"fileName.js"}` - main script - Defines startup/entry point of the application with `node .` (optional, mainly used for npm packages)
 
@@ -438,7 +454,7 @@
         Promises flatten callbacks = better chaining.
         resolve and reject are callbacks. Other callbacks - err, loading?
 
-        ```js
+         ```js
         let pr = new Promise((resolveCb, rejectCb) => {
             //async operation
         });
@@ -450,35 +466,33 @@
         };
         ```
 
-        ```js
+         ```js
         waitSeconds(2).then(() => {
-            //success
+            /*success*/
         }, () =>{
-            //error
+            /*error*/
         })
         .then(() => {
             console.log('1. It works');
-            return waitSecodns(2); 
-            // if return waitSeconds is missing, 
-            // the following then-s will not wait 2 seconds more 
-            // but just print right away
+            return waitSeconds(2); 
+            /* if return waitSeconds is missing, 
+            the following then-s will not wait 2 seconds more 
+            but just print right away */
         })
         .then(() => {
             console.log('2. It works');
             return waitSeconds(2);
-            //
         })
         .catch(() =>{
-            // Doesn't have to be at the end of the block.
-            // Every promise has then & catch functions
+            /* Doesn't have to be at the end of the block.
+            Every promise has then & catch functions*/
         };
-
         ```
 
         Promise all - takes an array of promises and runs after all of them are completed. Then also returns a promise.
 
-        ```js
-        Pormise.all([
+         ```js
+        Promise.all([
             waitSeconds(1)
                 .then(() => console log('1')),
             waitSeconds(2)
@@ -492,26 +506,26 @@
 
         ```
 
-        ```js
-        //Creates a resolved promise which can be chained
+         ```js
+        /*Creates a resolved promise which can be chained*/
         Promise.resolve()
             .then((result) => {
                 console.log(result);
-                //prints undefined
+                /*prints undefined*/
                 return 1;
             })
             .then((result) => {
                 console.log(result);
-                //prints 1
+                /*prints 1*/
                 return Promise.resolve(1);
             })
             .ten((result) =>{
                 console.log(result);
-                //prints 1 too
+                /*prints 1 too*/
             })
         ```
 
-        ```js
+         ```js
         Promise.all([
             Promise.resolve(1),
             Promise.resolve(2),
@@ -519,10 +533,10 @@
         ])
             .then((results) => {
                 console.log(results);
-                //logs in reverse order ?
+                /*logs in reverse order ??*/
             })
             .then(([r1, r2, r3]) =>{
-                //destructuring assignment
+                /*destructuring assignment*/
                 console.log(r1);
                 console.log(r2);
                 console.log(r3);
@@ -537,24 +551,24 @@
 
         Defining
 
-        ```js
+         ```js
         const f = async() =>{
 
         }
         ```
-        ```js
+         ```js
         async function f1(){
 
         }
         ```
-        ```js
+         ```js
         let obj = {
             async f3(){
 
             }
         }
         ```
-        ```js
+         ```js
         class Person {
             async load(){
 
@@ -564,16 +578,16 @@
 
         Similar to the then-s but code is even more linear.
 
-        ```js
+         ```js
         const f = async () =>{
             await waitSeconds(1); 
-            // waits for this function to complete 
-            // before moving to the next one
+            /* waits for this function to complete 
+            before moving to the next one*/
             console.log('1.');
             await waitSeconds(2);
             console.log('2.');
             const result = await waitSeconds(3);
-            //to get  result just assign the await function to a var
+            /*to get  result just assign the await function to a var*/
             console.log('3.');
 
         }
@@ -581,7 +595,7 @@
 
         To be able to use await, we have to be in a method marked as async.
 
-        ```js
+         ```js
         const asyncOperation = async (param) => {
             await waitSeconds(2);
             console.log ('Ready' + param);
@@ -598,18 +612,18 @@
 
         Await & async are syntax sugar to promises.
 
-        ```js
+         ```js
         const f1 = async() => {
             return await 5;
             return await Promise.resolve(5);
-            // returns the result wrapped in a promise
-            // both are the same thing
+            /* returns the result wrapped in a promise
+            both are the same thing*/
         }
         ```
 
         Allow try-catch block similar to all other languages, instead of calling callbacks
 
-        ```js
+         ```js
         const main = async () => {
             try{
                 const result = await asyncOperation(5);
@@ -623,7 +637,7 @@
 
     6. ## Observables
 
-        ```js
+         ```js
         const {Observable} = require('rxjs');
         ```
 
@@ -631,7 +645,7 @@
 
         Used similarly to promises.
 
-        ```js
+         ```js
         const waitSeconds = (seconds) => {
             return Observable.
                 create((o) =>{
@@ -645,14 +659,14 @@
                 console.log('1.');
             })
             .delay(1000)
-            //same as subscribe
+            /*same as subscribe*/
             .subscribe(()=>{
-                //instead of then
+                /*instead of then*/
                 console.log('1.');
             });
         ```
 
-        ```js
+         ```js
         const tick = (tickPeriod) =>{
             return Observable.create((o) => {
                 setInterval(() => {
@@ -680,7 +694,7 @@
         Do something like async. Too complicated.
     .
 
-00. # File Databases
+0. # File Databases
     _== The live demo?_
 
 4. # Web Crawler
@@ -720,13 +734,13 @@
 
         > Have only config files in the main directory and main.js- split js files to folders
 
-        - `$ npm init` -> package.json file
-        - `$ yarn add isomorphic-fetch` - create folder 'polyfills' with index.js `require('isomorphic-fetch')`, in app.js `require('./polyfills');`
+        - `> npm init` -> package.json file
+        - `> yarn add isomorphic-fetch` - create folder 'polyfills' with index.js `require('isomorphic-fetch')`, in app.js `require('./polyfills');`
         - define/import url to use - can hard code values of genres to crawl in an array (or program crawler to extract genres from genres list from the website)
-        - `$ node app.js > result.html` - output to file instead of the console
+        - `> node app.js > result.html` - output to file instead of the console
         - parse received html data to json
         - `yarn add jquery` jQuery is a JavaScript library for DOM manipulation but could be used on server side too, not only client side.
-        - `yarn add jsdom` - simulates DOM tree - enables use of $ in Node. Check instructions at npmjs.com jQuery and jsdom. Create folder 'dom-parser' with 
+        - `yarn add jsdom` - simulates DOM tree - enables use of > in Node. Check instructions at npmjs.com jQuery and jsdom. Create folder 'dom-parser' with 
         index.js `module.exports = require('./dom-parser.js');` 
         file dom-parser.js `const jsdom = require('jsdom');` and implementation logic function exporting the '$'.
         - find selectors from the returned html result and parse title and poster img url of movie.
@@ -759,10 +773,10 @@
         - **Jasmine** - largely used
         - **Mocha** - more powerful than Jasmine, largely used; flexible, pluggable framework - accepts additions. Needs syntax for creating UT - assert, should, expect. Most popular syntax library - **Chai**. `Should` extends the object prototype and adds method should to all objects. `Expect` is mostly used because it's most expressive.
 
-        ```js
+         ```js
         assert.areEqual(expected, actual);
-        expect(actual).to.be.eql(expected); // only value ==
-        actual.should().equal(expected); // absolute ===
+        expect(actual).to.be.eql(expected); /* only value ==*/
+        actual.should().equal(expected); /* absolute ===*/
         ```
 
     2. ## Demo
@@ -777,32 +791,31 @@
 
         - Create a simple test with `it('test name', () => {//AAA})`: 
 
-        ```js
+         ```js
         it('should return 4', () => {
-            // Arrange
+            /* Arrange*/
             const x = 2;
             const y = 2;
 
-            // Act
+            /* Act*/
             const expected = x + y;
 
-            // Assert
+            /* Assert*/
             expect(expected).to.eq(4);
         });
         ```
 
         - Run tests through Mocha 
 
-        `$ mocha test/simple.test.js` if Mocha is installed globally. But that could be inconvenient for other users of the project who don't have global Mocha.
+        `> mocha test/simple.test.js` if Mocha is installed globally. But that could be inconvenient for other users of the project who don't have global Mocha.
         
 
-        `$ ./node_modules/.bin/mocha test/simple.test.js` is another (also not very convenient) option is to reference bin folder where shortcuts to the locally installed libraries, which are accessible after `$ npm install` (*works in Git bash, not in VS Code terminal): 
-    
+        `> ./node_modules/.bin/mocha test/simple.test.js` is another (also not very convenient) option is to reference bin folder where shortcuts to the locally installed libraries, which are accessible after `> npm install` (*works in Git bash, not in VS Code terminal): 
 
         **Best**: Add reference to package.json to be able to run with 
-        `$ npm test`
+        `> npm test`
 
-        ```js
+         ```js
         "scripts":{
             "test": "./node_modules/.bin/mocha test/simple.test.js"
         }
@@ -811,27 +824,27 @@
         - Group tests into files, or group into test suites(?).
 
         `describe` statement groups other tests and adds methods:  
-        `before` runs before all tests in the current describe block, `after`, `beforeach`, `aftereach`. Describes can be nested - beforeach and afterach apply to the nested statements as well. Can be more than one.
+        `before` runs before all tests in the current describe block, `after`, `beforeEach`, `afterEach`. Describes can be nested - beforeEach and afterEach apply to the nested statements as well. Can be more than one.
         
         `describe.skip` or `it.skip` - skips a group or test. 
 
-        ```js
+         ```js
         describe('Test group', () =>{
             before(() =>{
-                // runs before all tests
+                /* runs before all tests*/
             });
 
             aftereach(() => {
-                // runs after each test, incl. nested ones
+                /* runs after each test, incl. nested ones*/
             });
 
             describe.skip('Nested', () => {
                 it('should return 4', () => {
-                    // Arrange, Act, Assert
+                    /* Arrange, Act, Assert*/
                 });
 
                 it('should return 4', () => {
-                    // Arrange, Act, Assert
+                    /* Arrange, Act, Assert*/
                 });
             });
         });
@@ -843,7 +856,7 @@
 
         - **Avoid**: with `done` parameter/callback. The test will wait for the `done` callback to be called.
 
-        ```js
+         ```js
         const getValueAfter = (value, seconds) => {
             return new Promise((resolve) => {
                 return setTimeout(() => resolve(value), seconds * 1000);
@@ -863,7 +876,7 @@
 
         - **Recommended**: with `promise` (from newer versions of Mocha) - `it` knows that it has been attached a method returning a promise, it should execute it.
 
-        ```js
+         ```js
         describe('Async tests', () =>{
             it('with return promise', () => {
                 getValueAfter(5, 1)
@@ -876,8 +889,8 @@
 
         - Mocha transpiles the test code, then analyses it.
         
-        ```js
-        it('without calling a funciton', () => {
+         ```js
+        it('without calling a function', () => {
             expect(5).not.to.be.null;
         });
         ```
@@ -953,17 +966,12 @@
 
         - **Gulp** - more convenient, easier to execute the configurations. The start Gulp file is a standard js file where regular  JavaScript is accepted. 
 
-            `$ yarn init -y`
-
-            `$ npm install -g gulp`
-
-            `$ yarn global add gulp` (problem installing through yarn)
-
-            `$ yarn add gulp` (install locally doesn't work)
-
-            `$ mkdir folderName` - creates folder
-
-            `$ echo.>gulpfile.js` - creates file, `touch gulpfile.js` (Linux)
+            - `> yarn init -y`
+            - `> npm install -g gulp`
+            - `> yarn global add gulp` (problem installing through yarn)
+            - `> yarn add gulp` (install locally doesn't work)
+            - `> mkdir folderName` - creates folder
+            - `> echo.>gulpfile.js` - creates file, `touch gulpfile.js` (Linux)
             
             Gulp uses **streams** (=chaining) which gives better readability, makes configuration easier.
 
@@ -975,35 +983,30 @@
             })
             ```    
 
-            `$ gulp sample` - executes the saved task
+            `> gulp sample` - executes the saved task
 
             Gulp automates build/compilation process. Can combine several tasks into one. Works with streams.   Stylus, CoffeScript, TypeScript files can be compiled with one command with Gulp. First add plugins for Gulp as local dev dependencies (`yarn add gulp-stylus gulp-babel gulp-typescript --dev`).
-        
-        * Stylus
-        
-            ```js
-            const stylus = require('gulp-stylus');
 
+        * **Stylus** - `gulp compile:stylus`
+
+             ```js
+            const stylus = require('gulp-stylus');
             gulp.task('compile:stylus', () =>{
-                /* get files any folder down, 
-                with extension styl
-                !return stream */
-                return gulp.src('./app/styl/**/*.styl')
-                    /* compile */
-                    .pipe(stylus())
-                    /* put temp css files in build folder */
-                    .pipe(gulp.dest('./build/css'));
+            /* get files any folder down, 
+            with extension styl
+            !return stream */
+            return gulp.src('./app/styl/**/*.styl')
+                /* compile */
+                .pipe(stylus())
+                /* put temp css files in build folder */
+                .pipe(gulp.dest('./build/css'));
             });
             ```
-            `gulp compile:stylus`
 
-        * Babel
+        * **Babel** - `yarn add babel-preset-2017 -dev`
 
-            `yarn add babel-preset-2017 -dev`
-
-            ```js
+             ```js
             const babel = require('gulp-babel');
-
             gulp.task('compile:es2017', () =>{
                 return gulp.src('./app/babel/**/*.js')
                     /* set up preset */
@@ -1014,9 +1017,9 @@
             })
             ```
 
-        * Group tasks
-        
-            ```js
+        * **Group tasks**
+
+             ```js
             gulp.task('compile', ['compile:es2017', 'compile:stylus'],
             /* can also pass a callback 
             executes after compilation */
@@ -1024,15 +1027,13 @@
             });
             ```
 
-        * Clean tasks - delete old/tmp files
-        
-            `yarn add -dev gulp-clean`
+        * **Clean tasks** - delete old/tmp files - `yarn add -dev gulp-clean`
 
-            ```js
+             ```js
             const clean = require('gulp-clean');
 
             gulp.task('clean', function(){
-                /* delte build folder */
+                /* delete build folder */
                 return gulp.src('./build', 
                 /* don't load files to memory */
                 {read: false})
@@ -1042,7 +1043,7 @@
 
             Possible issue when using `clean` to delete everything (all old build files) in the dest folder and grouping it with other tasks. Tasks are async and while cleaning, the other tasks in the group could be running and writing. Use clean as a **synchronous** operation or use `gulp-sync` library.
 
-            ```js
+             ```js
             gulp.task('compile', 
                 ['clean']),
                 () => {
@@ -1054,19 +1055,15 @@
 
             * Default task - can be run with `gulp` or `gulp default` command.
 
-            ```js
+             ```js
             gulp.task('default', () =>{
 
             });
             ```
 
-        * UT
-        
-            Will start UT through Gulp in the future, it makes sense for integration tests - to launch test server, create database. 
+        * UT - Will start UT through Gulp in the future, it makes sense for integration tests - to launch test server, create database. - `yarn add gulp-mocha --dev`
 
-            `yarn add gulp-mocha --dev`
-
-            ```js
+             ```js
             const mocha = require('gulp-mocha');
 
             gulp.task('test:unit', () =>{
@@ -1080,7 +1077,7 @@
     .
 
 7. # Express, Pug & Passport
-    29.6.2017 Doncho [video](https://www.youtube.com/watch?v=buWs2aaml10) *missed class
+    29.6.2017* Doncho > [video](https://www.youtube.com/watch?v=buWs2aaml10) 
     
     1. ## Overview
         
@@ -1113,7 +1110,7 @@
 
         * **SERVER ROUTES**
 
-            ```js
+             ```js
             /* server.js file */
             const express = require("express");
 
@@ -1138,7 +1135,7 @@
 
             Difference between server- and client-side routing? Client-side (originates from links) is when navigating within a web-page by # (id), which SPAs routing is based on (Sammy, Navigo) using the `onHashChange` event from 'history api' in HTML5, similar to the Express functions. Routes (#) are caught in the client-side js.
 
-            When working with standard web apps (not using JSONs through AJAX = SPA) the two methods used are `get` and `post`. The way to transfer information between the client and the server is through a **form** and they work only with get and post.
+            When working with standard web apps (not using JSON through AJAX = SPA) the two methods used are `get` and `post`. The way to transfer information between the client and the server is through a **form** and they work only with get and post.
 
     3. ## Routes
 
@@ -1155,7 +1152,7 @@
 
         In express, the req does not have a body by default. Use **body-parser** middleware to parse json from post requests. The client must specify the data format in the header of the post request 'application/json'. The two most used options are `json` and `urlencoded` (=form data): 
 
-        `$yarn add body-parser` 
+        `>yarn add body-parser` 
 
         ```js
         const bodyParser = require('body-parser');
@@ -1164,9 +1161,9 @@
 
         Good practice when a post creates something - return 201 (created) and the item created `res.status(201).send(item)`, except when creating/registering an user because we don't want to return the user password in the response.
 
-        Import Router from Express - a middlewhare. Used shorten routes - instead of writing them in full in every post or get function (eg. 'api/items' -> '/'). Supports chianing. 
+        Import Router from Express - a middleware. Used shorten routes - instead of writing them in full in every post or get function (eg. 'api/items' -> '/'). Supports chaining. 
         
-        ```js
+         ```js
         /* file api.routes.js */
         const { Router } = require('express');
 
@@ -1177,12 +1174,12 @@
             app.use('/api/items', router);
         };
         ```
-        
+
         * **RESTful ROUTES** - client side, AJAX
 
         Routes can accept url/**route parameters** and query parameters `?searchTerm=gosho` (query params are not defined in the code, but are extracted from the req properties). Must parse the id from the url parameter to be able to search by id;
 
-        ```js
+         ```js
         get('/:id', (req, res) => {
             const id = parseInt(req.params.id);
             /* find item by id 
@@ -1204,7 +1201,7 @@
 
         **Query parameters** - extract from `req.query.q` and always check if a query parameter is present/passed `if(q){}`. Use url- localhost:3010/api/items?q=c
 
-        ```js
+         ```js
         get('/', (req, res) => {
             let q = req.query.q;
             let result = items;
@@ -1220,12 +1217,12 @@
 
         Paging - always parse url parameters, can assign default values if parameter not passed. Call at url - localhost:3001/api/items?page=2&size=3&q=ge
 
-        ```js
+         ```js
         get('/', (req, res) => {
             let { q, page, size } = req.query;
             /* assign default values if parameter not passed */
-            page = parseInt(page, 10) || 1;
-            size = parseInt(size, 10) || 10;
+            page = parseInt(page, 10)  1;
+            size = parseInt(size, 10)  10;
 
             let result = items;
             if (q) {
@@ -1242,32 +1239,32 @@
         > Video [1:20:50](https://youtu.be/buWs2aaml10?t=1h21m5s)
 
         Pug is a high performance template/view engine. Compiles to pure HTML. Runs with JavaScript for Node.js and browsers. Uses **significant whitespace** (indentation makes nesting).
-        
+
         Former name **Jade**. Allows writing dynamic html. Similar to Handlebars (mostly used client-side) but more powerful. Mostly used server side - renders with Node.js and the client receives the rendered html, not render on the client like Handlebars. Express allows use of various view engines.
 
-        - Install: `$npm install -save pug` or `$yarn add pug`
+        - Install: `>npm install -save pug` or `>yarn add pug`
 
         - Write some pug code (in index.pug) - 
 
         > Put pug files in 'views' folder
 
         > **!+tab** - generates html header
-        
-        ```js
+
+         ```js
         h1
-            | All
+             All
         ul
             each value, index in [1, 2, 3, 4, 5]
                 li
                     a(href="#item-" + value) 
-                        | Go to item 
+                         Go to item 
                         =value 
-                        | &nbsp;at index #{index}
+                         &nbsp;at index #{index}
         ```
 
         - Set app view engine. Don't use res.send - it just accepts a js object, serializes it to json and returns it as a result. To return a view, use res.render. Reference files which res.render returns. The name of the view is a path relative to the 'views' folder. The render function accepts a **string** (=name of the view file) and **object**(to fill data in the view). If passing an array, wrap it in an object with property model or context `{ model: [the array] }`.
 
-        ```js
+         ```js
         app.set("view engine", "pug");
         app.get("/",(req, res) => {
             res.render("superheroes-list", superheroes);
@@ -1276,8 +1273,8 @@
 
         - Pug formatting
             - Significant whitespace, no closing tags, no brackets. 
-            - Content is marked with tab + | Home.
-        
+            - Content is marked with tab +  Home.
+
             No need to restart the express server when changing pug files.
 
         - Features: 
@@ -1288,7 +1285,8 @@
             - executing code
         
         - Extending - Move common html to a '_master' file, name a block, page files extend the master file and under block name have individual html. Block names create issues if they mach in several files.
-            ```js
+
+             ```js
             /* _master.pug file
             shared html here */
             block body
@@ -1299,16 +1297,15 @@
             block body
                 /* page html here */
             ```
-        
 
-        * **Nodemon** - to restart server/applicaiton automatically on changes
+        * **Nodemon** - to restart server/application automatically on changes
 
-            - Install: `$yarn add nodemon`
+            - Install: `>yarn add nodemon`
             - Launch: `./node_modules/.bin/nodemon server.js`
-            - Manual restart: `$ rs`
-            - Set up in 'package.json', starts with `$npm start` and `$npm run dev`
+            - Manual restart: `> rs`
+            - Set up in 'package.json', starts with `>npm start` and `>npm run dev`
             
-            ```js
+             ```js
             "scripts" : {
                 "start": "node server.js",
                 "dev": "./node_modules/.bin/nodemon server.js"
@@ -1316,7 +1313,7 @@
             ```
         - **Handling wrong urls** - In server.js file after requiring all other routes (server.routes and api.routes) define a regex catching everything (*).
 
-            ```js
+             ```js
             app.get('*', (req, res) => {
                 res.redirect('/404');
             });
@@ -1344,7 +1341,7 @@
         
         Mandatory call `done()` at the end, otherwise the request will not continue and will timeout.
 
-        ```js
+         ```js
         app.use('url', (req, res, done) => {
             //  do your stuff here
             done();
@@ -1353,7 +1350,7 @@
 
         - **Morgan** - middleware which logs requests
 
-            `$ yarn add morgan`
+            `> yarn add morgan`
 
             ```js 
             const morgan = require('morgan');
@@ -1371,7 +1368,7 @@
 
             - Serve public files - read all folders and files in the 'static' folder
 
-                ```js        
+                 ```js        
                 /* globals __dirname */
                 const path = require('path');
                 app.use('/static',
@@ -1381,12 +1378,12 @@
                 ```
             - Serve libraries - files from 'node_modules' (same as above, change strings to refer to `libs/` and `./node_modules`) - like bootstrap
 
-                `$yarn add bootstrap`
+                `>yarn add bootstrap`
 
 
         - **Custom middlewares** to record execution speed - don't pass url because we want it to run before all routes. Can create variables which are request based (=attach a var to every request) - useful with Passport. Create the custom middleware at the top (before others), attach an action to the `req.on('end', ()=.{})` event.
 
-            ```js
+             ```js
             app.use((req, res, done) => {
                 const start = new Date();
                 req.on('end', () => {
@@ -1412,8 +1409,8 @@
         - ### Require routers dynamically 
 
             (see [Dynamic module loading](#dynamic-module-loading))
-        
-            ```js
+
+             ```js
             /* globals __dirname */
             const fs = require('fs');
             const path = require('path');
@@ -1431,13 +1428,13 @@
 
             module.exports = attachRoutes;
             ```
-        - Automate server launch with Gulp - `$gulp server` and `$gulp dev` task with gulp-nodemon which listens for changes to js files. Doesn't make much sense at the moment, but will be useful when testing.
+        - Automate server launch with Gulp - `>gulp server` and `>gulp dev` task with gulp-nodemon which listens for changes to js files. Doesn't make much sense at the moment, but will be useful when testing.
 
-            `$yarn add gulp` (add also global gulp to be able to pass cmd commands)
+            `>yarn add gulp` (add also global gulp to be able to pass cmd commands)
 
-            `$yarn add gulp-nodemon`
+            `>yarn add gulp-nodemon`
 
-            ```js
+             ```js
             const gulp = require('gulp');
             const nodemon = require('gulp-nodemon');
 
@@ -1448,14 +1445,14 @@
 
             gulp.task('dev', ['server'], () => {
                 return nodemon({
-                    // which files to watch for changes
+                    /* which files to watch for changes*/
                     ext: 'js',
-                    // which tasks to run
+                    /* which tasks to run*/
                     tasks: ['server'],
-                    // needs a script to run
+                    /* needs a script to run*/
                     script: 'server.js',
-                    // database connection string, port etc.
-                    // env: '',
+                    /* database connection string, port etc.*/
+                    /* env: '',*/
                 });
             });
             ```
@@ -1474,7 +1471,7 @@
         </label>
         ```
 
-        ```js
+         ```js
         const items = [{
                 id: 1,
                 name: 'Cuki',
@@ -1495,27 +1492,27 @@
         - Cookie = session/local? auth, used for standard web apps
         - Token - used for ajax working with json, xml
 
-        **Cookie** authentication - when we develop/use a web application, a session is created. The sessions save information about the user(s) using the application at the moment. A different session is created for every user. The cookie is a text (key-value pairs - name, expiry date, domaiin) sent by server with response to (an initial?) request. The client (browser), if cabable (curl can't), attaches the cookie to all future requests from the same client to the same server. Cookies are attached to an URL for the specific client (if a user logs in from Chrome, the cookie is saved for Chrome?). The reason to send the cookie with all requests is for the server to be able to decide whether to authorise the user (if the cookie is valid, server authorises the user, if not, it's a wrong cookie?). The reason is for the user to not always send their credentials. The cookie text contains an unique key used to identify the user on the server. For log-out - just delete the cookie from the client. The servers also support log-out - marks the key as invalid. Better log out at server level. Cookies are unique. When the server performs sign-out, it sends a cookie with the same name but with empty value thus rewriting (invalidating) the old cookie. Sign-out is implemented with a sing-out route handler on the server which deletes it from the database.
+        **Cookie** authentication - when we develop/use a web application, a session is created. The sessions save information about the user(s) using the application at the moment. A different session is created for every user. The cookie is a text (key-value pairs - name, expiry date, domain) sent by server with response to (an initial?) request. The client (browser), if capable (curl can't), attaches the cookie to all future requests from the same client to the same server. Cookies are attached to an URL for the specific client (if a user logs in from Chrome, the cookie is saved for Chrome?). The reason to send the cookie with all requests is for the server to be able to decide whether to authorise the user (if the cookie is valid, server authorises the user, if not, it's a wrong cookie?). The reason is for the user to not always send their credentials. The cookie text contains an unique key used to identify the user on the server. For log-out - just delete the cookie from the client. The servers also support log-out - marks the key as invalid. Better log out at server level. Cookies are unique. When the server performs sign-out, it sends a cookie with the same name but with empty value thus rewriting (invalidating) the old cookie. Sign-out is implemented with a sing-out route handler on the server which deletes it from the database.
 
         **Credentials** = username & password
 
         (Cross-forgery keys - prevent if a cookie is copied and pasted to another computer, to be able to authenticate to the server)
 
-        **OAuth & OAuth2** authentication (won't use this for now) - used for ajax. 2 levels of authenticaiton. First  send request with credentials to get an unique route at which to auth, then authenticate to that route to get an auth token. More secure. AJAX requests are easier to hack.
+        **OAuth & OAuth2** authentication (won't use this for now) - used for ajax. 2 levels of authentication. First  send request with credentials to get an unique route at which to auth, then authenticate to that route to get an auth token. More secure. AJAX requests are easier to hack.
 
         **Token** authentication - client sends credentials to the server and receives a token from the server. It acts the same as a cookie- is unique key which we have to attach manually to each request authorisation header. 
         `Authorization: <type> <credentials>` (eg. Authorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l)
 
-        [**Passport**](http://passportjs.org/) library for Node.js - not great, but thre's nothing better. Must set up a middleware. Provides a framework for auth and for different strategies (facebook, token, local etc.) we can set up different way for authentication. -> Copy configuration from site /docs/configure. Both passport and the type of strategy need to be installed with yarn/npm. Passport tries to imitate the way Express works middlewares -> creates its own middlewares.
+        [**Passport**](http://passportjs.org/) library for Node.js - not great, but there's nothing better. Must set up a middleware. Provides a framework for auth and for different strategies (facebook, token, local etc.) we can set up different way for authentication. -> Copy configuration from site /docs/configure. Both passport and the type of strategy need to be installed with yarn/npm. Passport tries to imitate the way Express works middlewares -> creates its own middlewares.
         
-        Install: `$yarn add passport passport-local` - passport + strategy
+        Install: `>yarn add passport passport-local` - passport + strategy
         
         Set up (copy from [website](http://passportjs.org/docs/configure)): 
 
         - Configure - copy configuration settings to 'config/auth.config.js', add data object
         - ### Middlewares for session authentication
             
-            It is important if we want to have authentication on all routes, because Passport is actually a router, it should be placed at top (before other routers) - `$yarn add cookie-parser express-session`
+            It is important if we want to have authentication on all routes, because Passport is actually a router, it should be placed at top (before other routers) - `>yarn add cookie-parser express-session`
         - Session serialisation/deserialisation - how to generate unique key(id) from passed user and vice-versa. Currently we use id but it would be better to have something generating unique key/session, saves it in the database and changes is on every log-in.
         - Sign-in form
         - Route '/auth/sign-in'
@@ -1531,7 +1528,7 @@
     .
 
 8. # Project Structure
-    6.7.2017 Doncho [video](https://youtu.be/N9RIUgeGxTc) 
+    6.7.2017 Doncho > [video](https://youtu.be/N9RIUgeGxTc) 
 
     0. ## Overview
 
@@ -1539,7 +1536,7 @@
         
         The app will be split into several smaller parts/applications - data, server, app (dependency injection = testability) which are not all connected to each other. **DB -> data -> app** (app layer depends on data layer, which depends on DB), server will know about all of the layers. This allows easier testing - can mock the layers which are not being tested.
 
-    1. Initilisation
+    1. Initialisation
         - Init package.json file
         - Add eslintrc file and install `npm install -g eslint babel-eslint eslint-config-google`
         - Libraries - `yarn add express body-parser pug mongodb express-messages connect-flash bootstrap`
@@ -1548,24 +1545,24 @@
     
     2. Scripts
         * Add scripts to package.json. 
-        
-            ```js
+
+             ```js
             "scripts": {
                 "start": "node server.js",
                 "mon": "mongod --dbpath \"D:/Telerik-HW/Databases/data\""
             }
             ```
         * App startup: 
-            1. `$ npm run mon` - starts mongodb server
-            2. `$ npm start` - starts server.js (express server listen)
-            3. `$ mongo` - starts mongo cli where you can list database
+            1. `> npm run mon` - starts mongodb server
+            2. `> npm start` - starts server.js (express server listen)
+            3. `> mongo` - starts mongo cli where you can list database
             4. `http://localhost:3001/items/form` in browser
         
-    3. Server.js 
+    3. **Server.js** 
         
         Require all layers of the app, then refactor it to use async operations
-    
-        ```js
+
+         ```js
         /* sample server.js*/
         const db = require('./db');
         const data = require('./data').init(db);
@@ -1573,7 +1570,7 @@
 
         app.listen(3001, () => console.log('Listening at 3001'));
         ```
-        ```js
+         ```js
         /* sample server.js refactored. Declare an async function with Promise.resolve for clarity (what happens after what), extract this to a separate library later*/
         const async = () => {
             return Promise.resolve();
@@ -1589,21 +1586,21 @@
     4. App layer (part 1)
         - Require Express, 
         - Export init method which creates get and post routes, returns `Promise.resolve(app)` - **always return promises!** to avoid problems, because some of the inits will be async operations (ie. connecting to MongoDB), so be consistent. 
-        - As configurations become too many, **extract requires** to another module to simplify. 
-        - Dependency injection - app receives a 'data' object but doesn't know how where it comes from and how it does things. The **data is abstracted**/decoupled from the app.
+        - As configurations become too many, **extract requires** to another (config) module to simplify. 
+        - **Dependency injection** - app receives a 'data' object but doesn't know how or where it comes from and how it does things. The **data is abstracted**/decoupled from the app.
 
     5. Data layer 
-        - Generic solution to **create objects (dynamically)** - class Data which creates items, users, etc. The db object which comes from MongoDB has `db.collection('collName')` which saves in the specified collection. JS classes are funciton declarations (not function expressoins) -> have a 'name' property. To generate the name of the collection from the ModelClass passed to the Data, create a _method (private = _, could be changed in an inheritor if needed) which lowercases the ModelClass.name string and adds an 's' to the end.
+        - Generic solution to **create objects (dynamically)** - class Data which creates items, users, etc. The db object which comes from MongoDB has `db.collection('collName')` which saves in the specified collection. JS classes are function declarations (not function expressions) -> have a 'name' property. To generate the **name of the collection** from the ModelClass passed to the Data, create a _method (private = _, could be overridden in an inheritor if needed) which lower-cases the ModelClass.name string and adds an 's' to the end.
         - **Define database methods** - create, getAll, etc. MongoDB api is not much different than a standard js api (has the same array methods - `collection.find(filterObj, optionsObj), findOne(), toArray(), insert(model)`).
         - **Split data layer** to base.data, and items.data & users.data which extend base - can now add individual methods to inheritors. If a user.data.js method throws an exception (eg. password not found), the module which called the checkPassword method, should decide how to handle it. It is not the task of users.data to know about redirects and error handling.
     
     6. Db layer
-        - Install MongoDB from website
-        - Install driver `$ yarn add mongodb`
+        - Install MongoDB from [website](https://www.mongodb.com/)
+        - Install driver `> yarn add mongodb`
         - Set up config layer which exports port and connectionString, import in server.js, inject in db init `require('./db').init(config.connectionString))`
         - Require mongodb, inject connectionString
-    
-            ```js
+
+             ```js
             /* db.js */
             const { MongoClient } = require('mongodb');
             const init = (connectionString) => {
@@ -1613,8 +1610,8 @@
             ```
         
     7. Validation **3 levels - client side, server (app), database (item.data, base.data)**
-        -  Set up models folder for items.model, user.model, will hold data validation?? (server side??). To validate in base.data.js we need to know what we are validating. Create private methods for validaiton in base.data.js (in the parent) and override in children with validaitons specific for the item/user. 
-        - This data layer validation approach can be implemented for the controllers too but for them, it doesn't need to be so abstract (auto generated) because they work with more specific logic (can access several datas). 
+        -  Set up models folder for items.model, user.model, will hold data validation?? (server side??). To validate in base.data.js we need to know what we are validating. Create private methods for validation in base.data.js (in the parent) and override in children with validations specific for the item/user. 
+        - This data layer validation approach can be implemented for the controllers too but for them, it doesn't need to be so abstract (auto generated) because they work with more specific logic (can access several data). 
         - The other place for validation is the post itself. 
         - Another (better) approach - move these **validations in the models layer classes as static methods and pass a validator object to base.data ctor** (and items.data)
     
@@ -1624,15 +1621,15 @@
         - Create `toViewModel(model)` which converts the database objects to Item class objects. Call it in base.data `getAll()` and `create(model)`. Check if the ModelClass has a static toViewModel (to avoid errors).
 
     9. App layer routes (part 2)
-        - The same way we create generic data, can create generic routers (some other time) `app.use(new ModelRouter(Item).getRouter())` - to create all CRUD operations - getById, getAll, create form for object creation, etc. Как такъв router ще разбере на какъв route ще ги намира тези неща (на items да е item, на user, да е user) - с ModelClass.name. Как ще разбере кои view-та да рендерира? Малко по-различно от data-та - във views да направим folders (ModelClas.name/all ../form) там ще ги дефинираме (всичко трябва да е 'generic'/dynamic там). but for this demo: 
+        - The same way we create generic data, can create generic routers (some other time) `app.use(new ModelRouter(Item).getRouter())` - to create all CRUD operations - getById, getAll, create form for object creation, etc. Как такъв router ще разбере на какъв route ще намира тези пътища/обекти (на items да е item, на user, да е user)? С ModelClass.name. Как ще разбере кои view-та да рендерира? Малко по-различно от data-та - във views да направим folders (ModelClasс.name/all ../form) там ще ги дефинираме (всичко трябва да е 'generic'/dynamic там). but for this demo: 
         - Define things/routes?? explicitly (not dynamically) - app will load routers (from somewhre) with data - move all the routers from app.js to routers.js., require it in app.js
-        - (Having file routers.js and folder 'routers' with index.js and routers.js inside, is the same. If you have both, could create confusion.)
-        - Split routes into smaller files/modules and dynamically load them in routers.js (using fs, path, __driname, see demo 1 [Require routers dynamically](#require-routers-dynamically))
+        - (Having file routers.js in main drectory and folder 'routers' with index.js and routers.js, is the same. But if you have both, could create confusion.)
+        - Split routes into smaller files/modules and dynamically load them in routers.js (using `fs, path, __driname`, see demo1 [Require routers dynamically](#require-routers-dynamically))
         - Add static serve of node_modules at libs (see [express.static](#express-static))
             
     10. UI
-        - Prepare for testing the application - functional testing purpose is to have automated clicking which imitates a user.
-        - **Catch errors** - in items.router. With ajax it is easier because the (server) response contains the error. Instead of attaching the error ourselves, use **connect-flash** external library (middleware) which provides flash messages. Saves information in the session which can be used to bind to template. Instead of error messages printing in console, the information will visualise on the page so that the user knows about the error - 
+        - Prepare for testing the application - the purpose of functional testing is to automate clicking which imitates a user.
+        - **Catch errors** - in items.router. With ajax it is easier because the (server) response contains the error. Instead of attaching the error ourselves, use **connect-flash** external library (middleware) which provides flash messages. Saves information in the session which can be used to bind to template. Instead of error messages printing in console, the information will show on the page so that the user knows about the error - 
 
             > Video has no sound from 2:05:35 till the end!!
 
@@ -1641,12 +1638,12 @@
             - `yarn add cookie-parser express-session` - for session authentication (see [Middlewares for session authentication](#middlewares-for-session-authentication))
             - items.router add `req.flash('error', err.message);` to the error caught in app.post
             - form.pug add `!= messages()` at the top of the file. It creates the message html (can have custom message templates, see documentaiton)
-        - Create pug pages - `$ yarn add bootstrap` - master, nav, home, all
+        - Create pug pages - `> yarn add bootstrap` - master, nav, home, all
 
     .
 
 9. # Testing A Web App
-    6.7.2017 Doncho [video](https://www.youtube.com/watch?v=HKMlLdcuyBE) 
+    6.7.2017 Doncho > [video not in playlist](https://www.youtube.com/watch?v=HKMlLdcuyBE) 
     > Must watch
 
     0. ## Overview
@@ -1695,17 +1692,17 @@
 
         install server from [seite](http://www.seleniumhq.org/download/) - 'Selenium standalone server v3.4.0', 
 
-        `$ java -jar /path/to/selenium-server.jar` run server, 
+        `> java -jar /path/to/selenium-server.jar` run server, 
 
-        `$ npm install -g chromedriver` install browser drivers
+        `> npm install -g chromedriver` install browser drivers
 
         To create tests, need to install web-driver
 
-        `$ npm install --save-dev selenium-webdriver` or `$ yarn add selenium-webdriver --dev`
+        `> npm install --save-dev selenium-webdriver` or `> yarn add selenium-webdriver --dev`
 
         Copy set up function from presentation (or Doncho's demo file 'setup-driver.js'):
 
-        ```js
+         ```js
         const webdriver = require('selenium-webdriver');
         
         const setupDriver = (browser) => {
@@ -1722,7 +1719,7 @@
         module.exports = { setupDriver };
         ```
 
-        ```js
+         ```js
         const { setupDriver } = require('../utils/setup.driver.js');
         describe('Tests', () => {
             let driver = null;
@@ -1747,74 +1744,440 @@
         
         If using PhantomJS, no selenium server is needed??
 
-        a
+        a??
 
 
 
     .
 
-00. # Workshop 1
-    11.7.2017 - Steven, 
+0. # Workshop 1
+    11.7.2017^ - Steven > 
     [task](https://gist.github.com/StevenTsvetkov/f6ea092583aba1cbecb5a7a5be27f00d)
-    *worked on DSA during workshop
 
 9. # MongoDB
-    13.7.2017 Doncho [video](https://youtu.be/IcqEpwagtAo) 
-    *watched DSA videos during part of the class
-    > Must watch
+    13.7.2017^ Doncho > [video](https://youtu.be/IcqEpwagtAo) 
 
-    <img style="float: right;" src="./images/RDBMS-Mongo-comparison.jpg" width="300px" alt="Dijkstra">
+    <img style="float: right;" src="./images/RDBMS-Mongo-comparison.jpg" width="300px" alt="RDBMS-Mongo">
 
     1. **Overview**
         
         Cross-platform, document-oriented database. Written in C++.
 
-        Prsistent database - data is not lost on system restart. Unlike Redis which is non-persistent.
+        **Prsistent** database - data is not lost on system restart. Unlike Redis which is non-persistent. Can add, remove data with commands.
 
-        NoSQL database = non-relaitonal, data is not related - an object needs to have all of its data inside itself (eg. books and authors - all books need to keep their authors, all authors need to keep their books).
+        **NoSQL** database : non-relaitonal, data objects are not related - an object needs to have all of its data inside itself (eg. books and authors - all books need to keep their authors, all authors need to keep their books).
 
-        Schema-less - a collection can hold different documents (number of fields, content and size can vary in different documents). No complex joins (or none at all).
+        **Schema-less** - a collection can hold different documents (number of fields, content and size can vary in different documents). No complex joins (or none at all) => can get data with a single query. No need for a database architect/specialist to design it. Can write js queries which are run directly against the database.
 
-        Document-oriented storage - data is stored in JSON-style documents.
+        **Document-oriented storage** - data is stored in JSON-style documents.
 
         Getting data is fast, adding data is slow.
 
     2. **Using MongoDB**
 
-        - Installation - download from website, install driver to work with specific platform. -> Can launch MongoDB database local server on the machine.
-            
-            *ChocoLatte - package manager for Windows - try it for installation of programs.
+        - Installation 
+            - Download from website, install driver to work with specific platform. => Can launch MongoDB database local server on the machine.            
+            - Through package manager (*ChocoLatte for Windows) - try it for installation of programs.
 
-        - **Staring** - mongod.exe (can add it to PATH). After it is started, it can be used in Node.js. Saves files in `/data/db` folder (might need to create it manually, if we get errors on launch). [MongoDB.home tutorial](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/) specify an alternate path for data files, 
-            1. `"C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe" --dbpath "D:\Telerik-HW\Databases\data"` 
+        - **Staring** - launch mongod.exe (or add it to PATH). After it is started, it can be used in Node.js. Saves files in `/data/db` folder (might need to create it manually, if we get errors on launch). [MongoDB.home tutorial](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/) specify an alternate path for data files, 
+            1. `"C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe" --dbpath "D:\Telerik-HW\Databases\data"` - or use relative path
             2. If 'C:\Program Files\MongoDB\Server\3.4\bin\' is added to Windows PATH use `mongod --dbpath "D:\Telerik-HW\Databases\data"`
             3. Using package.json `"scripts": { "mon": "mongod --dbpath \"D:/Telerik-HW/Databases/data\""}` run with **`npm run mon`**
 
-        - Connecting - need client (driver). Native `npm install --save mongodb` or `yarn add mongodb` not a dev depencency because we want to connect to the database in production too. mongo.exe allows connecting to a server (mongod.exe starts a local server).
+        - **CLI** Commands - `use dbName`, `show collections`, `db.items.insert({text: "new text"})` other CRUD commands.
+            - `> mongod` starts server
+            - `> mongo` starts client (for CLI commands)
+            - `> show dbs` list databases
+            - `> use items-db` select database (where 'items-db' is a database)
+            - `> show collections` list tables
+            - `> db.items.find()` list data (where 'items' is a collection)
+            - To create a database with CLI: switch to newDbName, create an object, insert it
+            - `> use newDbName` 
+            - `> s = { Name : "TecAdmin.net" }`
+            - `> db.testTable.insert( s );`
+            - `> db.testTable.find()` - should list the newly inserted item
+            - To delete a database
+            - `> use newDbName`
+            - `> newDbName.dropDatabase()`
 
-        - Commands - `use dbName`, `show collections`, `db.items.insert({text: "new text"})` other CRUD commands.
+        - **Connecting** - need client (driver) - tralsates queris to the database server. Native `npm install --save mongodb` or `yarn add mongodb` not a dev depencency because we want to connect to the database in production too. mongo.exe allows connecting to a server (mongod.exe starts a local server).
 
-        - Use - require, connect (works with **promise** which returns a db instance). Connection string format `mongoDB://SERVER:PORT/DB_NAME` (port is optional, default port 27017). For local db `mongodb://localhost/items-db`
+        - **Use** - require, connect (works with **promise** which returns a db instance). Connection string format `mongoDB://SERVER:PORT/DB_NAME` (port is optional, default port 27017). For local db `mongodb://localhost/items-db`
 
-        - **CLI**
-             - `$ mongo` start
-             - `$ show dbs` list databases
-             - `$ use items-db` select database (where 'items-db' is a database)
-             - `$ show collections` list tables
-             - `$ db.items.find()` list data (where 'items' is a collection)
+             ```js
+            const connectionString = 'mongodb://localhost/items-db';
+            const { MongoClient } = require('mongodb');
+            MongoClient.connect(connectionString)
+            /*works with promises*/
+                .then((db) => {
+                    /*get collection*/
+                    const items = db.collection('items');
+                    /*query collection - find all, filter*/
+                    return items.find({
+                        text: {
+                            /*$ sign indicates something from MongoDb*/
+                            $regex: 'qwe.*', /* .* means 'contains anything' */
+                        }
+                    })
+                    /*convert cursor to array*/
+                        .toArray();
+                })
+            ```
 
-        - Collections - `collection.find()`, insert, update. Querying whole documents or parts of them. Find returns a cursor (like a linked list - returns the first result and with `next` can iterate over all the results), can be converted `toArray()`.
+        - Collections - `collection.find()`, insert, update. Querying whole documents or parts of them. Find returns a cursor (like a linked list - returns the first result and with `next` can iterate over all the results), can be converted `toArray()`. Better filter results with native queries like 'find', before converting them to array, to work faster, save loading to RAM (important for big databases).
 
         - Querying the collections - filtration is done with many nestings, eg `collection.find({text:{$regex: 'mi.*'}})` the $ sign indicates that this comes from mongodb (like native queries in SQL - select, where etc.??)
 
-        ...Use await. Спестява 'then'  на promise-ите. 
+        - Use async & await, за да има по-малко nest-ване. Спестява 'then'  на promise-ите. 
+
+             ```js
+            const connectionString = 'mongodb://localhost/items-db';
+            const { MongoClient } = require('mongodb');
+            MongoClient.connect(connectionString)
+                .then(async (db) => {
+                    const collection = db.collection('items');
+
+                    await collection.insert({text: "from code",});
+
+                    const items = await items.find({
+                        text: {
+                            $regex: '.*e.*', 
+                        }
+                    })
+                    .toArray();
+
+                    console.log(items);
+                })
+            ```
+
+        > Must watch after [00:35:00](https://youtu.be/IcqEpwagtAo?t=36m22s)
 
         Generates id automatically - guid sring 24 length. No get by id method, use findOne({_id: new ObjectID(id),}) (note automatic id is generated as property '_id'), create a getter to overcome this. When searching by id, cant only search by string, have to require ObjectID object to wrap the searched string in (because the id is a type that comes from mongodb). Can use find instead of findOne but need to convert the result toArray and access the [0] item, because find returns a cursor - await needs to be in brackets becaues it works with promises and not promises and toArray would access a collection which is not yet returned??.
 
-        ...*no listen
+        ^^^
 
     3. Building MongoDB access layer
 
     .
 
+
+0. # RESTful APIs
+    _Rest architecture with Express_
+
+    This lecture was not held this season > notes from 
+    [ppt](https://rawgit.com/TelerikAcademy/Web-Applications-with-Node.js/master/Topics/12.%20Creating-RESTful-apis-with-Express/index.html#/title) | 
+    [video School Academy 2017](https://www.youtube.com/watch?v=-b_P_NTJHf8)
+
+    1. Overview
+
+        **SOA** : Service oriented architecture
+        
+        **REST** : Representational state transfer - set of architectural principles. Разглеждаме всички URL като документи. Има един и същи URL но в зависимост от http header (get, post etc.) действията са различни. Работи с текстови формати на данни, не html.
+
+        **AJAX** : Вместо да се праща html от сървъра, той се генерира с javascript на клиента, а сървъра праща само масив от информацията, която да запълни html. Клиентът прави http requests, получава масив от обекти, парсва го и генерира html от него.
+
+    2. DEMO - Doncho
+         ```js
+        /*server.ts file*/
+        import * as express from "express";
+        import * as bodyParser from "body-parser"; /*Important*/
+        const app = express();
+        app.use(bodyParser.json());
+        app.use("/libs", express.static("node_modules")); /*to be able to use jQuery*/
+        app.use("/static", express.static("public"));
+        app.set("view engine", "pug"); /*html engine*/
+        let books = [{
+            id: 1,
+            title: "Harry Potter",
+            description: "Nice book"
+        }];
+
+        /*Non-REST*/
+        app.get("/", (req, res) => {
+            return res.render("index");
+        })
+
+        /*RESTful API*/
+        app.get("/books", (req, res) => {
+            return res.send(books);
+        });
+        app.post("/books", (req, res) => {
+            let book = req.body;
+            book.id = books.length + 1;
+            books.push(book);
+            return res.send(book);
+        });
+
+        app.listen(3002, () => console.log("Server working on 3002"));
+        ```
+
+        Using REST API:
+        - `> npm install --save pug && npm install --save-dev @types/pug` - because working with typeScript
+        - `> npm install --save jquery` 
+        - Create html file 'index.pug' - load jquery in it
+        ```html
+        <!--index.pug file-->
+        <!DOCTYPE html>
+        html(lang="en")
+        head
+            meta(charset="UTF-8")
+            title Document
+            script(src="/libs/jquery/dist/jquery.js")
+            script(src="/static/js/main.js")
+        body
+            button#btn-add
+                | Add
+            #books-container <!--what is the #?? id?-->
+        ```
+
+         ```js
+        /*main.js file*/
+        $(function() { /*Use pre ES2015 js for client side*/
+            var $booksContainer = $("#books-container") /*$ before var name signifies it is a jQuery object*/
+
+            var $btnAdd = $("#btn-add");
+
+            $btnAdd.on("click", function(ev){
+                $.ajax({
+                    method: "POST",
+                    url: "/books",
+                    contentType: "application/json", /*Don't forget!*/
+                    data: JSON.stringify({title: "Title1", description: "Hello"})
+                    success: function(){
+                        loadBooks();
+                    }
+                })
+            })
+
+            function loadBooks() {
+                $.ajax({ /*method for http requests*/
+                    url: "/books", /*if not on the same server, need to specify full domain path*/
+                    method: "GET",
+                    success: function(books) {
+                        var $list = $("<ul>");
+                        $(books).each(functin(index, book) {
+                            $("<li/>")
+                                .addClass("list-item")
+                                .append(
+                                    $("<span>")
+                                    .addClass("book-title")
+                                    .html(book.title)
+                                )
+                                .append(
+                                    $("<p/>")
+                                    .addClass("book-description")
+                                    .html(book.description)
+                                )
+                                .appendTo($list);
+                        });
+
+                        $booksContainer.html($list.html());
+                    }
+                })
+            })
+        }
+        ```
+
+    2. Advantages
+        - Client-server architecture - client and server should be separate systems => better separation of concerns, allows different parts of the system to evolve idenpendently, server can be reused by differnt clients, easier to isolate, test, maintain
+        - Stateless communicaiton - a request should carry the neccessary information to be understood => better visibility (monitoring a single request is easier??), better scalability (not storing data between requests)
+        - Cache (resources should be marked as cacheable or non-cacheable) - clients caching a response => improves perfomance and scalability because fewer trips to the server are required
+        - Uniform interface between different components of the system => simplified and consistent communication between components, decouplese the provision of a service from its implementation
+        
+    3. Definitions - 
+        Web APIs that match the REST constraints (??) are considered RESTful. Comparison
+
+        RESTful                          | Not RESTful                                      
+        -------------------------------- | ------------------------------------------------
+        GET /products/1052/reviews       | GET /reviews?product_id=1052                     
+        POST /products/1052/reviews      | POST /post_review?product_id=1052                
+        DELETE /products/1052/reviews/10 | POST /remove_review?product_id=1052&review_id=10 
+        GET /products/1052/reviews/10    | GET /reviews?product_id=1052&review=10                   
+        
+        RESTful
+        - GET /users  - all users, may be filtered by query params
+        - POST /users - create a new user
+
+        Operating on a record:
+        - GET /users/ID    - return the user with the matching ID
+        - DELETE /users/ID - remove the user with the matching ID
+        - PATCH /users/ID  - update the user with the given ID
+        - PUT /users/ID    - replace the user with the given ID
+
+    4. Node.js and Express (not on ppt)
+        - CRUD (Create, read, update, delte)
+        - Restricted APIs
+
+        > Must review - demo [paste sharing service](https://github.com/TelerikAcademy/Web-Applications-with-Node.js/tree/master/Topics/12.%20Creating-RESTful-apis-with-Express/demos/paste-sharing-service)
+
+0. # REST
+    _Best practices and common mistakes_
+    
+    20.7.2017* Steven > [video](https://youtu.be/nm3a7ESJXEI), notes from [ppt](https://rawgit.com/TelerikAcademy/Web-Applications-with-Node.js/master/Topics/17.%20REST-Best-Practices/index.html#/title)
+    > Must watch
+
+    1. Definitions
+
+        **Resource** : an object or a representation of something, which **has some associated data with it** and/or there can be a set of methods to operate on it. Eg. schools, animals, employees are resources; get, add, update, adopt are operations to be performed on them.
+
+        **Collections** : set of resources. Eg. companies is the collection of company resources??, schools, animals
+
+        **URL** : Uniform resource locator - a path through which a resource can be located and come actions can be performed on it.
+
+        **REST can be used only with AJAX** (or other direct invokers??), not through an html form, which only supports POST & GET requests, but not PUT & DELETE. The goal of REST is to one collection/resource (route) to be able to implement all CRUD operations.
+
+    3. **Guidelines** ! **Build clean and simple to use API. The API is the developers UI.**
+
+        - Use standards where they make sense
+        - API should be friendly to the developer and explorable through the browser address bar
+        - API should be simple, intiuitive and consistent to make adoption easy and plesant
+
+        Rules
+        - **Resources = nouns, http methods = verbs**
+        - nouns, not verbs - allows to implement CRUD *?? crud are verbs, no? - read on*
+        - plural nouns (because working with collecitons)
+        - sub-resourcing relation
+        - API versioning
+
+        Http methods (verbs)
+        - GET - requests data from the resource and should not produce any side effect
+        - POST - requests the server to **create** a resource in the database
+        - PUT - requests the server to **update** resource or create the resource, if it doesn’t exist. Updating a field with a value matching the current value should not do anything!
+        - DELETE - requests that the resources, or its instance, should be removed from the database.
+
+
+    2. Example
+
+        Managing employees - problem: URL contains not only 'resource'(noun) but an action(verb) => limts flexibility and violates CRUD principle. 
+        ```
+        POST /addNewEmployee => `POST /employees`
+        POST /updateEmployee => **`PUT /employees/:id`**
+        POST /deleteEmployee => `DELETE /employees/:id`
+        POST /deleteAllEmployees
+        POST /promoteEmployee
+        POST /promoteAllEmployees
+        POST /sortAllEmployeesByName
+        POST /sortAllEmployeesBySalary
+        ```
+    
+    5. **Sub-resourcing **- cases when **one resource is under another one** = actions/methods applied to a resource
+        - POST /promoteEmployee => `POST /employees/:id/promote`
+        - POST /demoteEmployee => `POST /employees/:id/demote`
+        - GET /companies/:id/employees
+        - GET /companies/:id/employees/:id
+        - PUT /companies/:id/employees/:id
+
+        Only acceptible when sub-resource **cannot/should not be accessed directly**
+
+    6. Other
+        - POST /promoteAllEmployees - invoking mass action on a resource is an anti-pattern, could be acceptible if constraints are applied
+
+    7. Searching, sorting, filtering and pagination - all of these actions are **queries to one dataset** (resource/collection). There should be no new set of APIs (routes) to handle them. => **append the query parameters with the GET method API**.
+
+        - Searching - `GET /employees?search=Pesho`
+        - Sorting - `GET /employees?sort=name_asc,salary_desc&count=12` ??what is the differnce beetween , & 
+        - Filtering - `GET /companies?category=banking&location=india` (can pass various options through query parameters)
+        - Pagination - improves performance with large datasets, easier to handle response 
+            - GET /employees?skip=10&take=5 (3rd page)
+            - `GET /employees?page=3` (3rd page) - used when the page size is predefined on the server
+
+    8. **Versioning** - if introducing breaking changes, add version number to the route, this way can keep old funcionality and introduce new one - POST /**v1**/employees/:id/promote
+
+0. # Containers
+    27.07.2017 Steven > [video](https://youtu.be/0IEJMreS9vI)
+
+    1. **Breif history** - virtual machines vs containers - take less resources, containers reuse part of the host OS, eliminate guest OS
+        <img style="float: right;" src="./images/VMs-containers.png"  width="350px" alt="VMs-containers">
+
+        - **Physical** machines : each applications runs on separate physical machine => causes problems - procurement time, power solutions, cooling, administration, low utilisation
+        - **Virtual** machines : each application runs on a separate VM on top of a physical one => solves some of the problems but causes licensing hell, higher administration costs (each physical and virtual machine needs to be updated), system resource overhead
+        - **Containers** : each application runs in a separate container on top of a physical machine (or virtual) => solves most problems, though not perferct solution - apps are fast, lightweight, scale easily, provide availability. Containers allow to ship applications regardless of host's bins and libs.
+
+
+    2. **The Docker Project** - the biggest but not the only one (open sourced) - automates the deployment of software applicatoins inside containers by providing an additional layer of abstraction and automation of OS-level virtualisation on Linux.
+
+        Applications are deployed in a **sandbox** (container) to run on the host OS. Docker runs on Linux, to run on Windows, needs a virtual machine. Main benefit - allows to package an application with all of its dependencies into a **standartised unit** for software development. Unlike virtual machines, containers do not have the high overhead => more efficient use of the underlying system resources.
+        
+        **Images** : blueprints of our applicaition, form the basis of containers (similar to VM templates, to OOP classes, to 3D blueprients).
+
+        **Containers** : created from Docker images and run the actual application (similar to a VM instance, to OOP object, to 3D printed object)
+
+        **Docker Daemon** : the background servic running on the host that manages building, running and distributing Docker containers. It is a process that runs in the OS to which clients talk to.
+
+        **Docker Client** : the command line tool that allows the user to interact with the daemon (other forms of clients are possible, such as Kitematic).
+
+        **Docker Hub** : a registry of Docker images (like GitHub but for Docker images), a directory of most publicly available Docker images. If needed, one can host their own Docker registries and use them for pulling images. You have one **free private repository** when you register.
+
+        **Under the hood** each reusies the underlying OS's kernel and a part of the underlying bins and libraries. Each container consists of the application + the libraries needed, and has:
+        - its own file system which root (/) - isolates it from the host OS
+        - its own processes (PID)
+        - its own network
+
+        **Running on Windows** requirements: Windows Server 2016, Windows 10, CPU Virtualisation support (enable from BIOS, enable Hyper-V in Windows Features). Install Docker for Windows (not Docker Toolbox).
+
+        **Running on Linux** (Debian, Ubutnu, CentOS distributions) `sudo wget -qO- https://get.docker.com/ | sh` 
+
+    3. Docker in action
+
+        Download a simple image:
+        - `docker login` 
+        - `docker pull hello-world` (optional) - downloads the image
+        - `docker run hello-world` - downloads it if not found locally, creates container out of it, runs it without any additional settings, otuputs a hello-world text, dies (`PID 0 closes`)
+
+        Commands:
+        - `docker --help`
+        - `docker ps` - lists all runing images
+        - `docker ps -a` - output information about the speicified image runtime
+        - `docker build -t angular`
+        - `docker run -d -p 3001:3001` - name client angular
+        - `docker start client`
+        - `docker stop client`
+        - `docker rm client `
+        - `docker rmi angluar`
+
+        Two types of repos in Docker hub - community (name starts with an username), official (has no username prefix)
+
+    4. Docker in-depth
+
+        blablabla
+0. # Running  web apps in AWS
+    25.7.2017 Doncho > video
+    
+    [Manual](https://github.com/TelerikAcademy/Web-Applications-with-Node.js/tree/master/Topics/16.%20Running-Node.js-apps-in-the-cloud)
+
+    1. AWS.amazon.com - register - requires entereing payment info
+
+    2. EC2 intance
+
+    3. AWS
+
+        1. Choose an Amazon Machine Image (AMI) -> Ubuntu Server 16.04 -> 
+        2. Coose instance type - General purpose t2 micro (the only free option) -> 
+        3. Configure Instance Details (use defaults) -> 
+        4. Add storage (use defaults) -> 
+        5. next -> 
+        6. Configure security group - change name: 'node-app', description: 'node app security group' -> 
+        7. Review - Launch -> 
+        8. Select and existing key pair or create a new key pair. - create a new key pair (file containing the deployment machine) name: 'aws-demo' - this key pair is downloaded once and needs to be provided to SSH when deploying to connect to the instance. The access to this key needs to be restricted - few people, don't lose it. -> Launch instance
+
+        **Connecting** - security group 'node-app' -> opens port 22 -> we can connect to it
+        Right click (where??), copy example text (ssh -i "aws-demo.pem" ubuntu@ec2-52-57-4-79.eu-central-1.compute.amazonaws.com)  change "aws-demo.pem" to relative link to the key file (give read rights to the file ('cmod 400 aws-demo.pem'-> launches public ip (needs port 80 to be open), gives public DNS (looks like url)
+
+        Ubunto on VM with UI - Ubunto server and Ubunto desktop are very similar, only one has user inteface. Set up machine. Then generate script which we can execute on the other machine?? First - install git (use cmd, git-shell no Tortoise) - add app demo to gitHub. Most Linux distributions have a package manager - 'apt' for Ubuntu - commands: `apt update -y` `apt upgrade` `apt install  PACKAGE_NAME` `apt remove PACKAGE_NAME`
+        - `apt install git` - error lock file - root is like the admin user for Linux - use `sudo apt install git`
+
+
+        ...zzz
+        - install node
+        - port forwarding (similar to expose) - to be able to access mongodb instance from another VM
+
+        ..break
+
+        - elastic ip - free under some conditions
+
+        ...TMI
+
+0. WebSockets
+
+    From Nade [playlist](https://www.youtube.com/playlist?list=PL4cUxeGkcC9i4V-_ZVwLmOusj8YAUhj_9)
 .
