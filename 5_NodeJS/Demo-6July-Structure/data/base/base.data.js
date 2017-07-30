@@ -9,14 +9,14 @@ class BaseData {
     getAll() {
         const filter = {};
         const options = {};
-        const result = this.collection
+        let result = this.collection
             .find(filter, options)
             .toArray();
 
         // Ensure the ModelClass has a toViewModel()
         // otherwise will throw errors
         if (this.ModelClass.toViewModel) {
-            result.then((models) => {
+            result = result.then((models) => {
                 return models
                     .map((model) => this.ModelClass
                         .toViewModel(model));

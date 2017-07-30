@@ -5,7 +5,9 @@
     "license": "MIT",
     "scripts": {
         "start": "node server.js",
-        "mon": "mongod --dbpath \"D:/Telerik-HW/Databases/data\""
+        "mon": "mongod --dbpath \"D:/Telerik-HW/Databases/data\"",
+        "test": "./node_modules/.bin/mocha tests/**/*.js",
+        "test-istanbul": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha tests/**/*.js"
     },
     "dependencies": {
         "body-parser": "^1.17.2",
@@ -17,5 +19,16 @@
         "express-session": "^1.15.3",
         "mongodb": "^2.2.30",
         "pug": "^2.0.0-rc.2"
+    },
+    "devDependencies": {
+        "chai": "^4.1.0",
+        "gulp": "^3.9.1",
+        "gulp-istanbul": "^1.1.2",
+        "gulp-mocha": "3",
+        "gulp-nodemon": "^2.2.1",
+        "istanbul": "^0.4.5",
+        "mocha": "^3.4.2",
+        "nodemon": "^1.11.0",
+        "sinon": "^2.4.1"
     }
 }
