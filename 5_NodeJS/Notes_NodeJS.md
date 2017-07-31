@@ -14,8 +14,8 @@
 | 6   | [Tooling - Yeoman, Gulp](#tooling)              | 27.June  | +   | +   |
 | 7   | [Express, Pug, Passport](#express-pug-passport) | 29.June  | *   | +   |
 | 8   | Demo: [Project Structure](#project-structure)   | 6.July   | ^   | +   |
-| 0   | [Testing a Web App](#testing-a-web-app)         | 6.July   | ^   | !>  |
-| .   | Workshop: [Data Mining](#workshop-1)            | 11.July  | ^   | .   |
+| 0   | [Testing a Web App](#testing-a-web-app)         | 6.July   | ^   | +   |
+| .   | Workshop: [Data Mining](#workshop-1)            | 11.July  | ^   |     |
 | 9   | [MongoDB](#mongodb)                             | 13.July  | ^   | !>  |
 | .   | Workshop                                        | 18.July  | *   |     |
 | --  | [RESTful APIs with Express](#restful-apis)      | March.17 | *   | +   |
@@ -219,7 +219,7 @@
 
         `require(path_to_module)` - (like `using` in C#) - global function Node.js, loads exports from the respective module (eg. 
 
-        `/* globals globalVarName */` - to resolve ESLint underlining global variables coming from other modules.
+        `/* globals globalVarName */` - to resolve ESLint underlining global variables coming from other modules. `/* eslint-disable */` to disable all eslint for a specific file or specify a specific rule to disable.
         
         - ### Dynamic module loading
          ```js
@@ -1644,63 +1644,147 @@
 
 9. # Testing A Web App
     6.7.2017 Doncho > [video not in playlist](https://www.youtube.com/watch?v=HKMlLdcuyBE) 
-    > Must watch
 
     0. ## Overview
         - Selenium - imitates a human user and analyses the web page
 
-        Most tests are done by QAs but not all. Selenium tests are ...
+        Most tests are done by QAs but not all. Selenium tests are important to be understood.
 
         - Set up to work with ChromeDriver and Phantomjs
         - Automate with Gulp task - it is important for the functional tests to be independent from the framework on which the application was created. 
 
     1. ## Code coverage
-        Code coverage gives the % of code do tests go through, not what % of our code is covered.
+        Code coverage gives the % of code do tests go through, not what % of our code is covered. Main criteria:
 
         - Function coverage - how many of the functions are called
         - Statement coverage
         - Branch coverage - if-else
         - Condition coverage
 
-        * Istanbul - the only ? library for Node.js which creates code coverage info. Doesn't work well with the latest verion of Mocha (4) or Gulp Mocha (not sure), must use older 3rd version.
+        Istanbul - the only library for Node.js which creates code coverage info. Doesn't work well with the latest verion of Mocha (4) or Gulp Mocha (not sure), must use older 3rd version.
 
         `npm install --save-dev istanbul`
 
-        `istanbul mocha tests/**/*.js`
+        `istanbul mocha tests/**/*.js` - start the tests through Istanbul
 
-        - sinon - mocking
+        - `npm install sinon --save-dev` - for mocking
+        - Set up istanbul to calculate coverage based on all files instead of only the files containing tests - instsall `gulp-istanbul` and `gulp-mocha` (must be version 3, doesn't work with version 4). Create gulp task which pre-test collects files from app directory.
 
-    2. ## Supertest
+        > Demo **testing router** [00:51:10](https://youtu.be/HKMlLdcuyBE?t=51m10s)
+
+        Need to mock request and response, use file [req-res.js](https://github.com/TelerikAcademy/Web-Applications-with-Node.js/tree/master/Live-demos/project-structure/test/unit) from demo
+
+    2. ## Supertest (integration tests?)
+
+        > Video at [1:07:00](https://youtu.be/HKMlLdcuyBE?t=1h7m)
         
-        A tool which mocks the Node.js http server (can mock express as well).
+        A tool which mocks the Node.js http server (can mock express as well). Fakes a web server and allows to create http requests, assert properties of the response.
 
-        Integration tests = unit tests which cover more than one class. When we test the whole aplication.
+        To be able to test, the app needs to have `module.exports = app`.
 
-        Gulp sometimes doesn't exit and might have to Ctrl+C stopped .
+        `> yarn add supertest --dev`
 
-    3. ## Selenium
+        **Testing redirect**
 
-        Used more for functional tests. Checks if things work (the usage flow), but not if styles are applied. 
+         ```js
+        const express = require('express');
+        const app = express();
+        app.get('/', (req, res) => {
+            return res.redirect('/home');
+        });
+        app.get('/home', (req, res) => {
+        return res.render('home');
+        });
+        /* more code */
+        module.exports = app;
+        ```
+
+         ```js
+        const request = require('supertest');
+        const app = require('../app');
+        describe('GET /', () => {
+            it('expect to redirect to /home', (done) => {
+                request(app)
+                    .get('/')
+                    .expect(304)
+                    .end((err, res) => {
+                        if(err) {
+                            return done(err);
+                        }
+                        return done();
+                    });
+            });
+        });
+        ```
+
+        **Testing post, not found**
+
+         ```js
+        const express = require('express');
+        const app = express();
+        app.post('/', (req, res) => {
+            const item = req.body;
+            if(!item) {
+                return res.redirect(400, '/');
+            }
+            return data.add(item)
+                .then(() => res.redirect('/' + item.id))
+            })
+        // more code
+        module.exports = app;
+        ```
+
+        ```js
+        const request = require('supertest');
+        const app = require('../app');
+        describe('POST /', () => {
+            it('expect to redirect to /:id', (done) => {
+                request(app)
+                    .post('/')
+                    .send({
+                        text: 'It works!',
+                    })
+                    .expect(304)
+                    .end((err, res) => {
+                        if(err) {
+                        return done(err);
+                        }
+                    expect(res.header.location).to.start.with
+                    return done();
+                    });
+            });
+        });
+        ```
+        **Integration tests** = unit tests which cover more than one class. When we test the whole aplication.
+
+        Add integration folder to gulp task. Gulp sometimes doesn't exit and might have to Ctrl+C stopped .
+
+    3. ## Selenium WebDriver (functional tests)
+        > Video at [01:24:00](https://youtu.be/HKMlLdcuyBE?t=1h24m39s)
+
+        Testing framework for web applications. Used more for functional tests Imitates an user. Accepts commands and sends them to the browser through a browser-specific **driver**.
         
-        Cipoly? used in Progress - works with image recognition - creating tests takes longer than manually testing stuff
+        Other frameworks: Cipoly? used in Progress. Difrenece is that Selenium checks if things work (the usage flow), but not if styles are applied. Cipoly? works with image recognition - takes snapshots of the website and compares them to tests -> creating tests takes longer than manually testing stuff (tests written in Python and Java).
 
-        Selenium launches a browser and starts clicking around the app. Needs to have drivers installed for the respective browser (ChromeDriver, SafariDriver, EdgeDriver, GeckoDriver). Works with headless browsers - PhantomJS (= old Chrome). Not all drivers work well - use ChromeDriver which is proven to be stable and PhantomJS.
+        Selenium launches a browser and starts clicking around the app. Needs to have drivers installed for the respective browser (ChromeDriver, SafariDriver, EdgeDriver, GeckoDriver). Works with headless browsers - PhantomJS (= old Chrome). Not all drivers work well - use ChromeDriver which is proven to be stable, also use PhantomJS.
 
-        Selenum can be used with other platforms, not only Node.js
+        Selenum can be used with other platforms, not only Node.js (C#, Java, etc.).
 
-        - Set up
+        #### Set up
 
-        install server from [seite](http://www.seleniumhq.org/download/) - 'Selenium standalone server v3.4.0', 
+        - Install server from [site](http://www.seleniumhq.org/download/) - **'Selenium standalone server v3.4.0'**
 
-        `> java -jar /path/to/selenium-server.jar` run server, 
+        - Run Selenium server
 
-        `> npm install -g chromedriver` install browser drivers
+            `> java -jar /path/to/selenium-server.jar`  
 
-        To create tests, need to install web-driver
+        - Install web-driver/browser tobe able to create tests
 
-        `> npm install --save-dev selenium-webdriver` or `> yarn add selenium-webdriver --dev`
+            `> npm install --save-dev selenium-webdriver` or `> yarn add selenium-webdriver --dev`
 
-        Copy set up function from presentation (or Doncho's demo file 'setup-driver.js'):
+            `> npm install -g chromedriver`
+
+            Copy driver set up function from presentation (or Doncho's demo file [setup-driver.js](https://github.com/TelerikAcademy/Web-Applications-with-Node.js/tree/master/Live-demos/project-structure/test/browser/utils)). Create sub folder for browser tests. Video at [1:35:32](https://youtu.be/HKMlLdcuyBE?t=1h35m32s):
 
          ```js
         const webdriver = require('selenium-webdriver');
@@ -1723,30 +1807,74 @@
         const { setupDriver } = require('../utils/setup.driver.js');
         describe('Tests', () => {
             let driver = null;
+            const appUrl = 'http://localhost:3002';
 
             beforeEach(() => {
                 driver = setupDriver('chrome');
             });
 
-            it('telerikacademy.com title', () => {
-                return driver.get('http://telerikacademy.com')
+            it('telerikacademy.com title', (done) => { /* dont't forget done()*/
+                return driver.get(appUrl)
                 .then(() => {
                     return driver.getTitle();
                 })
                 .then((title) => {
-                    expect(title).to.equal(expectedTitle);
+                    console.log(title);
+                    expect(title).to.equal(expectedTitle); 
+                    done();
                 });
             });
         })
         ```
+
+        To test the application locally, we need to run it in a before each. This makes tests dependent on starting the server, this is problematic for continuous integration, tests should be running on an already started server. To automate the server start and stop process, set up **gulp** to run them (it will start the needed server).
+
+         ```js
+        gulp.task('tests:browser', ['server-start'], () => {
+            return gulp.src('./test/browser/**/*.js')
+                .pipe(mocha({
+                    retporter: 'nyan',
+                    timeout: 10000,
+                }))
+                .once('end', () => {
+                    gulp.start('server-stop');
+                });
+        });
+
+        const config = {
+            connectionString: 'mongodb://localchost/items-db-test',
+            port:3002,
+        }
+
+        gulp.task('server-start', () =>{
+            return Promise.resolve()
+                .then(() => require('./db').init(config.connectionString))
+                .then((db) => require('./data').init(db))
+                .then((data) => require('./app').init(data))
+                .then((app) => {
+                    app.listen(
+                        config.port,
+                        () => console.log(`Magic at: ${config.port}`))
+                });
+        });
+
+        const {MongoClient} = require('mongodb');
+        gulp.task('server-stop', () =>{ 
+            return MongoClient.connect(config.connectionString)
+                .then((db) => {
+                    db.dropDatabase();
+                });
+        })
+        ```
+        > Demo more specific tests for h1 contents, video at [1:53:36](https://youtu.be/HKMlLdcuyBE?t=1h53m36s)
+
+        Import webDriver init to use intellisence. Works with promises! Don't forget to call `done()` at the end!
+
+        - Selenium and the webdrivers have a problem when testing clicks which cause page reload. Use [ui.js](https://github.com/TelerikAcademy/Web-Applications-with-Node.js/tree/master/Live-demos/project-structure/test/browser/utils) file from demo.
         
-        - Selenium and the webdrivers have a problem when testing clicks which cause page reload. Use 'ui.js' file fro mdemo
-        
+        **Test clicking** - click on add item, redirect to items list, check if the item is in the list. Abstracted from the application implementation, tests only functionalities in browser. -> User stories = the sequence of ations being tested.
+
         If using PhantomJS, no selenium server is needed??
-
-        a??
-
-
 
     .
 
