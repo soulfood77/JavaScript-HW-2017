@@ -40,7 +40,7 @@ gulp.task('tests-unit', ['pre-test'], () => {
             './tests/integration/**/*.js',
         ])
         .pipe(mocha({
-            reporter: 'spec', // optional
+            reporter: 'nyan', // optional
         }))
         .pipe(istanbul.writeReports());
 });

@@ -4,7 +4,7 @@ const init = (data) => {
         getAll(req, res) {
             return data.items.getAll()
                 .then((items) => {
-                    return res.render(('items/all'), {
+                    return res.render('items/all', {
                         context: items,
                     });
                 });

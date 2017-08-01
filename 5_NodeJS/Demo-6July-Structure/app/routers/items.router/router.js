@@ -2,11 +2,14 @@
 const attachTo = (app, data) => {
     const controller = require('./controller').init(data);
 
+    app.get('/items', (req, res) => {
+        // auth
+        return controller.getAll(req, res);
+    });
+
     app.get('/items/form', (req, res) => {
         return res.render('items/form');
     });
-
-    app.get('/items', (req, res) => controller.getAll(req, res));
 
     app.post('/items', (req, res) => {
         const item = req.body;
