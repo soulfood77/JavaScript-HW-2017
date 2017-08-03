@@ -47,96 +47,95 @@ Telerik Academy course, July 2017
  - MEAN stack - April 2014 [playlist](https://www.youtube.com/playlist?list=PLF4lVL1sPDSkhK8mMtrUg1A4CHllt5jh_)
 
 ## Notes
-1. # Intro
-    _20.06.2017 - Doncho_
 
-    1. ## Topics
+# Intro
+ _20.06.2017 - Doncho_
+ 1. ## Topics
 
-        - File IO we'll use for practising **async calls** - 5 types (promises - most widely used, callbacks, observables, yield, async/await from ES2017).
+    - File IO we'll use for practising **async calls** - 5 types (promises - most widely used, callbacks, observables, yield, async/await from ES2017).
 
-        - Debuggers, tools task runners (gulp) - set-up. Task runners - **Gulp** - used for automation, we set-up operations, create requests and it runs them (eg. automate compile/build sass to css, ES2015 to ES5). 
+    - Debuggers, tools task runners (gulp) - set-up. Task runners - **Gulp** - used for automation, we set-up operations, create requests and it runs them (eg. automate compile/build sass to css, ES2015 to ES5). 
 
-        - Databases - MongoDB.
+    - Databases - MongoDB.
 
-        - Web development - **Express** framework for Node.js (like ASP.NET for C#, Jango for Pyton, SpringMVS for Java, Laravel and CodeIgniter for PHP). Provides convenient way to create apps quickly. Will talk about MVC-like (pure MVC in javascript is a huge overhead and not worth it). MVC = architecture pattern for creating  multi-layered applications. Goal is to structure apps to be reusable, testable, and easy to extend and add new functionality.
+    - Web development - **Express** framework for Node.js (like ASP.NET for C#, Jango for Pyton, SpringMVS for Java, Laravel and CodeIgniter for PHP). Provides convenient way to create apps quickly. Will talk about MVC-like (pure MVC in javascript is a huge overhead and not worth it). MVC = architecture pattern for creating  multi-layered applications. Goal is to structure apps to be reusable, testable, and easy to extend and add new functionality.
 
-        - **WebSockets** - AJAX = way for creating HTTP requests to web servers and receiving responses. WebSockets provide a way for the server to ping the client (eg. chat clients, notifications), so that the client doesn't have to explicitly requests to the server, two-way client-server communication.
+    - **WebSockets** - AJAX = way for creating HTTP requests to web servers and receiving responses. WebSockets provide a way for the server to ping the client (eg. chat clients, notifications), so that the client doesn't have to explicitly requests to the server, two-way client-server communication.
 
-        - **UT** in Node.js with javascript - **Mocha** framework with Chai syntax. Functional testing - also with Mocha & Chai - launches page and clicks around it checking for correct result. Have a browser object with which we manage the browser (something like jQuery).
+    - **UT** in Node.js with javascript - **Mocha** framework with Chai syntax. Functional testing - also with Mocha & Chai - launches page and clicks around it checking for correct result. Have a browser object with which we manage the browser (something like jQuery).
 
-        - **Containers** - isolated environment with automatic set-up of specific installed program versions and tools. Something like a virtual machine.
+    - **Containers** - isolated environment with automatic set-up of specific installed program versions and tools. Something like a virtual machine.
 
-        - **Cloud** - Amazon Web Services (AWS) - launch instance, deploy. Has free trial.
+    - **Cloud** - Amazon Web Services (AWS) - launch instance, deploy. Has free trial.
 
-    2. ## Course project
-        
-        (in intro and in separate video)
-
-        Standard web app not SPA and AJAX only, AWS hosting. Use Node.js, Express, MongoDB.
-
-        !**ESLint - zero errors** - custom config rules.
-
-        Additional tasks to solve during project presentation.
-        
-        Public and private parts.
-
-        - BACK-END - 40%
-
-            **Pug** == ex. Jade - rendering engine similar to Handlebars (also accepts a javascript object), no closing tags, significant whitespace (whitespace sensitive, tabs are important for nesting).  . (dot) is very important at the end of  line signifying that you can have text on the next line. Supports reusable components - extension/inheritance of templates and mix-ins (eg. navigation is in another file and called as function). HTML is cleaner and easier for navigation.
-
-            Node.js & Express can work with other rendering engines (i.e. Handlebars).
-
-            **REST** (get, post) routes to load components with AJAX (eg. creating new post can use AJAX to load the drop-down with categories). Also private (authenticated) route - **token**  authentication (web app auth).
-
-            Authentication - must be both session and token
-
-            **MongoDB** - fast search, slow insert, no relations
-
-            **Data/service layer** to abstractly access the data storage. Needed for UT.
-
-            **Passport** - for authentication and managing users. Hard to set up but documentation has good instructions.
-
-            **WebSockets** - Socket.io (computer communications protocol, providing full-duplex communication channels over a single TCP connection).
-
-        - FRONT-END - 25%
-
-            !**Usability** over design. Any framework is allowed (KendoUI, AngularJS, Angular 2, Knockout, Bootstrap). Responsive design required.
-
-            Communication - AJAX and/or WebSockets.
-
-            Handle errors and validate data to avoid crashes. Use loaders and notifications.
-
-            Security - Escape values coming from user input fields. 
-
-        - TESTS - 25%
-
-            A **sample application** with UT, integration and functional automation tests. **Doncho will provide link to it**!
-
-            **Yarn** = alternative to npm, wraps npm and makes it faster. Builds a tree of dependencies, installs them in parallel. Npm is linear which makes it slower.        
-
-            Test **database needs to be cloud hosted** but run tests *locally*! In real-life projects this would be part of continuous integration which runs tests on every commit. The code which launches the app and creates a database should not be in the UT file. At this stage can't talk about *CircleCI*, **Jenkins** and other tools which automate this process. Maybe in the ASP.NET maybe. The solution we use works with **Selenium** which uses the browser to conduct tests -> uses the DOM tree. For mobile devices there is no DOM tree and other tools are used.
-
-            **Test back-end** (UT - Mocha, Chai), not frontend (which is not expected to have very thick logic) - 50% code coverage - **Istanbul.js** tool for code coverage.
-            
-            **Integration/Functional** automation tests required too (Not continuous integration - which tests on every commit). Use web driver for FireFox or Chrome in **Selenium**. Browser *phantomjs* is headless Chrome, older, uses webkit, not blink, works in background. Test 50% of application routes for authenticated and non-authenticated users.
-
-            Integration test for AJAX routes will be optional.
-
-        - Deployment in Amazon Web Services (AWS) - 10%
-
-        - BONUS - 10%
-        
-        - Continuous integration - Jenkins, CircleCI, etc. - can be set up at the end when we are  ready with the application.
-        - UT client code
-        - Containers
+ 2. ## Course project
     
-    3.  ## Tools
+    (in intro and in separate video)
 
+    Standard web app not SPA and AJAX only, AWS hosting. Use Node.js, Express, MongoDB.
+
+    !**ESLint - zero errors** - custom config rules.
+
+    Additional tasks to solve during project presentation.
+    
+    Public and private parts.
+
+    - BACK-END - 40%
+
+        **Pug** == ex. Jade - rendering engine similar to Handlebars (also accepts a javascript object), no closing tags, significant whitespace (whitespace sensitive, tabs are important for nesting).  . (dot) is very important at the end of  line signifying that you can have text on the next line. Supports reusable components - extension/inheritance of templates and mix-ins (eg. navigation is in another file and called as function). HTML is cleaner and easier for navigation.
+
+        Node.js & Express can work with other rendering engines (i.e. Handlebars).
+
+        **REST** (get, post) routes to load components with AJAX (eg. creating new post can use AJAX to load the drop-down with categories). Also private (authenticated) route - **token**  authentication (web app auth).
+
+        Authentication - must be both session and token
+
+        **MongoDB** - fast search, slow insert, no relations
+
+        **Data/service layer** to abstractly access the data storage. Needed for UT.
+
+        **Passport** - for authentication and managing users. Hard to set up but documentation has good instructions.
+
+        **WebSockets** - Socket.io (computer communications protocol, providing full-duplex communication channels over a single TCP connection).
+
+    - FRONT-END - 25%
+
+        !**Usability** over design. Any framework is allowed (KendoUI, AngularJS, Angular 2, Knockout, Bootstrap). Responsive design required.
+
+        Communication - AJAX and/or WebSockets.
+
+        Handle errors and validate data to avoid crashes. Use loaders and notifications.
+
+        Security - Escape values coming from user input fields. 
+
+    - TESTS - 25%
+
+        A **sample application** with UT, integration and functional automation tests. **Doncho will provide link to it**!
+
+        **Yarn** = alternative to npm, wraps npm and makes it faster. Builds a tree of dependencies, installs them in parallel. Npm is linear which makes it slower.        
+
+        Test **database needs to be cloud hosted** but run tests *locally*! In real-life projects this would be part of continuous integration which runs tests on every commit. The code which launches the app and creates a database should not be in the UT file. At this stage can't talk about *CircleCI*, **Jenkins** and other tools which automate this process. Maybe in the ASP.NET maybe. The solution we use works with **Selenium** which uses the browser to conduct tests -> uses the DOM tree. For mobile devices there is no DOM tree and other tools are used.
+
+        **Test back-end** (UT - Mocha, Chai), not frontend (which is not expected to have very thick logic) - 50% code coverage - **Istanbul.js** tool for code coverage.
+        
+        **Integration/Functional** automation tests required too (Not continuous integration - which tests on every commit). Use web driver for FireFox or Chrome in **Selenium**. Browser *phantomjs* is headless Chrome, older, uses webkit, not blink, works in background. Test 50% of application routes for authenticated and non-authenticated users.
+
+        Integration test for AJAX routes will be optional.
+
+    - Deployment in Amazon Web Services (AWS) - 10%
+
+    - BONUS - 10%
+    
+    - Continuous integration - Jenkins, CircleCI, etc. - can be set up at the end when we are  ready with the application.
+    - UT client code
+    - Containers
+
+ 3. ## Tools
     - OS: Windows, Linux, Mac - Node.js is not perfect in Windows (launches slower), was designed for Linux initially.
     - Text editor: VS Code preferred 
     - Node.js version: v.8+
     - Server: MongoDB 
-    .
+.
 
 0. # Overview
     20.06.2017 Doncho > [video not in playlist](https://youtu.be/RU0-ZGJYgMs)
@@ -2145,7 +2144,6 @@ Telerik Academy course, July 2017
     _Best practices and common mistakes_
     
     20.7.2017* Steven > [video](https://youtu.be/nm3a7ESJXEI), notes from [ppt](https://rawgit.com/TelerikAcademy/Web-Applications-with-Node.js/master/Topics/17.%20REST-Best-Practices/index.html#/title)
-    > Must watch
 
     1. Definitions
 
