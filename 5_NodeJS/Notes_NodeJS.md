@@ -20,7 +20,7 @@ Telerik Academy course, July 2017
 | .   | Workshop: [Data Mining](#workshop-1)            | 11.July  | ^   |     |
 | 9   | [MongoDB](#mongodb)                             | 13.July  | ^   | !>  |
 | .   | Workshop                                        | 18.July  | *   |     |
-| --  | [RESTful APIs with Express](#restful-apis)      | March.17 | *   | +   |
+| --  | [RESTful APIs with Express](#restful-apis)      | March.17 |     | +   |
 | 10  | Workshop, [REST Best practices](#rest)          | 20.July  | *   | +   |
 | 11  | [Containers](#containers)                       | 25.July  | +   | !   |
 | --  | Project defense                                 | 1.Aug    |     |     |
@@ -2145,7 +2145,7 @@ Telerik Academy course, July 2017
 
  20.7.2017* Steven > [video](https://youtu.be/nm3a7ESJXEI), notes from [ppt](https://rawgit.com/TelerikAcademy/Web-Applications-with-Node.js/master/Topics/17.%20REST-Best-Practices/index.html#/title)
 
- 1. Definitions
+ 1. ## Definitions
 
     **Resource** : an object or a representation of something, which **has some associated data with it** and/or there can be a set of methods to operate on it. Eg. schools, animals, employees are resources; get, add, update, adopt are operations to be performed on them.
 
@@ -2155,7 +2155,7 @@ Telerik Academy course, July 2017
 
     **REST can be used only with AJAX** (or other direct invokers??), not through an html form, which only supports POST & GET requests, but not PUT & DELETE. The goal of REST is to one collection/resource (route) to be able to implement all CRUD operations.
 
- 3. **Guidelines** 
+ 3. ## **Guidelines** 
     ! **Build clean and simple to use API. The API is the developers UI.**
 
     - Use standards where they make sense
@@ -2176,7 +2176,7 @@ Telerik Academy course, July 2017
     - DELETE - requests that the resources, or its instance, should be removed from the database.
 
 
- 2. Example
+ 2. ## Example
 
     Managing employees - problem: URL contains not only 'resource'(noun) but an action(verb) => limts flexibility and violates CRUD principle. 
     * POST /addNewEmployee => `POST /employees`
@@ -2188,7 +2188,7 @@ Telerik Academy course, July 2017
     * POST /sortAllEmployeesByName
     * POST /sortAllEmployeesBySalary
 
- 5. **Sub-resourcing **
+ 5. ## **Sub-resourcing**
     Cases when **one resource is under another one** = actions/methods applied to a resource
     - POST /promoteEmployee => `POST /employees/:id/promote`
     - POST /demoteEmployee => `POST /employees/:id/demote`
@@ -2198,10 +2198,10 @@ Telerik Academy course, July 2017
 
     Only acceptible when sub-resource **cannot/should not be accessed directly**
 
- 6. Other
+ 6. ## Other
     - POST /promoteAllEmployees - invoking mass action on a resource is an anti-pattern, could be acceptible if constraints are applied
 
- 7. Searching, sorting, filtering and pagination
+ 7. ## Searching, sorting, filtering and pagination
     All of these actions are **queries to one dataset** (resource/collection). There should be no new set of APIs (routes) to handle them. => **append the query parameters with the GET method API**.
 
     - Searching - `GET /employees?search=Pesho`
@@ -2211,13 +2211,13 @@ Telerik Academy course, July 2017
         - GET /employees?skip=10&take=5 (3rd page)
         - `GET /employees?page=3` (3rd page) - used when the page size is predefined on the server
 
- 8. **Versioning** 
+ 8. ## **Versioning** 
     If introducing breaking changes, add version number to the route, this way can keep old funcionality and introduce new one - POST /**v1**/employees/:id/promote
  .
 # Containers
  27.07.2017 Steven > [video](https://youtu.be/0IEJMreS9vI)
 
- 1. **Breif history** - 
+ 1. ## **Breif history** - 
     virtual machines vs containers - take less resources, containers reuse part of the host OS, eliminate guest OS
 
     <img style="float: right;" src="./images/VMs-containers.png"  width="350px" alt="VMs-containers">
@@ -2227,7 +2227,7 @@ Telerik Academy course, July 2017
     - **Containers** : each application runs in a separate container on top of a physical machine (or virtual) => solves most problems, though not perferct solution - apps are fast, lightweight, scale easily, provide availability. Containers allow to ship applications regardless of host's bins and libs.
 
 
- 2. **The Docker Project** - 
+ 2. ## **The Docker Project** - 
     the biggest but not the only one (open sourced) - automates the deployment of software applicatoins inside containers by providing an additional layer of abstraction and automation of OS-level virtualisation on Linux.
 
     Applications are deployed in a **sandbox** (container) to run on the host OS. Docker runs on Linux, to run on Windows, needs a virtual machine. Main benefit - allows to package an application with all of its dependencies into a **standartised unit** for software development. Unlike virtual machines, containers do not have the high overhead => more efficient use of the underlying system resources.
@@ -2251,7 +2251,7 @@ Telerik Academy course, July 2017
 
     **Running on Linux** (Debian, Ubutnu, CentOS distributions) `sudo wget -qO- https://get.docker.com/ | sh` 
 
- 3. Docker in action
+ 3. ## Docker in action
 
     Download a simple image:
     - `docker login` 
@@ -2271,7 +2271,7 @@ Telerik Academy course, July 2017
 
     Two types of repos in Docker hub - community (name starts with an username), official (has no username prefix)
 
- 4. Docker in-depth
+ 4. ## Docker in-depth
     
     blablabla
  .
@@ -2280,11 +2280,11 @@ Telerik Academy course, July 2017
 
  [Instructions](https://github.com/TelerikAcademy/Web-Applications-with-Node.js/tree/master/Topics/16.%20Running-Node.js-apps-in-the-cloud)
 
- 1. AWS.amazon.com - register - requires entereing payment info
+ 1. ## AWS.amazon.com - register - requires entereing payment info
 
- 2. EC2 intance
+ 2. ## EC2 intance
 
- 3. AWS
+ 3. ## AWS
 
     1. Choose an Amazon Machine Image (AMI) -> Ubuntu Server 16.04 -> 
     2. Coose instance type - General purpose t2 micro (the only free option) -> 
