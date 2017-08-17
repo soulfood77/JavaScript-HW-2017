@@ -5,61 +5,87 @@ Telerik Academy course, August 2017
 
 [videos playlist]()
 
-| Vid |              Topic              | Date |  C  |  V  |
-| --- | ------------------------------- | ---- | --- | --- |
-|     | [Intro](#course-intro)          |      |     |     |
-|     | [Overview](#angular-2-overview) |      |     |     |
-|     | TypeScript                      |      |     |     |
-|     | Setup                           |      |     |     |
-|     | OOP                             |      |     |     |
-|     | CLI                             |      |     |     |
-|     | Lifecycle                       |      |     |     |
-|     | Components                      |      |     |     |
-|     | Pipes and Directives            |      |     |     |
-|     | Data Binding                    |      |     |     |
-|     | Forms                           |      |     |     |
-|     | Services and DI                 |      |     |     |
-|     | Observables                     |      |     |     |
-|     | Router                          |      |     |     |
+| Vid |                 Topic                  |  Date  |  C  |  V  |
+| --- | -------------------------------------- | ------ | --- | --- |
+| 1.  | [Intro](#course-intro)                 | 14.Aug |  +  |  +  |
+| 2.  | [TypeScript](#typescript-fundamentals) | 14.Aug |  +  |  +  |
+| 3.  | [TS OOP](#typescript-oop)              | 14.Aug |  +  |  +  |
+|     | [Overview](#angular-2-overview)        |        |     |     |
+| 4.  | Tools                                  | 16.Aug |  +  |     |
+| 5.  | Setup                                  | 16.Aug |  ^  |     |
+| 6.  | Components                             | 16.Aug |  ^  |     |
+|     | CLI                                    |        |     |     |
+|     | Lifecycle                              |        |     |     |
+|     | Pipes and Directives                   |        |     |     |
+|     | Data Binding                           |        |     |     |
+|     | Forms                                  |        |     |     |
+|     | Services and DI                        |        |     |     |
+|     | Observables                            |        |     |     |
+|     | Router                                 |        |     |     |
 
 - `*` - missed &emsp; `^` - present, didn't listen &ensp; 
 - `0` - video yes, not in playlist &emsp; `.` - lecture yes, no video  &emsp; `--` - lecture no
 
 ## Course intro
- 1. Course program
+ 14.August.2017 Steven [video](https://youtu.be/IrZrdxUVS0I)
+
+ 1. Program  
+    - Components - single responsibility!
+    - Modules - lazy loading
+    - Observables - async programming, observables are generics
+    - Service layer - will be elaborated in MVC/Android course
  2. Evaluation 
     - Course project - 85%
     - Attendance - 10%
     - Helping others - 5%
+ 3. Team project
+    - Random teams
+    - Quality more important than quantity
+    - Can use back-end as a service (eg. Firebase) or own server
+    - Integration & UT tests (must be adequate!)
+    - Bootstrap, materialise, other.
+    - TSlint - no errors
+    - Module loaders - SystemJS, WebPack
+    - No points to projects which do not compile or don't produce an adequate result
+    - Adequate commit logs in GitHub
+    - Documentation - description of the project, how to use, 
 
-## Angular 2 Overview
- 1. What is Angular 
-    [website](https://angular.io/guide/quickstart)  
-    = Open-source JavaScript framework for creating single-page applications (SPA). Provides application architecture (MVC), routing, templates, server-communication (http), etc. Something like a bundle of jQuery + Handlebars + Sammy.js with consistent APIs. Can be used with both JS and TypeScript (recommended by Google)
- 2. Installation
-    - Install Node.js
-    - Clone Angular Quickstart application from [github](https://github.com/angular/quickstart)
-    - Run `> npm install`
-    - Run the application
+    Bonus:
+    - Use branches in github (git flow - master, dev, features)
+    - Project management - GitHub, Trello, ZenHub
+    - Cloud hosting (AWS)
 
+    Defence:
+    - Each team member will present the project separately - project, source code, architecture, commit logs, other conceptual technological questions.
+
+ 4. Resources
+    - VS Code exclusively
+    - Other editors/IDEs are possible but lack some TypeScript features
+ .
 ## TypeScript Fundamentals
- 1. What is TS?
+ 14.August.2017 Steven [video](https://youtu.be/qFKQY2JIK-g)
 
-    = **Superset dialect of ECMAScript**. Created by Microsoft. Has optional static typing. Inherits concepts from C#. Can use type definitions for intellisense. Can use JavaScript libraries. **Compiles to JavaScript**.
+ 1. TypeScript Overview
+
+    = **Superset dialect of ECMAScript** (one of many). Created by Microsoft. Has optional static typing. Inherits concepts from C# but has some differences on the use of interfaces and classes. Can use type definitions for intellisense. Can use JavaScript libraries. **Compiles to JavaScript**, not translate or transpile. That is why although Angular is a client-side technology (works on the browser), TypeScript can be used with it. Target JS can be selected during compilation (WebPack takes care for polyfills).
+    
+    Dialect because has no separate runtime, JavaScript runtime = Node.js > V8, C# runtime = .NET execution strategy. Superset because uses a specification (ECMAScript) and adds to it - variables, classes, interfaces, type definitions, compile time strategies.
 
     1. Benefits over JS:
-        - More **predictable** due to static typing
-        - **Scales** better for larger apps due to modules, namespaces and stronger OOP
-        - Some **errors** are caught at compile-time instead of at run-time due to compilation step.
+        - Static typing (optional) -> more **predictable**
+        - Modules, namespaces and stronger OOP -> **scales better** for larger apps 
+        - Compilation step -> some **errors are caught at compile-time** instead of at run-time
+        - `strictNullChecks` optional parameter to disallow null values
+        - Access modifiers (public, private)
 
     1. **Installation**    
-        `> npm i -g typescript` - install     
-        `> tsc - v` - check fi the compiler has been installed     
+        `> npm i -g typescript` - installs **Type Script Compiler**     
+        `> tsc -v` - check if the compiler has been installed     
         `> tsc --help` - get help      
 
     1. **Compiling**    
-        Typescript is written in .ts files, which can't be used directly in the browser. They need to be translated to vanilla .js. Options for compiling:
-        - Terminal `> tsc main.ts` (where main.ts is the name of the file to be compiled)
+        Typescript is written in .ts files, which can't be used directly in the browser. They need to be translated to vanilla .js. Compiling can be done through:
+        - Terminal `> tsc main.ts` (where main.ts is the name of the file to be compiled) - creates (in the same folder, can be changed) a .js file which can be executed (`> node main.js`)
         - Visual Studio or another IDE
         - Automated task runners such as gulp
 
@@ -67,12 +93,16 @@ Telerik Academy course, August 2017
     1. VS Code - a tool developed by Microsoft for TypeScript and .NET Core development. Prerequisites:
         - Configure files: tscofig.json, launch.json, tasks.json
         - Have globally installed **typescript** and **tslint**
-        - Extenstions for TypeScript: TSLint, Typings auto install, Auto Import, Debugger for Chrome
+        - VS Code Extensions for TypeScript:    
+        [TSLint](https://github.com/palantir/tslint),   
+        [Typings auto installer](https://github.com/jvitor83/typings-autoinstaller) - intellisense,     
+        [Auto Import](https://github.com/soates/Auto-Import) - `Ctrl + .`,  
+        [Debugger for Chrome](https://github.com/Microsoft/vscode-chrome-debug)
 
-    1. ### tsconfig.json    
+    1. ### tsconfig.json
 
         Specifies the way .ts files are compiled.   
-        Auto generate with **`> tsc --init`**
+        Auto generate with **`> tsc --init`** but adds too many other options
 
          ```json
         {
@@ -80,16 +110,21 @@ Telerik Academy course, August 2017
                 "target": "es5", // Sets the output JS's version
                 "module": "commonjs", // Sets the module loader
                 "outDir": "dist", // Sets output JS files' location
-                "sourceMap": true, // Allows debugging
-                "noEmitOnError": true // Do not compile if errors
+                "sourceMap": true, /* Generates *.js.map file, 
+                to convert js to ts and enable debugging of ts in VSCode */
+                "noEmitOnError": true // Do not compile if errors, stop. Default is to attempt to compile regardless of errors.
             }
         }
         ```
 
+        Module loaders - Node.js uses the default module loader, which implements the CommonJS convention. Other - AMD, SystemJS. Angular supports both SystemJS, and WebPack bundler.
+
+        Dist folder (distribution) is a convention used in many libraries.
+
     1. ### launch.json
 
         Specifies the way VS Code should launch the application.    
-        Auto generate with VS Code.
+        Auto generate with VS Code (`F5` or `Ctrl + F5`) - creates file in .vscode folder (also holds tasks file, other workspace files with our own configurations of the editor).
 
          ```json
         {
@@ -106,6 +141,8 @@ Telerik Academy course, August 2017
             ]
         }
         ```
+        
+        preLaunchTask needs to be defined in the tasks.json file. Have to compile ts to js to be able to run. 
 
     1. ### tasks.json
 
@@ -125,14 +162,14 @@ Telerik Academy course, August 2017
         }
         ```
 
-    1. Running the code
+    1. Running the code and debug
         - Run `Ctrl + F5`
         - Debug `F5`
         - Debug windows: local variables, watch list, call stack, breakpoints (can be line or column, have settings like in Visual Studio)
 
  3. Static Typing
 
-    = Can declare types of variables. The compiler makes sure they are assigned values of the specified type. If the type declaration is omitted, the compiler will infer it from the code. Similar to C#, there are **basic types** (predefined in the language) and **complex types** (created by the developer).
+    = Can declare types of variables (sometimes is overhead, use inferring). The compiler makes sure they are assigned values of the specified type. If the type declaration is omitted, the compiler will **infer** it from the code. Similar to C#, there are **basic types** (predefined in the language) and **complex types** (created by the developer).
 
      ```ts
     let firstName: string = "Pesho";
@@ -142,7 +179,7 @@ Telerik Academy course, August 2017
     let lastSentence: string = `I am ${age} years old.`;
 
     function printTwoSentences(one: string, two: string) {
-    console.log(`${one} ${two}`);
+    console.log(`${one} ${two}`); // interpolation string
     }
 
     printTwoSentences(firstSentence, lastSentence);
@@ -150,7 +187,7 @@ Telerik Academy course, August 2017
     ```
 
  4. Basic Types
-    1. **Numbers** - as in JavaScript, all numbers int TypeScript are **floating point values**. The language is **type-safe** - once set/inferred, the type cannot be changed.
+    1. **Numbers** - as in JavaScript, all numbers int TypeScript are **floating point values**. The language is **type-safe** - once set/inferred, the type cannot be changed (if not type `any`).
 
          ```js
         let floatNum = 10.5;
@@ -166,13 +203,13 @@ Telerik Academy course, August 2017
         let octal: number = 0o744;
         ```
 
-    1. **Strings** - double quotes ("), single quotes ('), backtick (`) template strings to span multiple lines and embed expressions/variables.
+    1. **Strings** - double quotes ("), single quotes ('), backtick (`) template/interpolation strings to span multiple lines and embed expressions/variables.
 
     1. **Arrays**
 
         Basic type: `let list: number[] = [1, 2, 3];`
 
-        Complex generic type (not inferred): `let list: Array&ltnumber&gt = [1, 2, 3];` (means: `Array<number>`)
+        Complex generic type Array (not inferred): `let list: Array<number> = [1, 2, 3];`
     
     1. **Boolean** - hold true or false value
     1. **Enums** - a way to give user-friendly names to sets of numeric values. Default numbering starts from 0. Numeric values can be manually set. Can log/get the value or the name of the enum.
@@ -184,11 +221,11 @@ Telerik Academy course, August 2017
         let colorNumber: number = Color.Green;
         console.log(colorNumber); // 2
 
-        let colorName: string = Color[1];
+        let colorName: string = Color[1]; 
         console.log(colorName); // Red
         ```
 
-    1. Null and undefined - same as in JavaScript, not very useful on their own. They are subtypes of all other types. If `strictNullChecks` flag is used during compilation null number will not compile.
+    1. Null and undefined - same as in JavaScript, not very useful on their own. They are subtypes of all other types (i.e. can be assigned to any type). If **`strictNullChecks`** flag is used during compilation null number will not compile.
 
          ```ts
         let u: undefined = undefined;
@@ -197,7 +234,7 @@ Telerik Academy course, August 2017
         ```
 
  5. Other Basic Types
-    1. Any - used to disable type-checking for a given variable or function, when we are not sure of the type or when a variable comes from an external library. Can be used on arrays. **Bad practice**, avoid using. 
+    1. Any - used to disable type-checking for a given variable or function, use when  not sure of the type or when a variable comes from an external library. Can be used on arrays. **Bad practice**, avoid using. 
 
          ```ts
         let notSure: any = 4;
@@ -207,7 +244,7 @@ Telerik Academy course, August 2017
         let list: any[] = [1, true, "Pesho"];
         ```
 
-    1. Unions - type that combines two types, can be used on arrays. Rarely used - somewhat **bad practice**.
+    1. Unions - type that combines two+ types, can be used on arrays. Rarely used - somewhat **bad practice**. Used in tuples.
 
          ```ts
         let example: (number | string);
@@ -218,7 +255,7 @@ Telerik Academy course, August 2017
         let list: (number | string)[] = [1, 2, "Pesho"];
         ```
 
-    1. Tuple - express an array where the type of a fixed number of elements is known, but their values might be different.
+    1. Tuple - express an array where the type of a fixed number of elements is known, but their values might be different. Not often used, not clear, bad practice.
 
          ```ts
         /* Declare a tuple type */
@@ -247,18 +284,254 @@ Telerik Academy course, August 2017
         x[4] = true; /* Error, 'boolean' isn't 'string | number' */
         ```
 
- 6. Functions - both standard and arrow functions are valid
+ 6. Functions - 
+    
+    1. Both standard and arrow functions are valid.
+
+        Allows to constrain input parameters and specify a return type. Return type can be a basic type or complex type, and can be inferred from the code. 
+
+         ```js
+        function add(x: number, y: number): number {
+            return x + y;
+        }
+        ```
+
+    1. **Return types**
+
+        Two additional basic types used mainly as return types for functions :
+        - `void` - used to indicate that the function returns nothing, **basic** type, opposite of `any`, technically could be assigned to a var, a void var can be only undefined or null) 
+
+         ```ts
+        let unusable: void;
+        unusable = undefined; /* OK */
+        unusable = null; /* OK */
+        unusable = 1; // Error
+        ```
+
+        - `never` - **basic** type, represents the type of values that never occur, used for functions that always throw an error or never return. Not used often.
+
+    1. **Parameters**
+
+        By default, TypeScript assumes that every parameter is **required**. The compiler checks if all parameters are passed. Still can pass null or undefined (depends on the strictNullChecks flag), avoid it. Better use default or optional parameters `lastName = "Smith"`.
+
+         ```js
+        function buildName(firstName: string, lastName: string = "Smith") {
+            return firstName + " " + lastName;
+        }
+        /* no default param set */
+        let result1 = buildName("Bob");                  /* error, too few parameters */
+        let result2 = buildName("Bob", "Adams", "Sr.");  /* error, too many parameters */
+        let result3 = buildName("Bob", "Adams");         /* OK */
+        let result4 = buildName("Bob", null);            /* works, returns "Bob null" */
+        /* with default parameter */
+        let result2 = buildName("Bob", undefined);       /* works, also returns "Bob Smith" */
+        ```
+
+        Optional parameters are possible with `?`, must always be last `function buildName(firstName: string, lastName?: string)`
+
+        **Rest parameters** are possible with ellipsis (...) (similar to `arguments` global variable in JS but better because it's not a global var, global variables are difficult to unit test) 
+
+         ```js
+        function buildName(firstName: string, ...restOfName: string[]) {
+            return firstName + " " + restOfName.join(" ");
+        }
+
+        let employeeName = buildName("Joseph", "Samuel", "Lucas", "MacKinzie");
+        ```
+
+        Ellipsis can be used in function definition.
+
+         ```js
+        function buildName(firstName: string, ...restOfName: string[]) {
+            return firstName + " " + restOfName.join(" ");
+        }
+
+        let buildNameFun: (fname: string, ...rest: string[]) => string;
+        buildNameFun = buildName;
+        ```
+
+        When using Angular often types are inferred, only when creating interfaces and defining classes. **Return types** are more often used.
+ .
+## TypeScript OOP
+ 14.August.2017 Steven [video](https://youtu.be/nBGMoerF16c)
+
+ Difference between modules in TypeScript (same as in JS) and in Angular (collection of components and services).
+
+ 1. Classes
+
+    Allow defining complex types.
+    Inheritance - `extends`, `this`, `super`. Variables and methods can be overridden - use `super` (instead of `this`) to call the base method to prevent recursion (same as in JavaScript).
+
+    Can use polymorphism (real, not the default as in JS - everything inherits object??)
+
+ 3. **Accessors** - getter, setter
+
+    Allow control of data state of the class by implementing **validations** (comes from ECMAScript standard)
+
+ 4. **Static** members
+
+    Can be accessed through the type itself, no need to create an instance (prefix is the name of the class, not `this`). Hold values needed for the whole type in general, not for specific instances (ie `Math.sqrt()`) (comes from ECMAScript standard)
+
+ 5. **Abstract Classes**
+    
+    Base class from which other classes can be derived. **Cannot be instantiated directly**. Use - situations in which the base class is an abstraction, not a real object. Used for default configurations. Not so easy in JS.     
+    `abstract class Animal { }`
+
+ 6. **Access Modifiers**
+
+    Restrict access to methods, fields, functions and constructors. (no internal as in C# because modules are not namespaces):
+    - **Public** - **default** (if not specified). Class member is accessible from anywhere. 
+    - **Private** - accessible only within the class in which it is defined. Allows use of encapsulation -> improved readability. `class Animal { private name: string; }`
+    - **Protected** - accessible within the current class and the class' children. Can be changed to public in children (not a good practice).
+    - **Readonly properties** - must be initialised in their declaration or in constructor. Can hold external services. In the context of dependency injection, it is important injected properties/objects to be readonly.    
+    - **Constructor shorthand** - use regular access modifiers and getter/setters to validate data.**Important to validate all incoming data!** -> maintainability, scalability.
+
+         ```ts
+        class Animal {
+            constructor(private name: string) { } /* instead of declaring a field */
+        }
+        let cat: Animal = new Animal("Cat"); 
+        console.log(cat.name) // Error: 'name' is private;
+        ```
+
+ 7. **Interfaces**
+
+    Just like classes but do not implement functionality & cannot be instantiated (like in C# but names don't start with 'I'). Can be **used as constraints**. Classes implementing an interface must provide the implementation details.
+
+     ```ts
+    interface SquareConfig {
+        color?: string;
+        width?: number;
+    }
+
+    let mySquare = createSquare({color: "black"});
+
+    function createSquare(config: SquareConfig): { color: string; area: number } {
+        let newSquare = {color: "white", area: 100}; /* Default values*/
+        if (config.color) { /* if passed object has this property. 
+        Check needed if the property is optional '?', 
+        otherwise passing the object will give error?? */
+            /* Error: Property 'clor' does not exist on type 'SquareConfig' */
+            newSquare.color = config.clor;
+        }
+        if (config.width) {
+            newSquare.area = config.width * config.width;
+        }
+        return newSquare;
+    }
+    ```
+
+    Above example not much high-quality code - creates an object inside. It would be better to receive a default values as parameter, but then it would need to be a class, because interfaces have no implementation.
+
+    > Good practice: all interfaces in one file eg. 'data.models.ts'
+
+    Inside an interface you can also define:
+    - Indexers (index type and return type) (like in C#, not often used)
+    - Function types/signature    
+    `speak: () => string` name, parameters, return type or  
+    `(source: string, subString: string): boolean;` parameters, return type
+
+    ```ts
+    interface SearchFunc {
+        (source: string, subString: string): boolean;
+    }
+
+    let search: SearchFunc; /* ?? */
+    let pesho = (source: string, subString: string) => { return true; }
+    search = pesho;
+    ```
+
+ 8. **Generics**
+
+    Adding flexibility to object/function templates. Generics allow to create a class or function which works with a variety of types rather than a single one. Can accept multiple types eg. `<T, N>`
+
+     ```ts
+    function identity<T>(arg: T): T {
+        return arg;
+    }
+    console.log(identity<string>("Pesho")) /* works with string. Prints Pesho */
+    console.log(identity(new Person("Pesho")) /* works with Person. Type is inferred */
+    ```
+
+    Generic factory (like in C# `pesho<T>(pesho) where T: Person`)
+
+     ```ts
+    abstract class Animal { numLegs: number; }
+    class Bee extends Animal { keeper: BeeKeeper; }
+    class Lion extends Animal { keeper: ZooKeeper; }
+
+    function createInstance<A extends Animal>(c: new () => A): A {
+        return new c();
+    }
+
+    createInstance(Lion).keeper.nametag;  /* typechecks! */
+    createInstance(Bee).keeper.hasMask;   /* typechecks! */
+    ```
+
+ 9. **Modules**
+
+    Executed within their own scope, not in the global scope. Variables, functions, classes, etc. declared within a module are not visible outside the module. `import`, `export`. Change of name at export is not a good practice but changing the name at import is useful because of possible conflicts. 
+
+    Importing the whole module `import * as validator from "./ZipCodeValidator"` is not a good practice - **creates global variable**. Better ` import { ZipCodeValidator } from "./ZipCodeValidator";`
+
+    **Export wrapping** - can wrap exports from multiple files into a single file called **barrel** file.
+
+     ```ts
+    /* index.ts file */
+    export * from "./stringValidator"; /* exports interface 'StringValidator' */
+    export * from "./zipCodeValidator";  /* exports class 'ZipCodeValidator' */
+    ```
+ .
+## Angular 2 Overview
+ 1. What is Angular 
+    [website](https://angular.io/guide/quickstart)  
+    = Open-source JavaScript framework for creating single-page applications (SPA). Provides application architecture (MVC), routing, templates, server-communication (http), etc. Something like a bundle of jQuery + Handlebars + Sammy.js with consistent APIs. Can be used with both JS and TypeScript (recommended by Google)
+ 2. Installation
+    - Install Node.js
+    - Clone Angular Quickstart application from [github](https://github.com/angular/quickstart)
+    - Run `> npm install`
+    - Run the application
  .
 ## Setup and Architecture
  1. What is in the generated template
  2. VS Code Setup, Tools and the CLI
-## TypeScript OOP
-## Angular CLI
+
+## Angular Tools
+ 16.August.2017 Martin
+
+ 1. IDEs
+    - VS Code
+    - WebStorm
+    - IntelliJ IDEA
+ 2. VS Code Tools
+    - **Angular Language Service** - [link] -(https://github.com/angular/vscode-ng-language-service) provides completion in template files (exclude node_modules in VSCode if it doesn't work)
+    - **TSLint** - [link](https://github.com/Microsoft/vscode-tslint) - supports automatic fixing of errors
+    - Angular Snippets - [link1](https://github.com/BeastCode/VSCode-Angular-TypeScript-Snippets) [link2](https://github.com/johnpapa/vscode-angular-snippets)
+    - Angular Files - [link](https://github.com/qwert789/vscode-angular2-files) - for templates
+    - Type Lens - [link](https://github.com/kisstkondoros/typelens) - reference counter
+    - Types Auto Installer - [link](https://github.com/jvitor83/typings-autoinstaller) - downloads type files automatically on libraries installation
+    - Angular Switcher - [link](https://github.com/infinity1207/angular2-switcher) - move between html css ts files
+    - Auto Import - [link](https://github.com/soates/Auto-Import) - for importing modules
+    - **Path Intellisense** - [link](https://github.com/ChristianKohler/PathIntellisense)
+    - Settings sync Shan Khan - synchronise settings between many computers
+ 3. Angular-specific tools
+    - Angular CLI - [link](https://cli.angular.io/)   
+    `engine new`  
+    Generating new component with CLI    
+    `ng g new1 --spec false -flat false -d`
+    - Augury - [link](https://augury.angular.io/) - Google Chrome extension, provides additional information in Chrome Developer Tools (F12) - debug directly JS, router tree, modules (BrowserModule needed to specify which platform to work with)
+    - Codelyzer - [link](https://augury.angular.io/) - set of tslint rules for static code analysis of Angular ts projects (supported by Angular CLI)
+    - Compodoc - [link](https://compodoc.github.io/website/), [demo](https://compodoc.github.io/compodoc-demo-todomvc-angular/) - documentation
+    - Angular Material - [link](https://material.angular.io/), [intro](https://material.io/guidelines/material-design/introduction.html) - material components
+
+    Resources: [Angular website](https://angular.io/resources), [list of components](https://github.com/brillout/awesome-angular-components)
+
 ## Angular Lifecycle
 ## Components
  1. SRP in Components
  2. Template syntax & black magic
  3. Component Communication - Event raising, Variable binding
+## Angular CLI
 ## Pipes and Directives
 ## Data Binding
  1. Save guards
