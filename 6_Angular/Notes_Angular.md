@@ -10,9 +10,9 @@ Telerik Academy course, August 2017
 | 1.  | [Intro](#course-intro)                 | 14.Aug |  +  |  +  |
 | 2.  | [TypeScript](#typescript-fundamentals) | 14.Aug |  +  |  +  |
 | 3.  | [TS OOP](#typescript-oop)              | 14.Aug |  +  |  +  |
-|     | [Overview](#angular-2-overview)        |        |     |     |
-| 4.  | Tools                                  | 16.Aug |  +  |     |
-| 5.  | Setup                                  | 16.Aug |  ^  |     |
+| 4.  | [Tools](#angular-tools)                | 16.Aug |  +  |  +  |
+| --  | [Overview](#angular-overview)          |        |     |     |
+| 5.  | Architecture                           | 16.Aug |  ^  |     |
 | 6.  | Components                             | 16.Aug |  ^  |     |
 |     | CLI                                    |        |     |     |
 |     | Lifecycle                              |        |     |     |
@@ -23,22 +23,22 @@ Telerik Academy course, August 2017
 |     | Observables                            |        |     |     |
 |     | Router                                 |        |     |     |
 
-- `*` - missed &emsp; `^` - present, didn't listen &ensp; 
-- `0` - video yes, not in playlist &emsp; `.` - lecture yes, no video  &emsp; `--` - lecture no
+- `*` - missed &emsp; `^` - no listen &ensp; 
+- `0` - video not in playlist &emsp; `.` - no video  &emsp; `--` - no lecture
 
 ## Course intro
  14.August.2017 Steven [video](https://youtu.be/IrZrdxUVS0I)
 
- 1. Program  
+ 1. #### Program  
     - Components - single responsibility!
     - Modules - lazy loading
     - Observables - async programming, observables are generics
     - Service layer - will be elaborated in MVC/Android course
- 2. Evaluation 
+ 2. #### Evaluation 
     - Course project - 85%
     - Attendance - 10%
     - Helping others - 5%
- 3. Team project
+ 3. #### Team project
     - Random teams
     - Quality more important than quantity
     - Can use back-end as a service (eg. Firebase) or own server
@@ -58,14 +58,14 @@ Telerik Academy course, August 2017
     Defence:
     - Each team member will present the project separately - project, source code, architecture, commit logs, other conceptual technological questions.
 
- 4. Resources
+ 4. #### Resources
     - VS Code exclusively
     - Other editors/IDEs are possible but lack some TypeScript features
  .
 ## TypeScript Fundamentals
  14.August.2017 Steven [video](https://youtu.be/qFKQY2JIK-g)
 
- 1. TypeScript Overview
+ 1. #### TypeScript Overview
 
     = **Superset dialect of ECMAScript** (one of many). Created by Microsoft. Has optional static typing. Inherits concepts from C# but has some differences on the use of interfaces and classes. Can use type definitions for intellisense. Can use JavaScript libraries. **Compiles to JavaScript**, not translate or transpile. That is why although Angular is a client-side technology (works on the browser), TypeScript can be used with it. Target JS can be selected during compilation (WebPack takes care for polyfills).
     
@@ -89,8 +89,10 @@ Telerik Academy course, August 2017
         - Visual Studio or another IDE
         - Automated task runners such as gulp
 
- 2. Environment Setup
-    1. VS Code - a tool developed by Microsoft for TypeScript and .NET Core development. Prerequisites:
+ 2. #### Environment Setup
+ 
+    1. VS Code - a tool developed by Microsoft for TypeScript and .NET Core development. Prerequisites  
+    (see [VSCode tools](#vs-code-tools)):
         - Configure files: tscofig.json, launch.json, tasks.json
         - Have globally installed **typescript** and **tslint**
         - VS Code Extensions for TypeScript:    
@@ -112,7 +114,8 @@ Telerik Academy course, August 2017
                 "outDir": "dist", // Sets output JS files' location
                 "sourceMap": true, /* Generates *.js.map file, 
                 to convert js to ts and enable debugging of ts in VSCode */
-                "noEmitOnError": true // Do not compile if errors, stop. Default is to attempt to compile regardless of errors.
+                "noEmitOnError": true /* Do not compile if errors, stop. 
+                Default is to attempt to compile regardless of errors. */
             }
         }
         ```
@@ -167,7 +170,7 @@ Telerik Academy course, August 2017
         - Debug `F5`
         - Debug windows: local variables, watch list, call stack, breakpoints (can be line or column, have settings like in Visual Studio)
 
- 3. Static Typing
+ 3. #### Static Typing
 
     = Can declare types of variables (sometimes is overhead, use inferring). The compiler makes sure they are assigned values of the specified type. If the type declaration is omitted, the compiler will **infer** it from the code. Similar to C#, there are **basic types** (predefined in the language) and **complex types** (created by the developer).
 
@@ -186,7 +189,7 @@ Telerik Academy course, August 2017
     // My name is  Pesho. I am 20 years old.
     ```
 
- 4. Basic Types
+ 4. #### Basic Types
     1. **Numbers** - as in JavaScript, all numbers int TypeScript are **floating point values**. The language is **type-safe** - once set/inferred, the type cannot be changed (if not type `any`).
 
          ```js
@@ -233,7 +236,7 @@ Telerik Academy course, August 2017
         let num: number = null; // won't compile if strictNullChecks
         ```
 
- 5. Other Basic Types
+ 5. #### Other Basic Types
     1. Any - used to disable type-checking for a given variable or function, use when  not sure of the type or when a variable comes from an external library. Can be used on arrays. **Bad practice**, avoid using. 
 
          ```ts
@@ -284,7 +287,7 @@ Telerik Academy course, August 2017
         x[4] = true; /* Error, 'boolean' isn't 'string | number' */
         ```
 
- 6. Functions - 
+ 6. #### Functions
     
     1. Both standard and arrow functions are valid.
 
@@ -357,27 +360,27 @@ Telerik Academy course, August 2017
 
  Difference between modules in TypeScript (same as in JS) and in Angular (collection of components and services).
 
- 1. Classes
+ 1. #### Classes
 
     Allow defining complex types.
     Inheritance - `extends`, `this`, `super`. Variables and methods can be overridden - use `super` (instead of `this`) to call the base method to prevent recursion (same as in JavaScript).
 
     Can use polymorphism (real, not the default as in JS - everything inherits object??)
 
- 3. **Accessors** - getter, setter
+ 2. #### Accessors - getter, setter
 
     Allow control of data state of the class by implementing **validations** (comes from ECMAScript standard)
 
- 4. **Static** members
+ 3. #### Static members
 
     Can be accessed through the type itself, no need to create an instance (prefix is the name of the class, not `this`). Hold values needed for the whole type in general, not for specific instances (ie `Math.sqrt()`) (comes from ECMAScript standard)
 
- 5. **Abstract Classes**
+ 4. #### Abstract Classes
     
     Base class from which other classes can be derived. **Cannot be instantiated directly**. Use - situations in which the base class is an abstraction, not a real object. Used for default configurations. Not so easy in JS.     
     `abstract class Animal { }`
 
- 6. **Access Modifiers**
+ 5. #### Access Modifiers
 
     Restrict access to methods, fields, functions and constructors. (no internal as in C# because modules are not namespaces):
     - **Public** - **default** (if not specified). Class member is accessible from anywhere. 
@@ -394,7 +397,7 @@ Telerik Academy course, August 2017
         console.log(cat.name) // Error: 'name' is private;
         ```
 
- 7. **Interfaces**
+ 6. #### Interfaces
 
     Just like classes but do not implement functionality & cannot be instantiated (like in C# but names don't start with 'I'). Can be **used as constraints**. Classes implementing an interface must provide the implementation details.
 
@@ -441,7 +444,7 @@ Telerik Academy course, August 2017
     search = pesho;
     ```
 
- 8. **Generics**
+ 7. #### Generics
 
     Adding flexibility to object/function templates. Generics allow to create a class or function which works with a variety of types rather than a single one. Can accept multiple types eg. `<T, N>`
 
@@ -468,7 +471,7 @@ Telerik Academy course, August 2017
     createInstance(Bee).keeper.hasMask;   /* typechecks! */
     ```
 
- 9. **Modules**
+ 8. #### Modules
 
     Executed within their own scope, not in the global scope. Variables, functions, classes, etc. declared within a module are not visible outside the module. `import`, `export`. Change of name at export is not a good practice but changing the name at import is useful because of possible conflicts. 
 
@@ -482,7 +485,102 @@ Telerik Academy course, August 2017
     export * from "./zipCodeValidator";  /* exports class 'ZipCodeValidator' */
     ```
  .
-## Angular 2 Overview
+## Angular Tools
+ 16.August.2017 Martin [video](https://youtu.be/UwJfAWhoq9k)
+
+ 1. #### IDEs
+    - VS Code - not an IDE but with all the extensions, comes close
+    - WebStorm - JavaScript oriented
+    - IntelliJ IDEA - Java oriented
+
+ 2. #### VS Code Tools
+    See [Environment set up](#environment-setup)
+    - Quick set up **demo app with CLI** (more details in future lecture).
+        - `> ng new ng-demo` - scaffolds a working project, does npm install. Different **seeds**?? (Minko Gechev) - better control over WebPack than in CLI. 
+        - **WebPack** module bundler (similar to module loader SystemJS) - takes js, css all files and makes them into chunks files. 
+        - `> ng serve -o` serves at port 4200. 
+        - `index.html` is created empty with tag `<app-root>` (component which Angular bootstraps for us, everything happens in it).
+        - `app` folder holds all Angular components and files (when creating from CLI)
+        - `app.component.ts` file defines '@Component' with selector for the app-root tag from index.html and inserts/renders contents into app.component.html template
+
+    - **Angular Language Service** - [link](https://github.com/angular/vscode-ng-language-service) - provides auto complete for data binding - from component.ts exports to component.html template file (like pug templates) (if it doesn't load suggestions, exclude node_modules in VSCode workspace settings `files.exclude: {"**/node_modules": true}`)
+
+    - **TSLint** - [link](https://github.com/Microsoft/vscode-tslint) - integrates lint in VSCode, dynamic error notifications, otherwise have to run lint from cmd each time a change is made. Supports automatic fixing of errors - CLI creates tslint.json file, rules are in 'node_modules/codelyzer' (by Minko Gechev too)
+    - **Angular Snippets** - 
+    [BeastCode](https://github.com/BeastCode/VSCode-Angular-TypeScript-Snippets), 
+    [johnpapa](https://github.com/johnpapa/vscode-angular-snippets)
+    
+    - **Angular Files** - [link](https://github.com/qwert789/vscode-angular2-files) - scaffolds files from templates - eg. component has css, html, spec.ts, ts files, can use this extension to generate all of them (based on CLI) (eg. right click on app folder - `Generate Component`)
+
+         ```js
+        /*.angular-cli.json file specifies component generation settings*/
+        "defaults": {
+            "styleExt": "css",
+            "component": {
+                "spec": true, /* will create spec file with some tests */
+                "inlineStyle": false, /* will create css in a separate file*/
+                "inlineTemplate": false, /* will create html template in separate file */
+                "flat": false /* will create new folder */
+            },
+        ```
+
+         ```ts
+        /* app.component.ts file if most settings set to true - separate files*/
+        import { Component } from '@angular/core';
+        @Component({
+            selector: 'app-root',
+            templateUrl: './app.component.html',
+            styleUrls: ['./app.component.css']
+        })
+        export class AppComponent {
+            person = { firstName: 'Marto' };
+        }
+        ```
+         ```ts
+        /* my.component.ts if all settings above set to false - all in one file*/
+        import { Component, OnInit} from '@angular/core';
+        @Component({
+            selector: 'app-my',
+            template: `
+            <p> my Works</p>
+            `,
+            styles: []
+        })
+        export class MyComponent implements OnInit {
+            constructor () { }
+            ngOnInit() { }
+        }
+        ```
+
+    - **Type Lens** - [link](https://github.com/kisstkondoros/typelens) - reference counter
+
+    - **Types Auto Installer** - [link](https://github.com/jvitor83/typings-autoinstaller) - downloads type-files (interfaces) automatically on libraries installation -> intellisense
+
+    - /Angular Switcher - [link](https://github.com/infinity1207/angular2-switcher) - move between html css ts files with `Alt+U` `Alt+O`
+
+    - **Auto Import** - [link](https://github.com/soates/Auto-Import) - for importing modules
+
+    - **Path Intellisense** - [link](https://github.com/ChristianKohler/PathIntellisense)
+
+    - Settings sync Shan Khan - synchronise settings between many computers
+
+ 3. #### Angular-specific tools
+    - **Angular CLI** - [link](https://cli.angular.io/)   
+    `ng new`  
+    Generating new component with CLI:    
+    `ng g c new1 --spec false --flat false -d` (ng = engine?, g = generate, c = component, -d = dry run - no changes will be written??)
+
+    - **Augury** - [link](https://augury.angular.io/) - useful for debugging, developed by Angular(Google), Google Chrome extension, provides additional information in Chrome Developer Tools (F12) in Augury tab- debug directly JS, router tree, modules (BrowserModule needed to specify which platform to work with??), `Ctrl + P` search files
+
+    - **Codelyzer** - [link](http://codelyzer.com/) by Minko Gechev - set of tslint rules for static code analysis of Angular ts projects (supported by Angular CLI)
+
+    - **Compodoc** - [link](https://compodoc.github.io/website/), [demo](https://compodoc.github.io/compodoc-demo-todomvc-angular/) - builds component documentation
+    
+    - **Angular Material** - [link](https://material.angular.io/), [intro](https://material.io/guidelines/material-design/introduction.html) - material components.     
+    Other components resources: [Angular website resources](https://angular.io/resources), [GitHub list of components](https://github.com/brillout/awesome-angular-components)
+
+ .
+## Angular Overview
  1. What is Angular 
     [website](https://angular.io/guide/quickstart)  
     = Open-source JavaScript framework for creating single-page applications (SPA). Provides application architecture (MVC), routing, templates, server-communication (http), etc. Something like a bundle of jQuery + Handlebars + Sammy.js with consistent APIs. Can be used with both JS and TypeScript (recommended by Google)
@@ -495,42 +593,13 @@ Telerik Academy course, August 2017
 ## Setup and Architecture
  1. What is in the generated template
  2. VS Code Setup, Tools and the CLI
-
-## Angular Tools
- 16.August.2017 Martin
-
- 1. IDEs
-    - VS Code
-    - WebStorm
-    - IntelliJ IDEA
- 2. VS Code Tools
-    - **Angular Language Service** - [link] -(https://github.com/angular/vscode-ng-language-service) provides completion in template files (exclude node_modules in VSCode if it doesn't work)
-    - **TSLint** - [link](https://github.com/Microsoft/vscode-tslint) - supports automatic fixing of errors
-    - Angular Snippets - [link1](https://github.com/BeastCode/VSCode-Angular-TypeScript-Snippets) [link2](https://github.com/johnpapa/vscode-angular-snippets)
-    - Angular Files - [link](https://github.com/qwert789/vscode-angular2-files) - for templates
-    - Type Lens - [link](https://github.com/kisstkondoros/typelens) - reference counter
-    - Types Auto Installer - [link](https://github.com/jvitor83/typings-autoinstaller) - downloads type files automatically on libraries installation
-    - Angular Switcher - [link](https://github.com/infinity1207/angular2-switcher) - move between html css ts files
-    - Auto Import - [link](https://github.com/soates/Auto-Import) - for importing modules
-    - **Path Intellisense** - [link](https://github.com/ChristianKohler/PathIntellisense)
-    - Settings sync Shan Khan - synchronise settings between many computers
- 3. Angular-specific tools
-    - Angular CLI - [link](https://cli.angular.io/)   
-    `engine new`  
-    Generating new component with CLI    
-    `ng g new1 --spec false -flat false -d`
-    - Augury - [link](https://augury.angular.io/) - Google Chrome extension, provides additional information in Chrome Developer Tools (F12) - debug directly JS, router tree, modules (BrowserModule needed to specify which platform to work with)
-    - Codelyzer - [link](https://augury.angular.io/) - set of tslint rules for static code analysis of Angular ts projects (supported by Angular CLI)
-    - Compodoc - [link](https://compodoc.github.io/website/), [demo](https://compodoc.github.io/compodoc-demo-todomvc-angular/) - documentation
-    - Angular Material - [link](https://material.angular.io/), [intro](https://material.io/guidelines/material-design/introduction.html) - material components
-
-    Resources: [Angular website](https://angular.io/resources), [list of components](https://github.com/brillout/awesome-angular-components)
-
-## Angular Lifecycle
+ .
 ## Components
  1. SRP in Components
  2. Template syntax & black magic
  3. Component Communication - Event raising, Variable binding
+
+## Angular Lifecycle
 ## Angular CLI
 ## Pipes and Directives
 ## Data Binding
