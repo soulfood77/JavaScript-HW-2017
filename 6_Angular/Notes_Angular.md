@@ -5,23 +5,23 @@ Telerik Academy course, August 2017
 
 [videos playlist]()
 
-| Vid |                 Topic                  |  Date  |  C  |  V  |
-| --- | -------------------------------------- | ------ | --- | --- |
-| 1.  | [Intro](#course-intro)                 | 14.Aug |  +  |  +  |
-| 2.  | [TypeScript](#typescript-fundamentals) | 14.Aug |  +  |  +  |
-| 3.  | [TS OOP](#typescript-oop)              | 14.Aug |  +  |  +  |
-| 4.  | [Tools](#angular-tools)                | 16.Aug |  +  |  +  |
-| --  | [Overview](#angular-overview)          |        |     |     |
-| 5.  | Architecture                           | 16.Aug |  ^  |     |
-| 6.  | Components                             | 16.Aug |  ^  |     |
-|     | CLI                                    |        |     |     |
-|     | Lifecycle                              |        |     |     |
-|     | Pipes and Directives                   |        |     |     |
-|     | Data Binding                           |        |     |     |
-|     | Forms                                  |        |     |     |
-|     | Services and DI                        |        |     |     |
-|     | Observables                            |        |     |     |
-|     | Router                                 |        |     |     |
+| Vid |                  Topic                  |  Date  |  C  |  V  |
+| --- | --------------------------------------- | ------ | --- | --- |
+| 1.  | [Intro](#course-intro)                  | 14.Aug | +   | +   |
+| 2.  | [TypeScript](#typescript-fundamentals)  | 14.Aug | +   | +   |
+| 3.  | [TS OOP](#typescript-oop)               | 14.Aug | +   | +   |
+| 4.  | [Tools](#angular-tools)                 | 16.Aug | +   | +   |
+| 5.  | [Setup](#setup-and-architecture)        | 16.Aug | ^   | +   |
+| 6.  | [Components](#components-and-templates) | 16.Aug | ^   |     |
+| 7.  | [CLI](#angular-cli)                     | 18.Aug | +   |     |
+| 8.  | [Data Binding](#data-binding)           | 18.Aug | +   |     |
+| 9.  | [Demo: basic app](#demo-app)            | 18.Aug | +   |     |
+|     | Lifecycle                               |        |     |     |
+|     | Pipes and Directives                    |        |     |     |
+|     | Forms                                   |        |     |     |
+|     | Services and DI                         |        |     |     |
+|     | Observables                             |        |     |     |
+|     | Router                                  |        |     |     |
 
 - `*` - missed &emsp; `^` - no listen &ensp; 
 - `0` - video not in playlist &emsp; `.` - no video  &emsp; `--` - no lecture
@@ -78,7 +78,7 @@ Telerik Academy course, August 2017
         - `strictNullChecks` optional parameter to disallow null values
         - Access modifiers (public, private)
 
-    1. **Installation**    
+    1. #### TS Installation    
         `> npm i -g typescript` - installs **Type Script Compiler**     
         `> tsc -v` - check if the compiler has been installed     
         `> tsc --help` - get help      
@@ -89,10 +89,10 @@ Telerik Academy course, August 2017
         - Visual Studio or another IDE
         - Automated task runners such as gulp
 
- 2. #### Environment Setup
+ 2. #### TS Environment Setup
  
     1. VS Code - a tool developed by Microsoft for TypeScript and .NET Core development. Prerequisites  
-    (see [VSCode tools](#vs-code-tools)):
+    (see [Angular tools](#vs-code-tools)):
         - Configure files: tscofig.json, launch.json, tasks.json
         - Have globally installed **typescript** and **tslint**
         - VS Code Extensions for TypeScript:    
@@ -101,8 +101,9 @@ Telerik Academy course, August 2017
         [Auto Import](https://github.com/soates/Auto-Import) - `Ctrl + .`,  
         [Debugger for Chrome](https://github.com/Microsoft/vscode-chrome-debug)
 
-    1. ### tsconfig.json
+    1. ### TS tsconfig.json
 
+        (See [Angular TypeScript config](#typescript-config))   
         Specifies the way .ts files are compiled.   
         Auto generate with **`> tsc --init`** but adds too many other options
 
@@ -127,7 +128,7 @@ Telerik Academy course, August 2017
     1. ### launch.json
 
         Specifies the way VS Code should launch the application.    
-        Auto generate with VS Code (`F5` or `Ctrl + F5`) - creates file in .vscode folder (also holds tasks file, other workspace files with our own configurations of the editor).
+        Auto generate with VS Code (`F5` or `Ctrl + F5`) - creates file in .vscode folder (which also can hold tasks file, other workspace files with our own configurations of the editor).
 
          ```json
         {
@@ -358,7 +359,7 @@ Telerik Academy course, August 2017
 ## TypeScript OOP
  14.August.2017 Steven [video](https://youtu.be/nBGMoerF16c)
 
- Difference between modules in TypeScript (same as in JS) and in Angular (collection of components and services).
+ There is a difference between modules in TypeScript (same as in JS) and in Angular (collection of components and services).
 
  1. #### Classes
 
@@ -494,8 +495,8 @@ Telerik Academy course, August 2017
     - IntelliJ IDEA - Java oriented
 
  2. #### VS Code Tools
-    See [Environment set up](#environment-setup)
-    - Quick set up **demo app with CLI** (more details in future lecture).
+    See [Environment set up](#ts-environment-setup)
+    - Quick set up **demo app with CLI** (more details in lecture [Angular CLI](#angular-cli)).
         - `> ng new ng-demo` - scaffolds a working project, does npm install. Different **seeds**?? (Minko Gechev) - better control over WebPack than in CLI. 
         - **WebPack** module bundler (similar to module loader SystemJS) - takes js, css all files and makes them into chunks files. 
         - `> ng serve -o` serves at port 4200. 
@@ -580,40 +581,404 @@ Telerik Academy course, August 2017
     Other components resources: [Angular website resources](https://angular.io/resources), [GitHub list of components](https://github.com/brillout/awesome-angular-components)
 
  .
-## Angular Overview
- 1. What is Angular 
-    [website](https://angular.io/guide/quickstart)  
-    = Open-source JavaScript framework for creating single-page applications (SPA). Provides application architecture (MVC), routing, templates, server-communication (http), etc. Something like a bundle of jQuery + Handlebars + Sammy.js with consistent APIs. Can be used with both JS and TypeScript (recommended by Google)
- 2. Installation
-    - Install Node.js
-    - Clone Angular Quickstart application from [github](https://github.com/angular/quickstart)
-    - Run `> npm install`
-    - Run the application
- .
 ## Setup and Architecture
- 1. What is in the generated template
- 2. VS Code Setup, Tools and the CLI
- .
-## Components
- 1. SRP in Components
- 2. Template syntax & black magic
- 3. Component Communication - Event raising, Variable binding
+ 16.August.2017 Martin [video](https://youtu.be/6rpforFlmsA), [video Angular4 in 60 min](https://youtu.be/KhzGSHNhnbI)
 
-## Angular Lifecycle
+ 1. #### What is Angular 
+    [website](https://angular.io/guide/quickstart)  
+
+    = Front-end/client-side JavaScript **framework** (runs on client). Open-source JavaScript framework for creating single-page applications (SPA). Created by Google. Provides application architecture (MVC), routing, templates, server-communication (http), etc. Something like a bundle of jQuery + Handlebars + Sammy.js with consistent APIs. Can be used with both JS and TypeScript (recommended by Google). Cross platform (Windows, Mac, Linux). Similar to React, VueJS.
+    
+    Parts of the SPA app are split into components. The main content is loaded in `<app-root>` tag.
+
+    The page never changes (sort of) - contains one html file and bundles of JavaScript files. Every change is rendered in the browser (client side??).
+
+    Fast and reactive - allows to get only the changed data from the server instead of the whole page .
+
+ 2. #### Building blocks
+
+    1. **Modules**
+
+        A mechanism to group components, directives, pipes and services that are related. Great way to organise an application and extend it with capabilities from external libraries. Wraps functionality. Something like a namespace. Allows reuse of code. Many of the libraries coming with Angular are modules (FormsModule, HttpModule). Angular modules (`NgModules`) are different from JavaScript modules. 
+
+        AppModule - root of the application. The only module which is bootstrapped by our Angular application.
+
+        `@NgModule` **metadata** tells Angular how to compile and run the module code; identifies the module's own components, directives and pipes; may add service providers to the application dependency injectors. 
+
+        - declarations - contain components, directives, pipes which you want to use in the module
+        - imports - modules (need to be imported on top)
+        - providers - services
+        - bootstrap - only in the main module, identifies which component to be bootstrapped in the main.ts file
+        - exports - DI if we want to expose a component which was imported??
+         ```ts
+        /* app.module.ts 
+        imports here  */
+        @NgModule({
+        declarations: [
+            AppComponent,
+            MyComponent
+        ],
+        imports: [
+            BrowserModule,
+        ],
+        providers: [ MyService ], /*Instaintiates classes, shorhand for 
+        {provide: MyService, useClass: Pesho}*/
+        bootstrap: [AppComponent],
+        exports: [ MyComponent ]
+        })
+        export class AppModule { }
+        ```
+
+        JIT (Just in time) compilation of an Angular application
+
+         ```ts
+         /* main.ts file */
+        import { platformBrowserDynamic } 
+        from '@angular/platform-browser-dynamic';
+
+        import { AppModule } from './app/app.module';
+
+        platformBrowserDynamic().bootstrapModule(AppModule);
+        ```
+
+    1. **Components**
+
+        The main building block of an application. The component (decorated class) controls a patch of screen called a view. Each component is associated with a view (HTML template). The class/component interacts with the view through an API of properties and methods.
+
+        Sample component which will be used in another component's template with the selector `<app-main></app-main>` (must be unique).
+
+        Components encapsulation of styles - css - can manipulate globally and have individual styles to each component. Prevents filling the global scope with styles.
+
+         ```ts
+        import { Component } from '@angular/core';
+
+        @Component({
+        selector: 'app-main',
+        template: `<div>Hello {{title}}!</div>`
+        })
+        export class MyComponent {
+        title: string;
+        constructor() { this.title = 'World'; }
+        }
+        ```
+
+    1. **Templates**
+
+        A form of HTML that tells Angular how to render the component. Constructed from HTML elements and Angular-specific directives, components, bindings. Additional elements:     
+        `*ngFor` - directive for loop    
+        `{{post.title}}` - bind component properties    
+        `<demo-app></demo-app>` - special selector  
+
+         ```ts
+        @Component({
+        selector: 'app-main',
+        template: `<div>
+        <h1>{{title}}</h1> /* bind to the title from the component */
+        <li *ngFor="let book of books"> /* directive for a loop */
+        {{book.title}}
+        </li> 
+        </div>`
+        })
+        ```
+
+
+    1. **Metadata**
+
+        Used to decorate a class/component and to tell Angular how to process it and what to search for in the component. Passed using a decorator (uses @ sign, different for `@NgModule`, `@Component`, `@Directive` etc.). 
+        
+        Decorator pattern - decorates a class with functionality it doesn't originally have. This way, Angular knows that this is not a regular ts file/class and can understand it.
+
+        **Template + metadata + component = view**
+
+         ```ts
+        @Component({
+            selector: 'demo-app',
+            /* templateUrl: 'path-to-file' */
+            template: `<div>Demo app</div>`,
+            providers: [Services],
+            styleUrls: ['path-1', 'path-2']
+        })
+        ```
+
+    1. **Data binding**
+
+        The ability to transfer data from a component to the html/.
+
+        Forms:
+        From component to DOM
+        - `{{value}}`
+        - `[property] = "value"`    
+
+        From DOM to component
+        - `(event) = "handler"`
+
+        Bi-directonal
+        - `[(ng-model)] = "property"`
+
+    1. **Directives**
+
+        = A component without a template/html. Angular templates are dynamic so the framework transforms the DOM according to the instructions from the directives (`*ngFor`, `*ngIf`, `[(ngModel)]`). `@Component` decorator is an extended `@Directive` decorator (a template is added).
+
+        CommonModule (BrowserModule exports it so it doesn't have to be specifically imported) - holds directives `*ngFor`, `*ngIf` etc.
+
+        (Read more [Structural directives](https://angular.io/guide/structural-directives))
+
+    1. **Services**
+
+        Could be almost any class with a **well-defined, single purpose**. Nothing special for services in Angular. They serve to move responsibility for doing something special from the components. Eg.:
+        - a component should not log to the console itself - this could be a global service, or    
+        - if using Toastr as a service - it will have only one instance,   
+        - if using login functionality - we want to have only one instance, 
+        - if it makes get request to a certain route.
+
+        A service is a pure TypeScript class. Can be used in many places in the application. **Scalable** and **reusable**.
+
+        Eg. service which only informs the user:
+
+        ```ts
+        export class LoggerService{
+            info: void(msg: string) {
+                console.log(`INFO: {msg}`);
+            }
+            error: void(msg: string) {
+                alert(`ERROR: {msg}`);
+            }
+        }
+        ```
+
+        Generating a service:
+        - `> ng g s shared/logging -d --flat --spec false` - generate service, dry run (first to test, then run without it), no folder, no spec file.  
+        - Add service to app.component.ts metadata `@Component({providers: [LoggingService]})` would create a new instance for each component it is added to.    
+        - Instead, add it to the **app.module.ts** `@NgModule({providers: [LoggingService]})` - this way the whole application will have only one logging service
+        - Inject the service in the constructor of the component where we want to use it: **app.component.ts** `constructor(private loggingService: LoggingService)`
+
+    1. **Dependency injection**
+
+        DI is a pattern which allows us to manage code dependencies; to inject dependencies in different components across the application. Abstracts the responsibility of knowing how those dependencies are created or what dependencies they themselves need. Eg. `constructor(private service: HeroService) { }`. 
+        
+        Pass dependencies in the constructor as parameters instead of instantiating them inside. Compose objects instead of deep inheritance hierarchies.
+
+        Angular has its own DI system, which resolves all dependencies but the developer also has control over them. No need to add external libraries.
+
+    1. **Folder structure**
+
+        Sample file structure: [mgechev angular-seed](https://github.com/mgechev/angular-seed), [Angular style guide](https://angular.io/guide/styleguide#!#04-06)      
+        Angular CLI scaffolds a good file structure as a starting point.
+        
+        ```
+        project root/
+        app/
+            heroes/
+                hero/
+                    hero.component.ts
+                    index.ts
+                heroes.module.ts
+                heroes-routing.module.ts
+            app.component.ts
+            app.module.ts
+        main.ts
+        index.html
+        assets/ - holds photos
+        environments/
+        ```
+
+ 3. #### Setup a project
+
+    1. **Prerequisites** 
+        - Installed Node.js and npm
+        - TypeScript (See [TS Installation](#ts-installation))
+        - IDE- Visual Studio Code preferably
+        - Angular CLI, Angular Seed (optional startup project) by [Minko Gechev](https://github.com/mgechev/angular-seed) or Quickstart Seed - boilerplate starting application. [Tutorial](https://angular.io/tutorial) - clone Angular Quickstart application from [github](https://github.com/angular/quickstart)
+
+    1. #### TypeScript config 
+        (See [TS tsconfig](#ts-tsconfigjson))
+
+         ```ts
+        {
+            {
+            "compilerOptions": {
+                "target": "es5",
+                "module": "commonjs",
+                "moduleResolution": "node",
+                "sourceMap": true,
+                "emitDecoratorMetadata": true,
+                "experimentalDecorators": true,
+                "lib": [ "es2015", "dom" ],
+                "noImplicitAny": true,
+                "suppressImplicitAnyIndexErrors": true
+            }
+        }
+        ```
+
+    1. #### package.json
+
+        Dev dependencies - typescript, `@types` - types definitions for different libraries - provide autocomplete.
+
+         ```json
+        "devDependencies": {
+            "@types/core-js": "^0.9.42",
+            "@types/node": "^8.0.20",
+            "concurrently": "^3.5.0",
+            "typescript": "^2.4.2"
+        }
+        ```
+
+    1. #### SystemJS setup
+
+        Dependencies - sample minimum set of dependencies to run an Angular project.
+
+        Browsers don't support loading packages with `import { Component } from '@angular/core`;` -> need module loader like [SystemJS](https://github.com/systemjs/systemjs)
+
+         ```json
+        "dependencies": {
+            "@angular/common": "^4.3.3",
+            "@angular/compiler": "^4.3.3",
+            "@angular/core": "^4.3.3",
+            "@angular/platform-browser": "^4.3.3",
+            "@angular/platform-browser-dynamic": "^4.3.3",
+            "core-js": "^2.5.0",
+            "reflect-metadata": "^0.1.10",
+            "rxjs": "^5.4.2",
+            "systemjs": "^0.20.17",
+            "zone.js": "^0.8.16"
+        }
+        ```
+    
+    1. **Module bundlers**
+
+        Module bundling = stitching together of a group of modules (and their dependencies) into a single file (or group of files) in the correct order.
+
+        [Webpack](https://webpack.js.org/) is what Angular CLI uses but the developer has no control over it explicitly (unless the project is ejected from CLI).
+
+        Configure module bundlers:`webpack.config.js`, `systemjs.config.js` (if not using Angular CLI)?? - map, packages, rxjs (reactive.js extensions for http calls).
+
+    1. **HTML file**
+
+        WebPack does not read script tags from the index.html file. Instead it bundles all ts/js files and adds them to the compiled html file.
+
+        When using SystemJS, we need to add scripts to the index.html file in the correct order - shim, zone, reflect, system.src, config. SystemJS generates js from ts files (and maps to allow ts debugging).
+
+        We need an index.html file with script tags when using SystemJS and app (if using Webpack, no need for any script tags, if creating app without CLI??)
+
+        ```html
+        <script src="node_modules/core-js/client/shim.min.js"></script>
+        <script src="node_modules/zone.js/dist/zone.js"></script>
+        <script src="node_modules/reflect-metadata/Reflect.js"></script>
+        <script src="node_modules/systemjs/dist/system.src.js"></script>
+        <script src="systemjs.config.js"></script>
+        <script>
+            System.import('app').catch(function(err) { 
+                    console.error(err); 
+                });
+        </script>
+        ```
+
+        (When using CLI/WebPack??) Html file doesn't contain script tags. When compiled, Angular adds them. In development builds - adds js files for everything, in production build - styles are in css file. main.bundle.js - our code; vendor.bundle.js - additional js libraries; polyfills.bundle.js - polyfills for different browsers; inline.bundle.js - is webpack.
+
+        ```html
+        <!doctype html>
+        <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <title>Angular Demo</title>
+            <base href="/">
+            <meta name="viewport" 
+            content="width=device-width, initial-scale=1">
+            <link rel="icon" type="image/x-icon" href="favicon.ico">
+        </head>
+        <body>
+            <app-root>Loading...</app-root><!-- Component content comes here-->
+            <!-- Compiled js files using WebPack (same as Angular CLI??) -->
+            <script type="text/javascript" src="inline.bundle.js"></script>
+            <script type="text/javascript" src="polyfills.bundle.js"></script>
+            <script type="text/javascript" src="scripts.bundle.js"></script>
+            <script type="text/javascript" src="styles.bundle.js"></script>
+            <script type="text/javascript" src="vendor.bundle.js"></script>
+            <script type="text/javascript" src="main.bundle.js"></script>
+        </body>
+        </html>
+        ```
+
+
+    1. **Angular [CLI](https://cli.angular.io/)** (recommended)  
+
+        See [Angular CLI](#angular-cli)
+
+        Powerful and reliable console interface for generating Angular applications. Has many benefits but no control over how the modules will be bundled.
+
+        `> npm install -g @angular/cli`     
+        `> ng new my-app` - create new app    
+        `> ng serve --open` - serve the app, --open/-o flag opens it in browser on `http://localhost:4200` (default port)   
+        `> ng build` - compiles the app, creates 'dist' folder containing all the compiled files.   
+        `> npm install` , `> npm start` - check demo package.json file for commands. Runs on a default systemjs port 3000 (different port than 4200)
+ .
+## Components and Templates
+ 16.August.2017 Martin [video](https://youtu.be/l21GHCRtJ0U)
+ 1. Components
+ 2. Shadow DOM
+ 3. Templates
+    - Absolute path
+    - Relative path
+
 ## Angular CLI
-## Pipes and Directives
+ 18.August.2017 Martin [video](https://youtu.be/T7b1WUsbExU)
+ 
+ See [Angular setup a project](#setup-a-project)
+ - Generating options
+    --style scss
+    --prefix ap
+    --skip-test
+    --routing
+ - Lint - tslint.json
+    - Lint application when building (commands are in package.json file) - possible to forbid building if lint errors. Flags: --fix
+ - Serving: `ng serve`, `ng serve --host ..` `ng serve --port=1337` - for development purposes
+ - Blueprints `ng generate` / `ng g` eg. `ng g c inner --spec false -d` (creates folder inner) - possible options - component, directive, pipe, service interface, class enum, module
+ - Build - 
+    -Ahead of time compilation AOT (platformBrowser) vs Just in time compilation (platformBrowserDynamic setting in main.ts file) 
+    - AHT tree shaking compilation - reduces the size of the compiled files in production (`ng serve --prod`) build - makes starting the application faster but not how fast the application works in general.
+    - Tool - source-map-explorer - view different builds
+    - AOT removes source maps
+ - Build environments `ng build` vs `ng build --prod`- source maps, extracted css, uglifying, tree-shaking, AOT (more in rangle.io article)
+ - UT `ng test`
+ - End-to-end tests with Protractor??
+ - Assets - - should be in 'angular-cli.json' file ??
+ - Global styles - in styles.css file (emulated strategy adds new selectors which prevent global styles??)
+ - Installing third party libraries - use npm, need to include them in scripts array in angular-cli.json file (won't work if included as script tags in the html file)
+ - Bootstrap - better use ng-bootstrap (as module) instead of adding it as global libraries
+ - Limitations of Angular CLI - no control over how things happen under the hood -can't edit the webpack file
+ .
 ## Data Binding
- 1. Save guards
+ 18.August.2017 Martin [video](https://youtu.be/PQCHGVa0s-4)
+
+ 1. One
+    One-way, something like two-way data binding.
+    Interpolation vs property binding - from component to dom/html, event binding from html to component (user input)
+    
+    Properties vs attributes.
+    Once we start data binding, we are no longer working with HTML attributes. We are setting the properties of DOM elements.
+
+    Types of interpolation:
+    From component to html
+    - Interpolation - the value between the braces is often a property, could be an expression too (though not a good practice, calculations should be done in the component). Template expressions - can't use expressions which give side effects; can't refer to the global scope/namespace;
+    - Property binding - for known properties of the specific object/tag?? difference between attribute and property. Can also bind classes and styles. Style binding.
+    From html to component
+    - Event binding - change detection - passing value from html to component - local variable or event object ($event).
+    - Viktor Savkin resources
+    - Two-way data binding - constant/non-stop communication in both directions (banana in a box) - a combination between property and event binding `[(ngModel)] = "title"` - must import forms module to be able to use on input tag
+    - Custom two-way data binding (after we talk about input and output properties)
+
+
+
+
+ .
+## Demo app
+ 18.August.017 Martin [video](https://youtu.be/4-1L4ab1iIY)
+ 2. Demo app
+    - In memory web api [link](https://github.com/angular/in-memory-web-api)
+ .
+## Angular Lifecycle
+## Pipes and Directives
 ## Forms and Form controls
- 1. Handle the UI and data printing
- 2. Handle user data
- 3. Validations
 ## Services and DI
- 1. Building a Service layer
- 2. Dependency Injectio n- Increase testability, Bind to types and strings functions
 ## Http Observables
- 1. Async programming with Observables
 ## Angular 2 Router
- 1. Public and private routes
- 2. Guards and resolvers
- 3. Modules - Lazy loading routes
