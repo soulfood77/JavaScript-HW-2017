@@ -12,7 +12,7 @@ Telerik Academy course, August 2017
 | 3.  | [TS OOP](#typescript-oop)               | 14.Aug | +   | +   |
 | 4.  | [Tools](#angular-tools)                 | 16.Aug | +   | +   |
 | 5.  | [Setup](#setup-and-architecture)        | 16.Aug | ^   | +   |
-| 6.  | [Components](#components-and-templates) | 16.Aug | ^   |     |
+| 6.  | [Components](#components-and-templates) | 16.Aug | ^   | +   |
 | 7.  | [CLI](#angular-cli)                     | 18.Aug | +   |     |
 | 8.  | [Data Binding](#data-binding)           | 18.Aug | +   |     |
 | 9.  | [Demo: basic app](#demo-app)            | 18.Aug | +   |     |
@@ -641,8 +641,9 @@ Telerik Academy course, August 2017
         platformBrowserDynamic().bootstrapModule(AppModule);
         ```
 
-    1. **Components**
+    1. #### Components overview
 
+        (See [Components lecture](#components))
         The main building block of an application. The component (decorated class) controls a patch of screen called a view. Each component is associated with a view (HTML template). The class/component interacts with the view through an API of properties and methods.
 
         Sample component which will be used in another component's template with the selector `<app-main></app-main>` (must be unique).
@@ -662,8 +663,9 @@ Telerik Academy course, August 2017
         }
         ```
 
-    1. **Templates**
+    1. #### Templates overview
 
+        (See [Templates lecture](#templates))     
         A form of HTML that tells Angular how to render the component. Constructed from HTML elements and Angular-specific directives, components, bindings. Additional elements:     
         `*ngFor` - directive for loop    
         `{{post.title}}` - bind component properties    
@@ -914,16 +916,204 @@ Telerik Academy course, August 2017
  .
 ## Components and Templates
  16.August.2017 Martin [video](https://youtu.be/l21GHCRtJ0U)
- 1. Components
- 2. Shadow DOM
- 3. Templates
-    - Absolute path
-    - Relative path
 
+ 1. #### Components
+
+    (See [Components overview](#components-overview))   
+    - The most basic building block of an UI in an Angular application;
+    - Control the view and declare reusable UI blocks;
+    - Must belong to a `NgModule` in order to be usable by another component or application (eg. userModule, serviceModule) (must export or use route);
+    - Anything visible to the end user.
+    - Angular creates, updates and destroys components as the user moves through the application (change detection, life cycle hooks).
+    - Naming: file **[name].component.ts** - name is dash-case (kebap-case)
+    - Naming: class **[Name]Component** - pascal case
+    - `@Component` is a decorator function which contains the metadata for the component. Some metadata [properties](https://angular.io/api/core/Component):
+        - selector - instance of the component in the HTML. Must be unique, otherwise could create collisions with other components or external libraries.
+        - template - inline-defined template for the view or
+        - templateUrl - url to a separate file containing the template for the view
+        - styles - inline-defined styles to be applied to the component's view or
+        - styleUrls - list of urls to style sheets
+        - moduleId - ES/CommonJS module id of the file in which the component is defined (specific for SystemJS loader, not needed when using Webpack)
+        - providers - list of service providers for the component and its children
+
+     ```ts
+    @Component({
+        selector:'demo-hero',
+        template: `<div>{{name}}</div>`
+    })
+    export class HeroComponent {
+        name: string = 'Pesho';
+    }
+    ```
+
+ 2. #### Shadow DOM
+
+    Same as regular DOM but different:
+    - how it's created/used
+    - how it behaves in relation to the rest of the page
+    
+    Designed as a tool for building component-based apps. Angular uses components because:
+    - Solves the DOM tree **encapsulation** problem - each component needs to have its own styles without interfering with other components' styles.
+    - Allows to hide DOM logic behind other elements
+
+    Elements of Shadow DOM:
+    - Isolated DOM - a component's DOM is self-contained -> `document.querySelector()` won't return nodes in the global DOM.
+    - Scoped CSS - CSS defined inside a shadow DOM is scoped only to it.
+
+    > Demo: [shadow DOM](https://embed.plnkr.co/fVIYs97WzjwjYnuDE75u/)
+
+     ```js
+    (function (){
+        var root = container.attachShadow( { mode: "open" } );
+
+        /* Inside element */
+        var h1 = document.createElement( "h1" )
+        h1.textContent = "Inside Shadow DOM"
+        h1.id = "inside"
+        root.appendChild( h1 )
+
+        /* Access inside element */
+        console.log( container.shadowRoot.querySelector( "#inside" ) )
+    })();
+    ```
+
+    Shadow DOM Angular components:
+    - can be shared across applications
+    - are not **web components** but take advantage of them
+    - component templates are put in a `shadowRoot`, which is the shadow DOM of the specific component
+
+    By default Angular doesn't use Shadow DOM. 
+
+    Angular comes with view encapsulation by default which enables Shadow DOM. 3 view-encapsulation strategies:
+    - **Emulated** (default) - no Shadow DOM, yes encapsulation of views. Emulated = creates unique selectors (ids and classes). Doesn't use Shadow DOM because Angular is multi-platform and Shadow DOM is not supported on all platforms and browsers. The global style stays in the head above the components' styles so that they can overwrite it.
+    - **None** - no Shadow DOM, no encapsulation - if we want to apply a component's style to global style - change meta data of this component `@Component{ encapsulation: ViewEncapsulation.None }`
+    - **Native** - uses native Shadow DOM instead of emulated (no unique selectors, creates shadow DOM for each component)
+
+    Pseudo-selector `:host` applies styling to the whole component's root. (Replaces deprecated selectors `/deep/`, `>>>`, `::ng-deep` )
+    ```css
+    :host { color: grey; }
+    ```
+
+ 3. #### Templates
+
+    (See [Templates overview](#templates-overview))     
+    = A form of HTML that tells Angular how to render the component. Similar to regular HTML but with some additional features.
+
+    1. [Syntax](https://angular.io/docs/ts/latest/guide/template-syntax.html)
+
+        - `<hero-detail>` - component selector
+        - `*ngIf` - structure directive
+
+        Data binding    
+        - `{{hero.name}}` - **component** property (from component to template)     
+        - `(click)` - **event** binding (from template to component)- binds an event to a function defined in the component       
+        - `[hero]` - **property** binding (from component to template) - an attribute/property?? from the template takes a value of a property/element from the component      
+        - `<input [(ngModel)]="title" />` - **banana in a box** (two-way data binding) - combination of property binding `[]` and event binding `()`. Changing the value of the input will change `{{title}}`. Useful when inserting images??     
+
+        ```html
+        <h2>Hero List {{title}}</h2>
+        <p><i>Pick a hero from the list</i></p>
+        <ul>
+            <li *ngFor="let hero of heroes" (click)="selectHero(hero)">
+                {{hero.name}}
+            </li>
+        </ul>
+        <input [(ngModel)]="title" />
+        <button (click)="clickMe()">Click</button>
+        <button [disabled]="disabled">Click</button>
+        <hero-detail *ngIf="selectedHero" [hero]="selectedHero"></hero-detail>
+        ```
+
+    1. Defining a template
+
+        - **Inline** template:
+            - use property template
+            - use single quotes (') or backtick interpolation string (`) - allows multiple lines
+
+                 ```ts
+                @Component({
+                    selector: 'ng-app',
+                    template: `<h1>Text</h1>`
+                })
+                ```
+
+        - **Absolute path** (default) - Angular can't calculate the template and style urls from the component's file location because it can be loaded in different ways: individual files, SystemJS, CommonJS, or not use modules at all etc. Only the 'index.html' home page file's location is always certain.
+
+        - **Relative path** with SystemJS - referring the relative path in the  `@Component ({templateUrl: './app.component.html'})` will produce an error.     
+        Must set `@Component({moduleId: module.id})` used by Angular reflection to evaluate path before construction. 
+
+        - **Relative path** with Webpack -  no need to set the 'moduleId' property in the metadata. Can load templates and styles at runtime by adding `./` before template/style url. Valid eg. (Webpack does a 'require' behind the scenes):
+
+            ```ts
+            @Component({
+                selector: 'ng-app',
+                templateUrl: './app.component.html' // same as: 
+                // template: require('./app.component.html')
+            })
+            ```
+
+        - **Content projection** (Transclusion) = Taking a content (such as a text node or HTML) and injecting it into a template at a specific entry point. Done through Shadow DOM.
+
+            ```ts
+            // home.component.ts
+            @Component({
+            selector: 'demo-home',
+            template: `
+                <div class="home-comp">
+                Content from home component will appear inside ng-content!
+                <ng-content></ng-content> <!--only content if using native encapsulation strategy-->
+                </div>
+            `
+            })export class HomeComponent {}
+
+            // app.component.ts
+            @Component({
+            selector: 'demo-app',
+            template: `
+                <demo-home>
+                <h1 class="projected">My transcluded content!</h1>
+                </demo-home>
+            `
+            })export class AppComponent {}
+            ```
+
+        - Multi-slot transclusion - we talk to the DOM node directly [live demo](https://plnkr.co/edit/KzXHQFS4xBKA3Jak5cy6?p=info)
+
+             ```ts
+            /* home.component.ts */
+            @Component({
+            selector: 'demo-home',
+            template: `
+                <ng-content select=".home-title"></ng-content>
+                <p>Other content</p>
+                <ng-content select=".home-subtitle"></ng-content>`
+            })export class HomeComponent {}
+
+            /* app.component.ts */
+            @Component({
+            selector: 'demo-app',
+            template: `
+            <h1>
+            <demo-home>
+                <div class="home-title">Hi from title!</div>
+                <div class="home-subtitle">Hi from subtitle!</div>
+            </demo-home>
+            </h1>`
+            })export class AppComponent {}
+            ```
+    > Demo: setup with [SystemJS](https://github.com/TelerikAcademy/Angular/tree/master/Topics/02.%20Setup-and-Architecture/demos) - need to manually update systemjs.config.js when adding/updating libraries. Beginners better use CLI setup.
+
+    > Demo: [routing](https://github.com/TelerikAcademy/Angular/tree/master/Topics/03.%20Components/demos/view-encapsulation-strategies)
+
+    Demo: **Angular material**/other external modules like bootstrap, toastr (search for Angular2):
+    - `npm install --save angular/material @angular/cdk`
+    - needs BrowserAnimationModule or NoopAnimationsModule 
+    - import style either in style.css file or in .angular-cli.json
+ .
 ## Angular CLI
  18.August.2017 Martin [video](https://youtu.be/T7b1WUsbExU)
  
- See [Angular setup a project](#setup-a-project)
+ See [Angular setup a project](#setup-a-project), video at [00:43:30](https://youtu.be/l21GHCRtJ0U?t=43m30s)
  - Generating options
     --style scss
     --prefix ap
