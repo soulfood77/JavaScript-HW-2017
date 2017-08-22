@@ -5,23 +5,24 @@ Telerik Academy course, August 2017
 
 [videos playlist]()
 
-| Vid |                  Topic                  |  Date  |  C  |  V  |
-| --- | --------------------------------------- | ------ | --- | --- |
-| 1.  | [Intro](#course-intro)                  | 14.Aug | +   | +   |
-| 2.  | [TypeScript](#typescript-fundamentals)  | 14.Aug | +   | +   |
-| 3.  | [TS OOP](#typescript-oop)               | 14.Aug | +   | +   |
-| 4.  | [Tools](#angular-tools)                 | 16.Aug | +   | +   |
-| 5.  | [Setup](#setup-and-architecture)        | 16.Aug | ^   | +   |
-| 6.  | [Components](#components-and-templates) | 16.Aug | ^   | +   |
-| 7.  | [CLI](#angular-cli)                     | 18.Aug | +   |     |
-| 8.  | [Data Binding](#data-binding)           | 18.Aug | +   |     |
-| 9.  | [Demo: basic app](#demo-app)            | 18.Aug | +   |     |
-|     | Lifecycle                               |        |     |     |
-|     | Pipes and Directives                    |        |     |     |
-|     | Forms                                   |        |     |     |
-|     | Services and DI                         |        |     |     |
-|     | Observables                             |        |     |     |
-|     | Router                                  |        |     |     |
+| Vid |                   Topic                    |  Date  |  C  |  V  |
+| --- | ------------------------------------------ | ------ | --- | --- |
+| 1.  | [Intro](#course-intro)                     | 14.Aug | +   | +   |
+| 2.  | [TypeScript](#typescript-fundamentals)     | 14.Aug | +   | +   |
+| 3.  | [TS OOP](#typescript-oop)                  | 14.Aug | +   | +   |
+| 4.  | [Tools](#angular-tools)                    | 16.Aug | +   | +   |
+| 5.  | [Setup](#setup-and-architecture)           | 16.Aug | ^   | +   |
+| 6.  | [Components](#components-and-templates)    | 16.Aug | ^   | +   |
+| 7.  | [CLI](#angular-cli)                        | 18.Aug | +   |     |
+| 8.  | [Data Binding](#data-binding)              | 18.Aug | +   |     |
+| 9.  | Demo: [basic app](#demo-app)               | 18.Aug | +   |     |
+| 10. | [Communication](#components-communication) | 22.Aug | +   |     |
+| 11. | [Lifecycle](#lifecycle)                    | 22.Aug | +   |     |
+|     | Pipes and Directives                       |        |     |     |
+|     | Forms                                      |        |     |     |
+|     | Services and DI                            |        |     |     |
+|     | Observables                                |        |     |     |
+|     | Router                                     |        |     |     |
 
 - `*` - missed &emsp; `^` - no listen &ensp; 
 - `0` - video not in playlist &emsp; `.` - no video  &emsp; `--` - no lecture
@@ -511,7 +512,9 @@ Telerik Academy course, August 2017
     [BeastCode](https://github.com/BeastCode/VSCode-Angular-TypeScript-Snippets), 
     [johnpapa](https://github.com/johnpapa/vscode-angular-snippets)
     
-    - **Angular Files** - [link](https://github.com/qwert789/vscode-angular2-files) - scaffolds files from templates - eg. component has css, html, spec.ts, ts files, can use this extension to generate all of them (based on CLI) (eg. right click on app folder - `Generate Component`)
+    - #### **Angular Files**
+
+        [GitHub](https://github.com/qwert789/vscode-angular2-files) - scaffolds files from templates - eg. component has css, html, spec.ts, ts files, can use this extension to generate all of them (based on CLI see [#blueprints](#blueprints)) (eg. right click on app folder - `Generate Component`)
 
          ```js
         /*.angular-cli.json file specifies component generation settings*/
@@ -553,7 +556,7 @@ Telerik Academy course, August 2017
         }
         ```
 
-    - **Type Lens** - [link](https://github.com/kisstkondoros/typelens) - reference counter
+    - **TypeLens** - [link](https://github.com/kisstkondoros/typelens) - reference counter
 
     - **Types Auto Installer** - [link](https://github.com/jvitor83/typings-autoinstaller) - downloads type-files (interfaces) automatically on libraries installation -> intellisense
 
@@ -902,9 +905,9 @@ Telerik Academy course, August 2017
         ```
 
 
-    1. **Angular [CLI](https://cli.angular.io/)** (recommended)  
+    1. #### Angular CLI overview
 
-        See [Angular CLI](#angular-cli)
+        [Website](https://cli.angular.io/), See [#Angular CLI](#angular-cli)
 
         Powerful and reliable console interface for generating Angular applications. Has many benefits but no control over how the modules will be bundled.
 
@@ -985,7 +988,9 @@ Telerik Academy course, August 2017
     By default Angular doesn't use Shadow DOM. 
 
     Angular comes with view encapsulation by default which enables Shadow DOM. 3 view-encapsulation strategies:
-    - **Emulated** (default) - no Shadow DOM, yes encapsulation of views. Emulated = creates unique selectors (ids and classes). Doesn't use Shadow DOM because Angular is multi-platform and Shadow DOM is not supported on all platforms and browsers. The global style stays in the head above the components' styles so that they can overwrite it.
+    - #### Emulated
+
+        (default) - no Shadow DOM, yes encapsulation of views. Emulated = creates unique selectors (ids and classes). Doesn't use Shadow DOM because Angular is multi-platform and Shadow DOM is not supported on all platforms and browsers. The global style stays in the head above the components' styles so that they can overwrite it.
     - **None** - no Shadow DOM, no encapsulation - if we want to apply a component's style to global style - change meta data of this component `@Component{ encapsulation: ViewEncapsulation.None }`
     - **Native** - uses native Shadow DOM instead of emulated (no unique selectors, creates shadow DOM for each component)
 
@@ -996,7 +1001,7 @@ Telerik Academy course, August 2017
 
  3. #### Templates
 
-    (See [Templates overview](#templates-overview))     
+    See [Templates overview](#templates-overview), video at [00:43:30](https://youtu.be/l21GHCRtJ0U?t=43m30s)     
     = A form of HTML that tells Angular how to render the component. Similar to regular HTML but with some additional features.
 
     1. [Syntax](https://angular.io/docs/ts/latest/guide/template-syntax.html)
@@ -1061,7 +1066,8 @@ Telerik Academy course, August 2017
             template: `
                 <div class="home-comp">
                 Content from home component will appear inside ng-content!
-                <ng-content></ng-content> <!--only content if using native encapsulation strategy-->
+                <ng-content></ng-content> 
+                <!--only <content> if using native encapsulation strategy-->
                 </div>
             `
             })export class HomeComponent {}
@@ -1113,29 +1119,149 @@ Telerik Academy course, August 2017
 ## Angular CLI
  18.August.2017 Martin [video](https://youtu.be/T7b1WUsbExU)
  
- See [Angular setup a project](#setup-a-project), video at [00:43:30](https://youtu.be/l21GHCRtJ0U?t=43m30s)
- - Generating options
-    --style scss
-    --prefix ap
-    --skip-test
-    --routing
- - Lint - tslint.json
-    - Lint application when building (commands are in package.json file) - possible to forbid building if lint errors. Flags: --fix
- - Serving: `ng serve`, `ng serve --host ..` `ng serve --port=1337` - for development purposes
- - Blueprints `ng generate` / `ng g` eg. `ng g c inner --spec false -d` (creates folder inner) - possible options - component, directive, pipe, service interface, class enum, module
- - Build - 
-    -Ahead of time compilation AOT (platformBrowser) vs Just in time compilation (platformBrowserDynamic setting in main.ts file) 
-    - AHT tree shaking compilation - reduces the size of the compiled files in production (`ng serve --prod`) build - makes starting the application faster but not how fast the application works in general.
-    - Tool - source-map-explorer - view different builds
-    - AOT removes source maps
- - Build environments `ng build` vs `ng build --prod`- source maps, extracted css, uglifying, tree-shaking, AOT (more in rangle.io article)
- - UT `ng test`
- - End-to-end tests with Protractor??
- - Assets - - should be in 'angular-cli.json' file ??
- - Global styles - in styles.css file (emulated strategy adds new selectors which prevent global styles??)
- - Installing third party libraries - use npm, need to include them in scripts array in angular-cli.json file (won't work if included as script tags in the html file)
- - Bootstrap - better use ng-bootstrap (as module) instead of adding it as global libraries
- - Limitations of Angular CLI - no control over how things happen under the hood -can't edit the webpack file
+ See [#Angular CLI overview](#angular-cli-overview)
+
+ 1. #### Steps with vs without CLI
+
+    |  CLI (command line interface)  |                   No CLI                    |
+    | ------------------------------ | ------------------------------------------- |
+    | Create new Angular application | Create application (could use seed project) |
+    | Run development server         | Configure TypeScript                        |
+    | Add features                   | Configure Typings                           |
+    | Run tests                      | Configure module bundler/loader             |
+    | Build for production           | Create components, directives, pipes        |
+
+ 2. #### Installation
+    - Installed Node.js and npm
+    - `> npm install -g @angular/cli`
+    - `> ng -v` (-v = --version) - verify installation
+
+ 3. #### Creating a project
+    - `> ng new PROJECT_NAME`
+    - new vs init - init creates a project in the current folder, new creates new folder
+    - `> ng serve` (must switch to project folder first)
+
+ 4. #### Generating options
+
+    Can be set in **angular-cli.json** file under 'defaults', including viewEncapsulation and changeDetection.
+    - `-d` (= `--dry-run`) - test run, lists the files which will be created.
+    - `-v` (= `--verbose`) - shows more information during processing command
+    - `--minimal` - app component is only ts file (no html and css), 
+    - `--skip-npm` - doesn't install dependencies
+    - `--skip-git` - doesn't create a new repo for the project
+    - `--skip-test` - doesn't create spec files for testing
+    - `--directory` - specify folder where to create the new project
+    - `--style scss` - styles should be SASS
+    - `--prefix app` - changes the default prefix for selectors
+    - `--routing true` - adds routing module
+    - `ng set --global packageManger=yarn` - change npm to yarn
+    - eg. `> ng g s shared/logging -d --flat --spec false` - dry-run of create a service in the specified folder without dedicated folder, without test files
+
+ 5. #### Lint
+    - `> ng lint` - runs lint command from **package.json**
+    - `> ng lint --help` 
+    - `> ng lint --fix` - automatically fix errors
+    - `> ng lint --format verbose|stylish|json` - specifies the format of the lint output
+    - **tslint.json** - configure custom linter options for the project (extends codelyzer which comes with the cli project)
+    
+    Possible to forbid building if lint errors.
+
+ 6. #### Serve
+
+    Builds the app (angular-cli.json `apps[{"outDir: "dist"}]`, serves it in the browser and deletes the build folder, so that we can't see it. ??
+    - `> ng serve -o` - -o opens in default browser
+    - `> ng serve --host 0.0.0.0`
+    - `> ng serve --port 4201` - for development purposes
+    - `> ng serve --host 0.0.0.0 --port 4201`
+
+    **Only for development purposes**. Re-compiles on changes.
+
+ 7. #### Blueprints 
+    - `ng generate` or `ng g` - generate components or other building blocks
+    - eg. `ng g c inner --spec false -d` (creates folder 'inner'), supports relative path generation (eg. `../newer-cmp`)
+    - possible options - `c` component, `d` directive, `p` pipe, `s` service, `i` interface, `c` class??, `e` enum, `m` module. 
+
+    Options, (can be set in **angular-cli.json** file and done with extension see [#Angular files](#angular-files)):
+    - `--flat true|false`
+    - `--inline-template true|false`
+    - `--inline-style true|false`
+    - `--spec true|false`
+
+ 8. #### Build 
+    
+    Build targets are set in the **angular-cli.json** file (default is 'dev'). Doesn't serve. If not using CLI, have to configure builds manually:
+
+     ```json
+    "environments": {
+        "source": "environments/environment.ts",
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+    }
+    ```
+
+    Environment and target can be changed (what is the difference between environment and target??):
+    - `> ng build --target=production --environment=prod`
+    - `> ng build --prod --env=prod`
+    - `> ng build --prod` 
+    - `> ng serve --prod` - build to temp folder and serve app
+    
+    All builds make use of bundling. 
+    - Dev build - creates source maps, global CSS output to .js, JIT
+    - Prod build - does uglifying, tree-shaking, extracts css, AOT. 
+    - Use [Source map explorer](https://github.com/danvk/source-map-explorer) to analyse different builds   
+    `> npm install --save-dev source-map-explorer`.
+    `> ./node_modules/source-map-explorer/index.js ./dist/main.bundle.js`
+
+    **Compilation** strategies:
+    - **Tree shaking** - removes code which is not used in the application from the final bundle. Reduces the size of the compiled files in production build - makes starting the application faster (does not influence how fast the application works in general). (read more in [rangle.io](http://blog.rangle.io/optimize-your-angular2-application-with-tree-shaking/) article)
+    - AOT (Ahead of time compilation) `platformBrowser` setting in **main.ts** file - removes source maps, does tree shaking. (can be set in `ng serve --prod --aot false`)
+    - JIT (Just in time compilation) `platformBrowserDynamic()` (C# has JIT compiler??)
+
+ 9. #### Other
+    - **UT** - (some other time)
+        - `> ng test` - automatically executed after build via **Karma**, then watches for changes??
+        - `> ng e2e` - end-to-end tests with Protractor (make sure you are serving the app with `> ng serve`) - functionality tests, in browser
+
+    - **Assets** - array in **angular-cli.json** file - files and folders to be copied 'as-is' when building the project - photos and other files for the web-page.
+
+    - **Global styles** - in styles.css file. Allows users to add global styles and supports CSS imports. Useful for styles of elements outside of the ng-app or when `ViewEncapsulation.None` (the default `ViewEncapsulation.Emulated` strategy adds unique selectors which prevent global styles - see [#emulated](#emulated)).
+
+        If the project is created with `--style=sass`, this will be a '.sass' file instead, same applies to scss/less/styl.
+
+        Can add more global styles files with `apps[0].styles` property in the 'angular-cli.json' file.
+
+        Styles extensions - when generating a new project can define which extension you want for the style files `> ng new my-project --style==sass` or set the default style on an existing project `> ng set defaults.styleExt scss`
+
+    - **Third party libraries** - install with npm, then import in code `scripts`
+
+        Some libraries need to be added in the global scope. Include them in `scripts` array in **angular-cli.json** file (won't work if included as script tags in the html file).
+
+    - **Bootstrap** - better use [ng-bootstrap](https://github.com/ng-bootstrap/ng-bootstrap) (as module) instead of adding it as global libraries (in **angular-cli.json** `scripts` and in `.styles` arrays - must install dependencies manually)
+
+         ```json
+        "apps": [{
+            "scripts": [
+            "../node_modules/jquery/dist/jquery.js",
+            "../node_modules/tether/dist/js/tether.js",
+            "../node_modules/bootstrap/dist/js/bootstrap.js"
+            ],
+            "styles": [
+                "../node_modules/bootstrap/dist/css/bootstrap.css",
+                "styles.css"
+            ]
+        }]
+        ```
+
+ 9. #### Architecture overview
+
+    Files to note: tsconfig.json, tslint.json, .angular-cli.json
+
+ 9. #### Limitations of Angular CLI 
+
+    - No control over how things happen under the hood -can't edit the webpack file.
+    - No support for add-ons??
+
+    Can eject the project from CLI - `> ng eject`, removes ng from `scripts` in package.json, run `npm install` to update packages, run with `nmp start`, now have access to **webpack.config.js**.
  .
 ## Data Binding
  18.August.2017 Martin [video](https://youtu.be/PQCHGVa0s-4)
@@ -1157,16 +1283,296 @@ Telerik Academy course, August 2017
     - Two-way data binding - constant/non-stop communication in both directions (banana in a box) - a combination between property and event binding `[(ngModel)] = "title"` - must import forms module to be able to use on input tag
     - Custom two-way data binding (after we talk about input and output properties)
 
-
-
-
  .
 ## Demo app
  18.August.017 Martin [video](https://youtu.be/4-1L4ab1iIY)
  2. Demo app
     - In memory web api [link](https://github.com/angular/in-memory-web-api)
  .
-## Angular Lifecycle
+
+## Components Communication
+ 22.August.2017 Martin
+
+ Component Communication - transferring data between elements of the application.
+
+ 1. #### Local variable
+
+    **Template reference variables** - reference to the DOM element or reference to Angular component. Declared with `#`. Main way for communication.
+
+    ```html
+    <input #inp type="text">
+    <button (click)="someMethod(inp)">Add</button>
+    ```
+
+    Parent calls child with `#` - a parent component cannot use data binding to read child properties or invoke child methods. Can be done by creating a template reference variable for the child element. Then reference that variable within the parent template.
+
+    ```html
+    <app-child #child></app-child> <!--can use ref-child instead of #child-->
+    <button (click)="child.callSomeMethod()"></button>
+    ```
+
+    The scope of the reference variable is the entire template/component. **Don't define the same variable more than once in the same template**. Can use `ref-` prefix instead of `#`.
+
+    Local variables can be created for elements of the template, not only for the whole template. Useful to pass values as parameters of methods.
+
+ 2. #### Input (parent to child)
+
+    `@Input` decorator - property binding. Input properties usually receive data values. 
+
+     ```ts
+    /* child.component.ts */
+    @Input()
+    text: string;
+
+    /* parent.component.html */
+    /* add more '' for string otherwise expects variable or number*/
+    <child [text]="'someValue'"></child> 
+    ```
+
+    Can use input property **setter** to intercept and act upon a value from the parent. Useful for validations and setting a default value.
+
+     ```ts
+    private _number;
+    @Input() 
+    set number(val) {
+        const num = Number(val);
+        if (!num) {
+            this._number = 'No number passed!';
+        }else{
+            this._number = num;
+        }
+    }
+    get number() {
+        return this._number;
+    }
+    ```
+
+ 3. #### Output (child to parent)
+
+    `@Output` decorator. Child component exposes an **EventEmitter** (output property) - emits when something happens. The parent binds to that event property and reacts to those events. 
+
+     ```ts
+    /* child.component.ts */
+    @Output()
+    childEvent = new EventEmitter<T>(); 
+    /* generic, defines the type of the emitted value, eg. string */
+    /* can be instantiated in constructor but not in OnInit */
+
+    action(){
+        this.childEvent.emit('someValue|object')
+    }
+
+    /* child.component.html */
+    <button (click)="action()">Emit event</button>
+
+    /* parent.component.html */
+    <child (childEvent)="someAction($event)"></child>
+    /* $event stores the emitted value*/
+
+    /* parent.component.ts receives the emitted $event */
+    someAction(ev){
+        console.log('Event called from child pops up here');
+        console.log(ev);
+    }
+    ```
+
+ 4. #### ViewChild
+
+    Local variable approach is simple and easy but limited because parent-child wiring must be done entirely within the parent template. When parent component class requires access to child, **inject the child component** into the parent as a ViewChild.
+
+    `@ViewChild` decorator (returns the first found).   
+    `@ViewChildren` returns a collection (**QueryList**) of all the found children.
+
+     ```ts
+    /* parent.component.ts */
+    @ViewChild(ChildComponent) 
+    /* can pass selector local variable eg. #h1-local */
+    private el; /* type is ElementRef*/
+
+    /* must be instantiated */
+    ngAfterViewIntit(){
+        console.log(el);
+    }
+
+    /* parent.component.html */
+    <div>Sample html could be placed</div>
+    <child></child>
+    ```
+
+    '@ViewChild' could be used with a type of the child component or with a local variable.
+
+     ```ts
+    @ViewChild(ChildComponent)
+    private childComponent;
+    }
+    ```
+
+     ```ts
+    /* parent.component.ts */
+    @ViewChild('c')
+    private childComponent;
+
+    /* parent.component.html */
+    <child #c></child>
+    ```
+
+ 5. #### ContentChild
+    
+    `@ContentChild` - includes only elements that exist within the `ng-content` tag ('@ViewChild' has  no access to it, searches the template of the child only).
+    `@ContentChildren` returns a collection (**QueryList**) of elements.
+
+     ```ts
+    /* child.component.ts */
+    @ContentChild(AnotherComponent)
+    private anotherComponent;
+
+
+    /* must be instantiated after content init!
+    might not work if init with another lifecycle hook*/
+    ngAfterContentInit(){
+        console.log(el);
+
+    /* child.component.html */
+    <child><another></another></child>
+    ```
+
+    With local variable (can be used with a type of the child component)
+
+     ```js
+    /* child.component.ts */
+    @ContentChild('c')
+    private childComponentDiv;
+
+    /* child.component.html */
+    <child><div #c></div></child>
+    ```
+
+ 6. #### ElementRef
+
+    **NB: Use templating and data binding provided by Angular instead!** 
+
+    Provides access to the underlying native element (DOM element). Do not use directly, use only as last resort.
+    
+    **Use with caution!** (read more at [angular.io](https://angular.io/api/core/ElementRef  ))
+    
+     ```ts
+    constructor(private elRef: ElementRef) { }
+
+    ngOnInit(){
+        console.log(elRef);
+    }
+
+    btnClick(){
+        const el = this.elRef.nativeElement.querySelector('h2');
+        console.log(el); /* do not do this! */
+    }
+    ```
+
+ 7. #### Renderer2
+
+    Multi-platform of Angular comes here, service which gives an abstraction of the Angular DOM tree. Takes care of what to do with whatever we have selected instead of using the ElementRef. Provides the benefits of dependency injection - testable, changeable.
+
+    The Render2 (deprecated Render class) is a built-in service that provides an abstraction for the **UI rendering manipulations**.
+
+     ```ts
+    @ViewChild("input") input;
+
+    ngAfterContentInit() {
+        this.input.nativeElement.focus();
+    } /* don't use?? */
+    ```
+
+    `@ViewChild nativeElement` - can't use it in non-DOM environments (Angular is multi-platform), use Renderer2 class instead (using ElementRef to get access to the underlying native element).
+
+     ```ts
+    constructor(
+    private elementRef: ElementRef,
+    private renderer: Renderer2) { }
+
+    ngOnInit() {
+    const h1 = this.renderer.createElement('h1');
+    this.renderer
+        .setProperty(h1, 'innerHTML', 'Added h1 by Renderer2');
+    this.renderer
+        .appendChild(this.elementRef.nativeElement, h1);
+    }
+
+    btnClick(){
+        const div = this.renderer.createElement('div');
+        this.renderer.setProperty(div, 'innerHTML', 'Pesho');
+        this.renderer.appendChild(this.elRef.nativeElement, div);
+    }
+    ```
+ .
+## Lifecycle
+ 22.August.2017 Martin
+
+ Lifecycle hooks - Angular calls methods on directives and components as it creates, changes, and destroys them. 
+
+ 1. #### Constructor (not a hook)
+
+    The constructor of the component class is called **before** any other component lifecycle hooks.
+
+    Inject all dependencies in constructor.
+
+     ```ts
+    import {Component} from '@angular/core';
+    import {UserService} from './../core/userService';
+    @Component({
+    selector: ‘user-list’,
+    template: `
+        <ul>
+        <li *ngFor="#user of users">{{user.username}}</li>
+        </ul>
+    `
+    })
+    class UserListComponent {
+        users:Array<any>;
+        constructor(private userService: UserService) {  }
+    }
+    ```
+ 2. #### OnChanges
+
+    Called **before ngOnInit** and whenever one or more data-bound properties change. Executes every time the value of an input property changes. The method receives a `SimpleChanges` object of current and previous property values.
+
+     ```ts
+    ngOnChanges(changes: SimpleChanges){
+        console.log(changes);
+    }
+    ```
+
+    - **Strategies** with which Angular decides how the properties of objects are changed. Instead of constantly watching all classes/objects for changes in properties, set `changeDetection: ChangeDetectionStrategy.OnPush` in component meta data. OnPush fires only when object reference is changed, not if properties of an object are changed. Need to use immutable objects in this case, otherwise changes wouldn't be registered. Improves performance.
+
+ 3. #### OnInit
+
+    Called once. Use to:
+    - perform complex initializations shortly after construction
+    - set up the component after Angular sets the input properties
+
+    Don't fetch data in a component constructor. An ngOninit is a good place for a component to fetch its initial data.
+
+ 4. #### OnDestroy
+
+    Called just before the instance of the component is finally destroyed. 
+
+    Important: This is the place to **free resources** which won't be garbage collected automatically and **unsubscribe** from observables (emit data over time) and DOM elements.
+
+ 5. #### DoCheck
+
+    Used to detect and act upon changes that Angular doesn't catch on its own. Can be used to extend the check with our own custom check logic. Called when change detection runs so you can implement your custom change detection action.
+
+ 7. #### AfterContent hooks
+
+    Concern **ContentChildren** - the child components that Angular projected into the component.
+    - **AfterContentInit** - called after ngOnInit.
+    - **AfterContentChecked** - called after every check of a directive's content, even if the bindings haven't changed.
+
+ 8. #### AfterView hooks
+
+    Concern **ViewChildren** - the child components whose element tags appear within the component's template.
+    - **AfterViewInit** - called after ngAfterContentInit, applies to components only.
+    - **AfterViewChecked** - called after every check of the component's view, applies to components only, even if the bindings haven't changed.
+ .
 ## Pipes and Directives
 ## Forms and Form controls
 ## Services and DI
