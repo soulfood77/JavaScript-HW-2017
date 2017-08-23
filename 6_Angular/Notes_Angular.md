@@ -13,16 +13,17 @@ Telerik Academy course, August 2017
 | 4.  | [Tools](#angular-tools)                    | 16.Aug | +   | +   |
 | 5.  | [Setup](#setup-and-architecture)           | 16.Aug | ^   | +   |
 | 6.  | [Components](#components-and-templates)    | 16.Aug | ^   | +   |
-| 7.  | [CLI](#angular-cli)                        | 18.Aug | +   |     |
-| 8.  | [Data Binding](#data-binding)              | 18.Aug | +   |     |
+| 7.  | [CLI](#angular-cli)                        | 18.Aug | +   | +   |
+| 8.  | [Data Binding](#data-binding)              | 18.Aug | +   | +   |
 | 9.  | Demo: [basic app](#demo-app)               | 18.Aug | +   |     |
 | 10. | [Communication](#components-communication) | 22.Aug | +   |     |
 | 11. | [Lifecycle](#lifecycle)                    | 22.Aug | +   |     |
 |     | Pipes and Directives                       |        |     |     |
+|     | Modules                                    |        |     |     |
 |     | Forms                                      |        |     |     |
 |     | Services and DI                            |        |     |     |
 |     | Observables                                |        |     |     |
-|     | Router                                     |        |     |     |
+|     | Routing                                    |        |     |     |
 
 - `*` - missed &emsp; `^` - no listen &ensp; 
 - `0` - video not in playlist &emsp; `.` - no video  &emsp; `--` - no lecture
@@ -505,7 +506,7 @@ Telerik Academy course, August 2017
         - `app` folder holds all Angular components and files (when creating from CLI)
         - `app.component.ts` file defines '@Component' with selector for the app-root tag from index.html and inserts/renders contents into app.component.html template
 
-    - **Angular Language Service** - [link](https://github.com/angular/vscode-ng-language-service) - provides auto complete for data binding - from component.ts exports to component.html template file (like pug templates) (if it doesn't load suggestions, exclude node_modules in VSCode workspace settings `files.exclude: {"**/node_modules": true}`)
+    - **Angular Language Service** - [link](https://github.com/angular/vscode-ng-language-service) - provides auto complete for data binding - from component.ts exports to component.html template file (like pug templates) (if it doesn't load suggestions, exclude node_modules in VSCode workspace settings **Ctrl+,** `files.exclude: {"**/node_modules": true}`)
 
     - **TSLint** - [link](https://github.com/Microsoft/vscode-tslint) - integrates lint in VSCode, dynamic error notifications, otherwise have to run lint from cmd each time a change is made. Supports automatic fixing of errors - CLI creates tslint.json file, rules are in 'node_modules/codelyzer' (by Minko Gechev too)
     - **Angular Snippets** - 
@@ -1266,27 +1267,149 @@ Telerik Academy course, August 2017
 ## Data Binding
  18.August.2017 Martin [video](https://youtu.be/PQCHGVa0s-4)
 
- 1. One
-    One-way, something like two-way data binding.
-    Interpolation vs property binding - from component to dom/html, event binding from html to component (user input)
+ 1. #### Data Binding
+    <img src="./images/databinding.png" alt="binding" style="float:right">
+
+    = A mechanism for coordinating what data users. Angular has no built-in two-way data binding any more, only something similar.
+
+    Template **Data binding works with properties** of DOM elements, components and directives,  not with HTML attributes. Attributes only initialise DOM properties and then they are done. **Property values can change, attributes can't**. Some properties mirror attributes (eg.disabled, id). For some attributes, there is no matching property and then attributes are used (eg. colspan).
+
+    4 data binding types (read more at [angular.io](https://angular.io/guide/template-syntax#binding-targets)):
+    |     Type      |           Code           | Direction |
+    | ------------- | ------------------------ | --------- |
+    | interpolation | `{{value}}`              | c > DOM   |
+    | property      | `[property]="value"`     | c > DOM   |
+    | event         | `(event)="handler"`      | DOM > c   |
+    | two-way       | `[(ngModel)]="property"` | ~two-way  |
+
+ 2. #### Interpolation
     
-    Properties vs attributes.
-    Once we start data binding, we are no longer working with HTML attributes. We are setting the properties of DOM elements.
+    `{{value}}`     
+    Often is the name of a component property. Angular replaces it with its the string value. Accepts expressions, which are evaluated and converted to a string.
 
-    Types of interpolation:
-    From component to html
-    - Interpolation - the value between the braces is often a property, could be an expression too (though not a good practice, calculations should be done in the component). Template expressions - can't use expressions which give side effects; can't refer to the global scope/namespace;
-    - Property binding - for known properties of the specific object/tag?? difference between attribute and property. Can also bind classes and styles. Style binding.
-    From html to component
-    - Event binding - change detection - passing value from html to component - local variable or event object ($event).
-    - Viktor Savkin resources
-    - Two-way data binding - constant/non-stop communication in both directions (banana in a box) - a combination between property and event binding `[(ngModel)] = "title"` - must import forms module to be able to use on input tag
-    - Custom two-way data binding (after we talk about input and output properties)
+    #### Template expressions
+    
+    Produce a value. Not a great practice, **calculations should be done in the component**. Written in a language resembling JavaScript. Differences:
+    - No expressions that promote side effects: assignments `=`,`+=`,`-=`; incrementing `++`; `new`; chaining expressions with `;` or `,`). 
+    - No bitwise operators `|` and `&`. 
+    - No new template expression operators `|` or `?`
+    - Cannot refer to anything in the global scope
+    - Expression context is usually the component instance, which is the source of binding values.
 
+ 3. #### Property binding
+
+    `[hidden]="isHidden"`   
+    **For known properties of the specific object/tag**. Can also bind classes and styles. Used to set a property of a view/html element to the value of a template/component expression or field.
+
+    Property vs interpolation: no technical reason to prefer one or the other.  
+    When creating custom properties, only property binding is possible.
+
+    ```html
+    <img [src]="headerImageUrl">
+    <button [disabled]="isEnabled">Click me</button>
+    <div [ngClass]="classes">[ngClass] bind </div>
+
+    <p><img src="{{heroImageUrl}}"> interpolated image.</p>
+    <p><img [src]="heroImageUrl"> property bound image.</p>
+
+    <span>"{{title}}" interpolated title.</span>
+    <span [innerHTML]="title"></span> property bound title.
+    ```
+
+    - Attribute binding
+
+        `[attr.colspan]="1 + 1"`    
+        Use **only when there is no element property** to bind to!
+
+        ```html
+        <tr><td [attr.colspan]="1 + 1">One-Two</td></tr>
+        <!-- ERROR: There is no `colspan` property to set! -->
+        <tr><td colspan="{{1 + 1}}">Three-Four</td></tr>
+        ```
+
+    - Class binding
+
+        `[class.class-name]` - prefer `[ngClass]` directive (future lecture, accepts functions which return a collection of classes)     
+        Can remove **CSS class** names from an element's class.
+
+        ```html
+        <p [class]="myClass">Styled with [class]</p>
+        <p [class.myClass]="true">Styled with [class.name]</p>
+        <p [ngClass]="['class1', 'class2']">One two</p>
+        ```
+
+    - Style binding
+
+        `[style.style-property]` - prefer `[ngStyle]` directive  
+        eg. '[style.font-size.px]="40"' or 'style.fontSize', '[style.background-color]="'black'"    
+        (notice: **double quotes** to pass a string! otherwise it is passed as a variable)   
+        Can set inline styles.
+
+ 4. #### Event binding
+
+    `(click)="showMessage($event)"`   
+    - Used for passing value from html to component (user input) 
+    - Name between parentheses identifies the target event (native DOM event - click, mouseOver, etc. which trigger change detection)
+    - Pass information about the event through event object ($event) (could also pass a local variable)
+        ```html
+        <!--name, changeName(), logVal() are defined in component-->
+        <h1 #loc>{{name}}</h1> <!--local variable refers the whole h1 tag-->
+        <button (click)="changeName(loc.innerHTML)"> 
+        <input (keypress)=logVal("$event.target.value")>
+
+        <button (click)="changeName(f.value)">change</button>
+        <!--clear input after out of focus of input field-->
+        <input #f (blur)="$event.target.value="''">
+        ```
+    - **$event** - depends on the target element, if it is a native DOM element, then $event holds a DOM element object.
+        ```html
+        <input [value]="title" (input)="title=$event.target.value" >
+        ```
+    - Can define custom events
+        ```html
+        <button (click)="showMessage()">Show</button>
+        <!--or-->
+        <button on-click="showMessage()">Show</button>
+        ```
+
+ 5. #### Two-way data binding
+
+    `[(ngModel)]="title"`   
+    Constant/non-stop communication in both directions (banana in a box). A combination between property and event binding. Both display a data property, and update it when the user makes changes. Two-way data binding works on FormsModule elements (most of them).
+
+    ```html
+    <!--url is a property of the component-->
+    <!--displays an image, updates the image when new url inserted in input-->
+    <img [src]="url" width="100">
+    <input [(ngModel)]="url">
+    <!--same as-->
+    <input [ngModel]="url" (ngModelChange)="url=$event">
+    ```
+
+    `ngModel` (something like a directive) enables two-way binding to form elements (must import FormsModule to be able to use on input tag). 
+    
+    Eg. updating a data property. Not very convenient.
+    ```html
+    <input [value]="title" (input)="title = $event.target.value" >
+    ```
+    NgModel hides this - only works for specific form elements
+    ```html
+    <input [ngModel]="title" (ngModelChange)="title = $event">
+    ```
+
+    For custom components we can name the value and event properties to suit Angular's basic two-way binding syntax and skip NgModel.
+
+    `[(pesho)]` Should have `pesho` property and `peshoChange` event handler method.
+    
+    \* Custom two-way data binding (after we talk about input and output properties)
+
+    \* Good practice is to initialise object fields/properties either in constructor or in an appropriate lifecycle hooks
+
+    Read more from [Viktor Savkin](https://vsavkin.com)
  .
 ## Demo app
  18.August.017 Martin [video](https://youtu.be/4-1L4ab1iIY)
- 2. Demo app
+ 1. Demo app
     - In memory web api [link](https://github.com/angular/in-memory-web-api)
  .
 
