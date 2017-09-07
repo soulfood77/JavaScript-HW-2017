@@ -3,27 +3,26 @@
 
 Telerik Academy course, August 2017
 
-[videos playlist]()
+[videos playlist](https://www.youtube.com/playlist?list=PLF4lVL1sPDSlIH8I6T_K_z5kRAf6JI8Ys)
 
-| Vid |                   Topic                    |  Date  |  C  |  V  |
-| --- | ------------------------------------------ | ------ | --- | --- |
-| 1.  | [Intro](#course-intro)                     | 14.Aug | +   | +   |
-| 2.  | [TypeScript](#typescript-fundamentals)     | 14.Aug | +   | +   |
-| 3.  | [TS OOP](#typescript-oop)                  | 14.Aug | +   | +   |
-| 4.  | [Tools](#angular-tools)                    | 16.Aug | +   | +   |
-| 5.  | [Setup](#setup-and-architecture)           | 16.Aug | ^   | +   |
-| 6.  | [Components](#components-and-templates)    | 16.Aug | ^   | +   |
-| 7.  | [CLI](#angular-cli)                        | 18.Aug | +   | +   |
-| 8.  | [Data Binding](#data-binding)              | 18.Aug | +   | +   |
-| 9.  | Demo: [basic app](#demo-app)               | 18.Aug | +   |     |
-| 10. | [Communication](#components-communication) | 22.Aug | +   |     |
-| 11. | [Lifecycle](#lifecycle)                    | 22.Aug | +   |     |
-|     | Pipes and Directives                       |        |     |     |
-|     | Modules                                    |        |     |     |
-|     | Forms                                      |        |     |     |
-|     | Services and DI                            |        |     |     |
-|     | Observables                                |        |     |     |
-|     | Routing                                    |        |     |     |
+| Vid |                   Topic                    |  Date  | C | V |
+| --- | ------------------------------------------ | ------ | - | - |
+| 1.  | [Intro](#course-intro)                     | 14.Aug | + | + |
+| 2.  | [TypeScript](#typescript-fundamentals)     | 14.Aug | + | + |
+| 3.  | [TS OOP](#typescript-oop)                  | 14.Aug | + | + |
+| 4.  | [Tools](#angular-tools)                    | 16.Aug | + | + |
+| 5.  | [Setup](#setup-and-architecture)           | 16.Aug | ^ | + |
+| 6.  | [Components](#components-and-templates)    | 16.Aug | ^ | + |
+| 7.  | [CLI](#angular-cli)                        | 18.Aug | + | + |
+| 8.  | [Data Binding](#data-binding)              | 18.Aug | + | + |
+| 9.  | Demo: [basic app](#demo-app)               | 18.Aug | + | + |
+| 10. | [Communication](#components-communication) | 22.Aug | + | + |
+| 11. | [Lifecycle](#lifecycle)                    | 22.Aug | + | + |
+| 12. | [Modules](#modules)                        | 24.Aug | + | + |
+| 13. | [Router](#router)                          | 24.Aug | + |   |
+| 14. | [Services and DI](#services-and-di)        | 29.Aug | + | . |
+| 15. | [Pipes, Directives, Forms](#pdf)           | 31.Aug | + |   |
+|     | Observables?                               |        |   |   |
 
 - `*` - missed &emsp; `^` - no listen &ensp; 
 - `0` - video not in playlist &emsp; `.` - no video  &emsp; `--` - no lecture
@@ -250,7 +249,7 @@ Telerik Academy course, August 2017
         let list: any[] = [1, true, "Pesho"];
         ```
 
-    1. Unions - type that combines two+ types, can be used on arrays. Rarely used - somewhat **bad practice**. Used in tuples.
+    1. Unions - type that combines two+ types, can be used on arrays. Rarely used - somewhat **bad practice**. Used in tuple.
 
          ```ts
         let example: (number | string);
@@ -278,8 +277,8 @@ Telerik Academy course, August 2017
         - when accessing an element with known index, the correct type is retrieved
 
          ```ts
-        console.log(x[0].substr(1)); /* OK */
-        console.log(x[1].substr(1)); /* Error, 'number' does not have 'substr' */
+        console.log(x[0].subStr(1)); /* OK */
+        console.log(x[1].subStr(1)); /* Error, 'number' does not have 'substr' */
         ```
 
         - when accessing an element outside the set of known indices, a union type is used instead.
@@ -352,7 +351,7 @@ Telerik Academy course, August 2017
             return firstName + " " + restOfName.join(" ");
         }
 
-        let buildNameFun: (fname: string, ...rest: string[]) => string;
+        let buildNameFun: (firstName: string, ...rest: string[]) => string;
         buildNameFun = buildName;
         ```
 
@@ -417,7 +416,7 @@ Telerik Academy course, August 2017
         if (config.color) { /* if passed object has this property. 
         Check needed if the property is optional '?', 
         otherwise passing the object will give error?? */
-            /* Error: Property 'clor' does not exist on type 'SquareConfig' */
+            /* Error: Property 'color' does not exist on type 'SquareConfig' */
             newSquare.color = config.clor;
         }
         if (config.width) {
@@ -470,11 +469,11 @@ Telerik Academy course, August 2017
         return new c();
     }
 
-    createInstance(Lion).keeper.nametag;  /* typechecks! */
-    createInstance(Bee).keeper.hasMask;   /* typechecks! */
+    createInstance(Lion).keeper.nametag;  /* type checks! */
+    createInstance(Bee).keeper.hasMask;   /* type checks! */
     ```
 
- 8. #### Modules
+ 8. #### TS Modules
 
     Executed within their own scope, not in the global scope. Variables, functions, classes, etc. declared within a module are not visible outside the module. `import`, `export`. Change of name at export is not a good practice but changing the name at import is useful because of possible conflicts. 
 
@@ -538,7 +537,7 @@ Telerik Academy course, August 2017
             styleUrls: ['./app.component.css']
         })
         export class AppComponent {
-            person = { firstName: 'Marto' };
+            person = { firstName: 'Martin' };
         }
         ```
          ```ts
@@ -601,13 +600,17 @@ Telerik Academy course, August 2017
 
  2. #### Building blocks
 
-    1. **Modules**
+    1. #### **Modules** intro
 
-        A mechanism to group components, directives, pipes and services that are related. Great way to organise an application and extend it with capabilities from external libraries. Wraps functionality. Something like a namespace. Allows reuse of code. Many of the libraries coming with Angular are modules (FormsModule, HttpModule). Angular modules (`NgModules`) are different from JavaScript modules. 
+        > See [Modules lecture](#modules)
+
+        A mechanism to group components, directives, pipes and services that are related. Great way to organise an application and extend it with capabilities from external libraries. Wraps functionality. Something like a namespace. Allows reuse of code. Many of the libraries coming with Angular are modules (FormsModule, HttpModule). Angular modules (`@NgModule`) are different from JavaScript modules. 
 
         AppModule - root of the application. The only module which is bootstrapped by our Angular application.
 
-        `@NgModule` **metadata** tells Angular how to compile and run the module code; identifies the module's own components, directives and pipes; may add service providers to the application dependency injectors. 
+        #### @NgModule metadata
+
+        Tells Angular how to compile and run the module code; identifies the module's own components, directives and pipes; may add service providers to the application dependency injectors. 
 
         - declarations - contain components, directives, pipes which you want to use in the module
         - imports - modules (need to be imported on top)
@@ -622,10 +625,8 @@ Telerik Academy course, August 2017
             AppComponent,
             MyComponent
         ],
-        imports: [
-            BrowserModule,
-        ],
-        providers: [ MyService ], /*Instaintiates classes, shorhand for 
+        imports: [ BrowserModule, ],
+        providers: [ MyService ], /*Instantiates classes, shorthand for 
         {provide: MyService, useClass: Pesho}*/
         bootstrap: [AppComponent],
         exports: [ MyComponent ]
@@ -633,7 +634,8 @@ Telerik Academy course, August 2017
         export class AppModule { }
         ```
 
-        JIT (Just in time) compilation of an Angular application
+        #### JIT     
+        Just in time compilation of an Angular application
 
          ```ts
          /* main.ts file */
@@ -718,7 +720,7 @@ Telerik Academy course, August 2017
         From DOM to component
         - `(event) = "handler"`
 
-        Bi-directonal
+        Bi-directional
         - `[(ng-model)] = "property"`
 
     1. **Directives**
@@ -768,7 +770,7 @@ Telerik Academy course, August 2017
 
     1. **Folder structure**
 
-        Sample file structure: [mgechev angular-seed](https://github.com/mgechev/angular-seed), [Angular style guide](https://angular.io/guide/styleguide#!#04-06)      
+        Sample file structure: [mGechev angular-seed](https://github.com/mgechev/angular-seed), [Angular style guide](https://angular.io/guide/styleguide#!#04-06)      
         Angular CLI scaffolds a good file structure as a starting point.
         
         ```
@@ -794,7 +796,7 @@ Telerik Academy course, August 2017
         - Installed Node.js and npm
         - TypeScript (See [TS Installation](#ts-installation))
         - IDE- Visual Studio Code preferably
-        - Angular CLI, Angular Seed (optional startup project) by [Minko Gechev](https://github.com/mgechev/angular-seed) or Quickstart Seed - boilerplate starting application. [Tutorial](https://angular.io/tutorial) - clone Angular Quickstart application from [github](https://github.com/angular/quickstart)
+        - Angular CLI, Angular Seed (optional starter project) by [Minko Gechev](https://github.com/mgechev/angular-seed) or QuickStart Seed - boilerplate starting application. [Tutorial](https://angular.io/tutorial) - clone Angular QuickStart application from [github](https://github.com/angular/quickstart)
 
     1. #### TypeScript config 
         (See [TS tsconfig](#ts-tsconfigjson))
@@ -929,7 +931,7 @@ Telerik Academy course, August 2017
     - Must belong to a `NgModule` in order to be usable by another component or application (eg. userModule, serviceModule) (must export or use route);
     - Anything visible to the end user.
     - Angular creates, updates and destroys components as the user moves through the application (change detection, life cycle hooks).
-    - Naming: file **[name].component.ts** - name is dash-case (kebap-case)
+    - Naming: file **[name].component.ts** - name is dash-case (kebab-case)
     - Naming: class **[Name]Component** - pascal case
     - `@Component` is a decorator function which contains the metadata for the component. Some metadata [properties](https://angular.io/api/core/Component):
         - selector - instance of the component in the HTML. Must be unique, otherwise could create collisions with other components or external libraries.
@@ -1058,28 +1060,33 @@ Telerik Academy course, August 2017
             })
             ```
 
-        - **Content projection** (Transclusion) = Taking a content (such as a text node or HTML) and injecting it into a template at a specific entry point. Done through Shadow DOM.
+        - #### Content projection
+
+            See [ContentChild communication](#contentchild)
+
+            (Transclusion) = Taking a content (such as a text node or HTML) and injecting it into a template at a specific entry point. Done through Shadow DOM.
 
             ```ts
             // home.component.ts
             @Component({
-            selector: 'demo-home',
+            selector: 'demo-child',
             template: `
-                <div class="home-comp">
-                Content from home component will appear inside ng-content!
+                <div class="child-comp">
+                <p>Child content will appear here (as normal)</p>
+                <p>Content from parent component will appear inside ng-content tag!</p>
                 <ng-content></ng-content> 
                 <!--only <content> if using native encapsulation strategy-->
                 </div>
             `
             })export class HomeComponent {}
 
-            // app.component.ts
+            // parent.component.ts
             @Component({
-            selector: 'demo-app',
+            selector: 'demo-parent',
             template: `
-                <demo-home>
+                <demo-child>
                 <h1 class="projected">My transcluded content!</h1>
-                </demo-home>
+                </demo-child>
             `
             })export class AppComponent {}
             ```
@@ -1112,7 +1119,7 @@ Telerik Academy course, August 2017
 
     > Demo: [routing](https://github.com/TelerikAcademy/Angular/tree/master/Topics/03.%20Components/demos/view-encapsulation-strategies)
 
-    Demo: **Angular material**/other external modules like bootstrap, toastr (search for Angular2):
+    Demo: **Angular material**/other external modules like bootstrap, Toastr (search for Angular2):
     - `npm install --save angular/material @angular/cdk`
     - needs BrowserAnimationModule or NoopAnimationsModule 
     - import style either in style.css file or in .angular-cli.json
@@ -1213,10 +1220,10 @@ Telerik Academy course, August 2017
     `> npm install --save-dev source-map-explorer`.
     `> ./node_modules/source-map-explorer/index.js ./dist/main.bundle.js`
 
-    **Compilation** strategies:
+    #### Compilation strategies:
     - **Tree shaking** - removes code which is not used in the application from the final bundle. Reduces the size of the compiled files in production build - makes starting the application faster (does not influence how fast the application works in general). (read more in [rangle.io](http://blog.rangle.io/optimize-your-angular2-application-with-tree-shaking/) article)
-    - AOT (Ahead of time compilation) `platformBrowser` setting in **main.ts** file - removes source maps, does tree shaking. (can be set in `ng serve --prod --aot false`)
-    - JIT (Just in time compilation) `platformBrowserDynamic()` (C# has JIT compiler??)
+    - **AOT** (Ahead of time compilation) `platformBrowser` setting in **main.ts** file - removes source maps, does tree shaking. (can be set in `ng serve --prod --aot false`)
+    - **JIT** (Just in time compilation, see [JIT](#jit)) `platformBrowserDynamic()` (C# has JIT compiler??)
 
  9. #### Other
     - **UT** - (some other time)
@@ -1275,6 +1282,7 @@ Telerik Academy course, August 2017
     Template **Data binding works with properties** of DOM elements, components and directives,  not with HTML attributes. Attributes only initialise DOM properties and then they are done. **Property values can change, attributes can't**. Some properties mirror attributes (eg.disabled, id). For some attributes, there is no matching property and then attributes are used (eg. colspan).
 
     4 data binding types (read more at [angular.io](https://angular.io/guide/template-syntax#binding-targets)):
+    
     |     Type      |           Code           | Direction |
     | ------------- | ------------------------ | --------- |
     | interpolation | `{{value}}`              | c > DOM   |
@@ -1397,7 +1405,7 @@ Telerik Academy course, August 2017
     <input [ngModel]="title" (ngModelChange)="title = $event">
     ```
 
-    For custom components we can name the value and event properties to suit Angular's basic two-way binding syntax and skip NgModel.
+    For custom components we can name the value and event properties to suit Angular basic two-way binding syntax and skip NgModel.
 
     `[(pesho)]` Should have `pesho` property and `peshoChange` event handler method.
     
@@ -1405,38 +1413,42 @@ Telerik Academy course, August 2017
 
     \* Good practice is to initialise object fields/properties either in constructor or in an appropriate lifecycle hooks
 
-    Read more from [Viktor Savkin](https://vsavkin.com)
+    Read more from [Victor Savkin](https://vsavkin.com)
  .
 ## Demo app
  18.August.017 Martin [video](https://youtu.be/4-1L4ab1iIY)
- 1. Demo app
-    - In memory web api [link](https://github.com/angular/in-memory-web-api)
+
+ - Demo todo app
+ 
+ - In memory web api [link](https://github.com/angular/in-memory-web-api) - as a temporary database during development.
  .
 
 ## Components Communication
- 22.August.2017 Martin
+ 22.August.2017 Martin [video](https://youtu.be/sTk5JVflwfU)
 
- Component Communication - transferring data between elements of the application.
+ Transferring data between elements of the application.
 
- 1. #### Local variable
+ 1. #### Local variable (parent to child)
 
-    **Template reference variables** - reference to the DOM element or reference to Angular component. Declared with `#`. Main way for communication.
+    **Template reference variables** (=local variable) - reference to the DOM element or to Angular component.
+
+    - Declared with `#`. 
+    - Main way for communication/data transfer in the app.
+    - A parent component to **read properties or call methods** of child >> create a template reference variable for the child element and reference that variable within the parent template. 
+    - **The scope of the reference variable is the entire child template/component.**
+    - Name must be unique - **Don't define the same variable more than once in the same template**.
+    - Could use `ref-` prefix instead of `#` (not that clear/visible).
+    - Useful to pass values as parameters of methods.
+
+    Local variables can be created for elements of the template (eg. input field), not only for the whole template. 
 
     ```html
     <input #inp type="text">
-    <button (click)="someMethod(inp)">Add</button>
-    ```
-
-    Parent calls child with `#` - a parent component cannot use data binding to read child properties or invoke child methods. Can be done by creating a template reference variable for the child element. Then reference that variable within the parent template.
-
-    ```html
     <app-child #child></app-child> <!--can use ref-child instead of #child-->
-    <button (click)="child.callSomeMethod()"></button>
+    <button (click)="child.callSomeMethod(inp.value)"></button> <!-- calls child's method -->
     ```
 
-    The scope of the reference variable is the entire template/component. **Don't define the same variable more than once in the same template**. Can use `ref-` prefix instead of `#`.
-
-    Local variables can be created for elements of the template, not only for the whole template. Useful to pass values as parameters of methods.
+    Everything is done on the side of the template, nothing happens in the component.ts file. Not the fastest or easiest way to do it.
 
  2. #### Input (parent to child)
 
@@ -1444,13 +1456,21 @@ Telerik Academy course, August 2017
 
      ```ts
     /* child.component.ts */
-    @Input()
-    text: string;
-
-    /* parent.component.html */
-    /* add more '' for string otherwise expects variable or number*/
-    <child [text]="'someValue'"></child> 
+    @Input() text: string;
     ```
+    ```html
+    <!-- parent.component.html -->
+    <!-- add more '' for string otherwise expects variable or number -->
+    <app-child [text]="'someValue'"></app-child> 
+    <!-- can assign expressions and methods to them too,
+    the child property will receive the return value of the method.
+    Avoid expressions in html, better methods in ts file-->
+    <app-child [text]="parentMethod()"></app-child> 
+    ```
+
+    Input decorator can accept an alias with which to change the name of the incoming field/property. This is bad practice.
+
+    When working with modules, might want to set default values to the input properties.
 
     Can use input property **setter** to intercept and act upon a value from the parent. Useful for validations and setting a default value.
 
@@ -1472,24 +1492,27 @@ Telerik Academy course, August 2017
 
  3. #### Output (child to parent)
 
-    `@Output` decorator. Child component exposes an **EventEmitter** (output property) - emits when something happens. The parent binds to that event property and reacts to those events. 
+    > Video at [00:44:59](https://youtu.be/sTk5JVflwfU?t=44m59s)
+
+    `@Output` decorator. Child component exposes an **EventEmitter** (output property) - emits when something happens. The parent binds to that event property and reacts to those events.
 
      ```ts
     /* child.component.ts */
     @Output()
-    childEvent = new EventEmitter<T>(); 
+    childEventEmitter = new EventEmitter<T>(); 
     /* generic, defines the type of the emitted value, eg. string */
-    /* can be instantiated in constructor but not in OnInit */
+    /* better be instantiated in constructor but not in OnInit,
+    must attach before DOM init! */
 
-    action(){
-        this.childEvent.emit('someValue|object')
+    emitterTrigger(){
+        this.childEventEmitter.emit('someValue|object')
     }
 
     /* child.component.html */
-    <button (click)="action()">Emit event</button>
+    <button (click)="emitterTrigger()">Emit event<\/button>
 
     /* parent.component.html */
-    <child (childEvent)="someAction($event)"></child>
+    <app-child (childEventEmitter)="someAction($event)"><\/app-child>
     /* $event stores the emitted value*/
 
     /* parent.component.ts receives the emitted $event */
@@ -1499,22 +1522,34 @@ Telerik Academy course, August 2017
     }
     ```
 
- 4. #### ViewChild
+    Emits one level up (only to direct parent, the one that calls app-child tag). To use at another level, the parent must re-emit the value.
 
-    Local variable approach is simple and easy but limited because parent-child wiring must be done entirely within the parent template. When parent component class requires access to child, **inject the child component** into the parent as a ViewChild.
+    Two components could communicate through a service without event emission - one component calls the service and changes some values, the other component uses these values.
 
-    `@ViewChild` decorator (returns the first found).   
-    `@ViewChildren` returns a collection (**QueryList**) of all the found children.
+    **Aim all communication to happen either through a service or through the methods listed here** (input, output, etc.), not by directly manipulating the DOM tree (with elementRef).
+
+ 4. #### ViewChild (parent to child??)
+
+    > Video at [1:13:45](https://youtu.be/sTk5JVflwfU?t=1h13m45s)
+
+    Local variable approach is simple and easy but limited because parent-child wiring must be done entirely within the parent html template. When parent component class requires access to child, **inject the child component** into the parent as a ViewChild.
+
+    **Recommended approach for getting a reference to a component or html tag/element!**. Instead of querying the DOM (eg. document.getElementById).
+
+    `@ViewChild` decorator (returns the first found).
+    `@ViewChildren` returns a collection (type **QueryList**) of all the found children.
 
      ```ts
     /* parent.component.ts */
     @ViewChild(ChildComponent) 
     /* can pass selector local variable eg. #h1-local */
-    private el; /* type is ElementRef*/
+    private childEl: ElementRef; /* type is ElementRef */
 
-    /* must be instantiated */
-    ngAfterViewIntit(){
-        console.log(el);
+    /* must be instantiated?? 
+    - no! can be referenced to in different lifecycle hooks, 
+    can not be referenced to in constructor */
+    ngAfterViewInit(){
+        console.log(childEl);
     }
 
     /* parent.component.html */
@@ -1522,44 +1557,60 @@ Telerik Academy course, August 2017
     <child></child>
     ```
 
-    '@ViewChild' could be used with a type of the child component or with a local variable.
+    '@ViewChild' could be used with selector a type of the child component or a local variable to get a reference to an html element.
 
      ```ts
-    @ViewChild(ChildComponent)
-    private childComponent;
+    /* type of child */
+    @ViewChild(ChildComponent) private childComponent;
     }
     ```
 
      ```ts
     /* parent.component.ts */
-    @ViewChild('c')
-    private childComponent;
+    @ViewChild('c') private childComponent;
 
     /* parent.component.html */
-    <child #c></child>
+    <app-child #c></app-child>
+    <h1 #b>Pass this to component</h1>
     ```
 
  5. #### ContentChild
     
-    `@ContentChild` - includes only elements that exist within the `ng-content` tag ('@ViewChild' has  no access to it, searches the template of the child only).
+    > Video at [1:28:18](https://youtu.be/sTk5JVflwfU?t=1h28m18s), See [Template content projection](#content-projection)
+
+    `@ContentChild` - includes only elements that exist (are passed from parent) within the `ng-content` tag ('@ViewChild' has  no access to it, searches the template of the child only).
     `@ContentChildren` returns a collection (**QueryList**) of elements.
 
      ```ts
     /* child.component.ts */
-    @ContentChild(AnotherComponent)
-    private anotherComponent;
+    @ContentChild(AnotherComponent) private anotherComponent;
 
+    @ContentChild('pSelector')
+    private el;
 
-    /* must be instantiated after content init!
-    might not work if init with another lifecycle hook*/
+    /* can be used after content init!
+    might not work if used in another lifecycle hook*/
     ngAfterContentInit(){
+        console.log(anotherComponent);
         console.log(el);
-
-    /* child.component.html */
-    <child><another></another></child>
+    }
     ```
 
-    With local variable (can be used with a type of the child component)
+    ```html
+    <!-- child.component.html -->
+    <child>
+        <another></another> <!-- ?? -->
+    </child>
+    <ng-content></ng-content>
+
+    <!-- parent.component.html -->
+    <h2>Parent content</h2>
+    <app-child>
+        <p #pSelector>Content to be passed to child</p>
+    </app-child>
+    ```
+
+    Can be used with a type of the child component or with local variable.
 
      ```js
     /* child.component.ts */
@@ -1574,38 +1625,42 @@ Telerik Academy course, August 2017
 
     **NB: Use templating and data binding provided by Angular instead!** 
 
-    Provides access to the underlying native element (DOM element). Do not use directly, use only as last resort.
+    Provides access to the underlying native element (DOM element). Do not use directly, use only as last resort. Because Angular is multi-platform and DOM doesn't exist on all platforms (eg. mobile)
     
     **Use with caution!** (read more at [angular.io](https://angular.io/api/core/ElementRef  ))
-    
+
      ```ts
+     /* injection of a service */
     constructor(private elRef: ElementRef) { }
 
     ngOnInit(){
-        console.log(elRef);
+        /* this.elRef references the WHOLE COMPONENT */
+        console.log(this.elRef);
     }
 
     btnClick(){
+        /* do not do this! */
         const el = this.elRef.nativeElement.querySelector('h2');
-        console.log(el); /* do not do this! */
+        console.log(el); 
     }
     ```
 
  7. #### Renderer2
 
-    Multi-platform of Angular comes here, service which gives an abstraction of the Angular DOM tree. Takes care of what to do with whatever we have selected instead of using the ElementRef. Provides the benefits of dependency injection - testable, changeable.
+    Multi-platformity of Angular comes here, service which gives an abstraction of the Angular DOM tree. Takes care of what to do with whatever we have selected instead of using the ElementRef. All DOM manipulations must be done through a service because it can easily be replaced. Provides the benefits of dependency injection - testable, changeable.
 
-    The Render2 (deprecated Render class) is a built-in service that provides an abstraction for the **UI rendering manipulations**.
+    The Render2 (deprecated Render class) is a built-in service that provides an abstraction for the **UI rendering manipulations** (dynamically add content).
 
      ```ts
     @ViewChild("input") input;
 
     ngAfterContentInit() {
+         /* don't use */
         this.input.nativeElement.focus();
-    } /* don't use?? */
+    }
     ```
 
-    `@ViewChild nativeElement` - can't use it in non-DOM environments (Angular is multi-platform), use Renderer2 class instead (using ElementRef to get access to the underlying native element).
+    `@ViewChild nativeElement` - can't use it in non-DOM environments (Angular is multi-platform), use Renderer2 class instead (using ElementRef to get access to the underlying native element). All 
 
      ```ts
     constructor(
@@ -1630,13 +1685,13 @@ Telerik Academy course, August 2017
 ## Lifecycle
  22.August.2017 Martin
 
- Lifecycle hooks - Angular calls methods on directives and components as it creates, changes, and destroys them. 
+ Lifecycle hooks - match the order of initialisation of the app (generally speaking). Angular calls methods on directives and components as it creates, changes, and destroys them. Each hook is appropriate for use in different situations.
 
  1. #### Constructor (not a hook)
 
+    Initialises the component. Used mainly for **dependency injection**. Not Angular-specific (is TypeScript specific).
+    
     The constructor of the component class is called **before** any other component lifecycle hooks.
-
-    Inject all dependencies in constructor.
 
      ```ts
     import {Component} from '@angular/core';
@@ -1656,7 +1711,7 @@ Telerik Academy course, August 2017
     ```
  2. #### OnChanges
 
-    Called **before ngOnInit** and whenever one or more data-bound properties change. Executes every time the value of an input property changes. The method receives a `SimpleChanges` object of current and previous property values.
+    Called **before ngOnInit** and whenever one or more data-bound (@Input) properties change. Executes every time the value of an input property changes. The method receives a `SimpleChanges` object of current and previous property values.
 
      ```ts
     ngOnChanges(changes: SimpleChanges){
@@ -1664,31 +1719,35 @@ Telerik Academy course, August 2017
     }
     ```
 
-    - **Strategies** with which Angular decides how the properties of objects are changed. Instead of constantly watching all classes/objects for changes in properties, set `changeDetection: ChangeDetectionStrategy.OnPush` in component meta data. OnPush fires only when object reference is changed, not if properties of an object are changed. Need to use immutable objects in this case, otherwise changes wouldn't be registered. Improves performance.
+    - **Strategies** with which Angular decides how the properties of objects are changed. Instead of constantly watching all classes/objects' for changes in properties, set `changeDetection: ChangeDetectionStrategy.OnPush` in component meta data. `Default` constantly checks for changes in objects' properties. `OnPush` fires only when object reference is changed, not if properties of an object are changed. Makes objects immutable, otherwise changes are not registered. Improves performance. Useful when having many inputs/properties.
+
+        (* performance optimisations are done only when needed, otherwise the application will never be released, if we strive for perfection before launch)
+
+        If using `OnPush` strategy, when communicating with a service and subscribe to the service, change detection does not happen automatically. Must be done manually - with another service, which is injected and `.detectChanges()` method is called.
 
  3. #### OnInit
 
     Called once. Use to:
-    - perform complex initializations shortly after construction
+    - perform complex initializations shortly after construction (**use ctor for DI, OnInit for init**)
     - set up the component after Angular sets the input properties
 
-    Don't fetch data in a component constructor. An ngOninit is a good place for a component to fetch its initial data.
+    Don't fetch data in a component constructor. An ngOnInit is a good place for a component to fetch its initial data.
 
  4. #### OnDestroy
 
     Called just before the instance of the component is finally destroyed. 
 
-    Important: This is the place to **free resources** which won't be garbage collected automatically and **unsubscribe** from observables (emit data over time) and DOM elements.
+    Important: This is the place to **free resources** which won't be garbage collected automatically and **unsubscribe** from observables (emit data repeatedly over time) and DOM elements.
 
  5. #### DoCheck
 
-    Used to detect and act upon changes that Angular doesn't catch on its own. Can be used to extend the check with our own custom check logic. Called when change detection runs so you can implement your custom change detection action.
+    Used to detect and act upon changes that Angular doesn't catch on its own (in ngOnChanges?). Can be used to extend the check with our own custom check logic. Called when change detection runs so you can implement your custom change detection action (advanced).
 
  7. #### AfterContent hooks
 
-    Concern **ContentChildren** - the child components that Angular projected into the component.
+    Concern **ContentChildren** - the child components that Angular projected into the component. (applies also to directives)
     - **AfterContentInit** - called after ngOnInit.
-    - **AfterContentChecked** - called after every check of a directive's content, even if the bindings haven't changed.
+    - **AfterContentChecked** - called after every change detection check of a directive's content, even if the bindings haven't changed.
 
  8. #### AfterView hooks
 
@@ -1696,8 +1755,202 @@ Telerik Academy course, August 2017
     - **AfterViewInit** - called after ngAfterContentInit, applies to components only.
     - **AfterViewChecked** - called after every check of the component's view, applies to components only, even if the bindings haven't changed.
  .
-## Pipes and Directives
-## Forms and Form controls
+## Modules
+ 24.August.2017 Martin [video](https://youtu.be/MOT7IxkBVaM)
+
+ > See [#Modules intro](#modules-intro)
+
+ 1. #### Angular Modularity
+
+    Angular is modular. 
+
+    Modules consolidate components, directives and pipes into blocks of functionality. May include services too. Group related functionality - public components and directives vs internal implementation details.
+
+    Benefits:
+    - AppComponent or AppModule doesn't get cluttered with declarations
+    - Components and modules become more reusable
+    - Modules can be lazy loaded
+
+    `@NgModule` decorator on a class + metadata instruct Angular how to compile and run module code:
+    - Template parsing (see [#JIT](#jit), [#Compilation strategies](#compilation-strategies) and AOT compilation)
+
+ 2. #### ES6 vs Angular Modules
+
+    ES6 - every js file is a module 
+
+    - `import { AppComponent }  from "./app.component";`
+    - Wrap private details, expose public API
+    
+    Angular modules - feature of the framework.
+
+    - `export class AppComponent { ... }` 
+    - `@NgModule` also has imports and exports with similar purpose
+    - Binds declarable classes only
+    - Mainly a template compilation context
+    - Defines public API
+    - Helps with dependency injection
+
+ 3. #### Structure
+ 
+    **@NgModule decorator metadata**
+    
+    - **Declarations** - which components, directives and pipes belong to the module
+    - **Imports** - other modules with components, directives, pipes needed for this module
+    - **Providers** - services at the application level (any app component can use), dependency injection providers
+    - **Bootstrap** - components that can be bootstrapped. Only in AppModule??
+    - **Export** Make some of those classes public (re-export??) so that other component templates (modules?) can use them
+
+    **Root app module** - `app.module.ts` (See  [#NgModule sample code](#ngmodule-metadata))
+
+    **Bootstraping** - `main.ts` (See [#JIT sample code](#jit), [#Compilation strategies](#compilation-strategies))
+
+    !! Only the root application module (AppModule) of almost every browser application should import `BrowserModule` from `@angular/platform-browser`. This makes all of its public c, d, p visible to the component templates declared in `AppModule`.
+
+    **BrowserModule** imports CommonModule and re-exports it => anywhere where BrowserModule is imported, CommonModule is imported too.
+    `CommonModule` holds common directives like `ngIf` and `ngFor`.
+ 
+ 4. #### Lazy Loading Modules
+
+    Load modules on demand, not on home page load. Reduces startup time. Lazy-loaded modules load only when the **user navigates to their route**.
+
+    Angular creates a **child injector** (= child of the root injector from the root module) and creates an instance of our service there??. Take care to prevent multiple instances of services in lazy loaded modules (in some cases might be desirable)!
+
+    Services can be provided in different components too. This doesn't create multiple instances when one of the components holds the `<router-outlet>` because the module(s) is already loaded and a single instance is created. 
+
+    Some modules and their services should **only be loaded once by the root AppModule**. Guard:
+
+     ```ts
+     /* core.module.ts */
+    /* imports... */
+    @NgModule({ providers: [ UsersService ]})
+
+    export class CoreModule {
+        constructor (@Optional() @SkipSelf() parentModule: CoreModule) {
+            if (parentModule) {
+                throw new Error( 
+                'CoreModule is already loaded. Import it in the AppModule only');
+            }
+        }
+
+        /* if we want to have multiple imports of CoreModule 
+        but still a single instance, 
+        remove guard in ctor? add static method forRoot(), 
+        add method everywhere when importing CoreModule.forRoot()*/
+        static forRoot(): ModuleWithProviders {
+            return {
+                ngModulte: CoreModule,
+                providers: [ UsersService ] /* move providers from meta to here*/
+            }
+        }
+    }
+    ```
+
+    Lazy loading sample (!Routing modules must be manually imported in respective modules). 
+    - If AppComponent and UsersListComponent both have the same service provided, because components have separate injectors, the service will have two instances and changes in one instance will not be reflected in the other. 
+    - If AppModule and UsersModule both have the same service provided, because lazy loading creates a child injector, the service will have two instances and changes in one instance will not be reflected in the other.
+    - To have a single instance, provide service only in root module (AppModule) or create a core module and import it in root module.
+    - Can have multiple imports of CoreModule and still a single instance of the provided service with static forRoot() method (see sample above)
+
+     ```ts
+    /* app-routing.module.ts */
+    /* imports ... */
+    const routes: Routes = [
+        { path: '', redirectTo: 'home', pathMatch: 'full' },
+        { path: 'home', component: HomeComponent },
+        /* { path: 'users', component: UsersListComponent } */
+        { path: 'users', loadChildren: './users/users.module#UsersModule' }
+    ];
+
+    @NgModule({ 
+        imports: [RouterModule.forRoot(routes)], /* only in AppRoutingModule!! */
+        exports: [RouterModule] })
+    export class AppRoutingModule { }
+
+    /* users-routing.module.ts */
+    /* imports ... */
+    const routes: Routes = [
+        { path: '', redirectTo: 'all', pathMatch: 'full' },
+        { path: 'all', component: UsersListComponent, 
+            /* children: [
+                { path: ':id', component: UserDetailsComponent }
+            ] */
+        }
+    ];
+
+    @NgModule({ 
+        imports: [RouterModule.forChild(routes)], /* not forRoot()!! */
+        exports: [RouterModule] })
+    export class AppRoutingModule { }
+    ```
+
+
+ 5. #### Module Visibility / encapsulation
+
+    A module doesn't have access to another module's declarations (i.e. component, pipe) until they are exported from the other module (and/or imported in this one??).
+
+     ```ts
+    @NgModule({
+        declarations: [HomeComponents],
+        exports: [HomeComponent]
+    })
+    export class HomeModule {    }
+    ```
+
+    Modules don't inherit access to the components, directives or pipes declared in other modules (i.e. what AppModule imports is irrelevant to other modules and vice versa).
+
+    #### Shared Module
+    
+    Create a `SharedModule` with the c, d, p used everywhere in the app. This module should consist entirely of declarations, most of them exported. Import the SharedModule in your feature modules, both those loaded when the app starts, and those lazy loaded later.
+
+    Eg. header, footer, stars rating/favourites, loading bar -> shared functionalities for the whole application. (if header/footer are loaded only once, maybe better be in another folder like 'global')
+
+    ! If we have providers/services in the shared module and lazy load the shared module in two places, we'll have two instances of the shared services, which could be a problem.
+
+    #### Core Module
+
+    Create a `CoreModule` with the providers for the singleton services loaded when the application starts. Import CoreModule in the **root AppModule only**, have a guard in ctor (see sample above). Consider making CoreModule a **pure services module** (only providers meta, no declarations).
+
+    Eg. HttpModule, authentication service
+
+    #### Feature Modules
+
+    They extend the global application
+
+     ```ts
+    import { Component } from '@angular/core';
+    @Component({
+        selector: 'app-home',
+        template: `<div [ngStyle]="{color:'red'}">HOME</div>`
+    })export class HomeComponent { }
+    ```
+
+    This code produces an error: *Unhandled Promise rejection: Template parse errors: Can't bind to 'ngStyle' since it isn't a known property of 'h3'*.
+
+    `HomeModule` needs to import `CommonModule` where the core ngStyle directive is defined (despite the root module importing BrowserModule which re-exports CommonModule). Each module needs to define separately what it can 'see' int its context.
+
+    ! Another option - import the CommonModule in the **SharedModule** and include that in feature modules. (another?? Reduc pattern in React - states, nrjx)
+
+    If a module imports `BrowserModule` -> it's a root module,  
+    if it imports `CommonModule` -> it's a feature module.
+
+ 6. #### Modules Providers Scope
+
+    Providers/services in modules are **application-scoped** because Angular registers module providers with the application's root injector. 
+
+    **NgModule instances, unlike components, don't have their own injectors, so they can't have their own provider scopes**. This is intentional - NgModules are designed primarily to extend the application. (When modules are lazy loaded, it's different)
+ .
+## Router
+ 24.August.2017 Martin [video](https://youtu.be/B-rs463-afA)
+ .
 ## Services and DI
-## Http Observables
-## Angular 2 Router
+ 29.August.2017 Steven (no sound video)
+
+## PDF
+ 31.August.2017 Steven [video](https://youtu.be/kZwHjnrBdnQ)
+ 1. Forms and Form controls
+    - Template-based forms
+    - Reactive forms (in backend logic)
+ 2. Pipes
+ 3. Directives
+ .
+## Http Observables?
