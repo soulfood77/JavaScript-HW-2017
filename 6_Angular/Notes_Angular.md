@@ -19,7 +19,7 @@ Telerik Academy course, August 2017
 | 10. | [Communication](#components-communication) | 22.Aug | + | + |
 | 11. | [Lifecycle](#lifecycle)                    | 22.Aug | + | + |
 | 12. | [Modules](#modules)                        | 24.Aug | + | + |
-| 13. | [Router](#router)                          | 24.Aug | + |   |
+| 13. | [Router](#router)                          | 24.Aug | + | + |
 | 14. | [Services and DI](#services-and-di)        | 29.Aug | + | . |
 | 15. | [Pipes, Directives, Forms](#pdf)           | 31.Aug | + |   |
 |     | Observables?                               |        |   |   |
@@ -1066,8 +1066,8 @@ Telerik Academy course, August 2017
 
             (Transclusion) = Taking a content (such as a text node or HTML) and injecting it into a template at a specific entry point. Done through Shadow DOM.
 
-            ```ts
-            // home.component.ts
+             ```ts
+            /* home.component.ts */
             @Component({
             selector: 'demo-child',
             template: `
@@ -1080,7 +1080,7 @@ Telerik Academy course, August 2017
             `
             })export class HomeComponent {}
 
-            // parent.component.ts
+            /* parent.component.ts */
             @Component({
             selector: 'demo-parent',
             template: `
@@ -1839,13 +1839,15 @@ Telerik Academy course, August 2017
         static forRoot(): ModuleWithProviders {
             return {
                 ngModulte: CoreModule,
-                providers: [ UsersService ] /* move providers from meta to here*/
+                providers: [ UsersService ] 
+                /* move providers from meta to here*/
             }
         }
     }
     ```
 
-    Lazy loading sample (!Routing modules must be manually imported in respective modules). 
+    #### Lazy loading sample 1
+    (!Routing modules must be manually imported in respective modules). 
     - If AppComponent and UsersListComponent both have the same service provided, because components have separate injectors, the service will have two instances and changes in one instance will not be reflected in the other. 
     - If AppModule and UsersModule both have the same service provided, because lazy loading creates a child injector, the service will have two instances and changes in one instance will not be reflected in the other.
     - To have a single instance, provide service only in root module (AppModule) or create a core module and import it in root module.
@@ -1941,16 +1943,335 @@ Telerik Academy course, August 2017
  .
 ## Router
  24.August.2017 Martin [video](https://youtu.be/B-rs463-afA)
+
+ 1. #### Routing
+
+    **Standard navigation**
+
+    - User enters an URL in address bar - different route for each page
+    - Routes can have route parameters (part of the URL - ID, name, etc.) and query parameters (sort criteria, page number, filter criteria)
+    - Calls to server which return rendered html files (usually)
+
+    In SPAs - no real routing - the router is more complicated - the page needs to think the route is being changed, when actually it isn't.
+
+ 2. #### Angular Router
+
+    Separate package `@angular/router`, not part of the official `@angular/core`. Supports multiple routes, route parameters, query parameters, regex routes, etc. Works by creating a mapping between an URL and a component.
+
+    **Configuration**
+
+    - Set base href in index.html `<head> <base href="/"> </head>` (possible option to use hash # - legacy)
+    - Create routes in router module - **order matters**, wild-card must be last
+
+         ```ts
+        { path: 'home', component: HomeComponent },
+        { path: 'users', 
+            /* lazy loading */
+            loadChildren: './users/users.module#UsersModule', 
+            /* resolve function loads page only when data is received*/
+            resolve: { 'users': UsersListResolver }
+        },
+        /* asterisks are wild-card */
+        { path: '**', component: NotFoundComponent },
+        ```
+    - Register `RouterModule` in imports (`forRoot()` in app root module, `forChildren()` in feature modules)
+    
+        ```ts
+        @NgModule({ 
+            imports: [
+                /*.options { enableTracing: true } logs all route changes.*/
+                RouterModule.forRoot(routes , {options: options}?) , 
+                /*...*/
+                ] 
+        })
+        ```
+
+    - Place a `<router-outlet>` in a component's html - usually app component (placeholder for the different pages)
+
+    **Routes**
+
+    - Route parameters are defined with `ROUTE_URL/:id` (route will be reached only if id is provided);    
+    
+    - Query parameters are not defined explicitly
+
+    - Handling route parameters ?? (read Victor Savkin's blog): 
+        - Inject `ActivatedRoute` into the ctor of the @Component
+        - `route.params` returns an object (observable) with the route parameters. Subscribe to it when initialising the component to change the component on change of params, use `ar.snapshot.params` object with key-value pairs to extract values (eg if using '/messages/:id', when navigating from one id to another state of the component doesn't change)
+        - `route.queryParams` returns an object with the query params
+
+         ```ts
+        /* user-details.component.ts*/
+        /* imports , @Component meta data ... */
+        export class UserDetailsComponent implements OnInit {
+            user;
+
+            constructor(private usersService: UsersService, 
+            private activatedRoute: ActivatedRoute) {}
+
+            ngOnInit(){
+                /* get id from route snapshot params object,
+                check if exists, convert string to number 
+                but this doesn't change if :id changes*/
+                const id = +this.activatedRoute.snapshot.params['id'];
+                this.user = this.usersService.getById(id);
+                /* use observable instead,
+                to register changes in the route - 
+                eg. to display active user ;
+                could query cached users list instead of database
+                use ngOnDestroy to clean subscriptions */
+                this.activatedRoute.params.subscribe(params => {
+                    const id = +params['id'];
+                    this.activateUser = this.usersService.getById(id);
+                })
+            }
+        }
+
+        /* users-routing.module.ts */
+        const routes: Routes = [
+            { path: ':id', component: UserDetailsComponent }
+        ];
+
+        /* user.component.html [route, parameters]*/
+        <a [routerLink]="['/users', user.id]>{{user.id}}: {{user.name}}</a>
+        ```
+
+    **Resolver** - load page only when data is received (eg. from a service returning a promise). Could insert a loader where the data will be inserted when returned.
+    - CLI `ng g s` (rename, remove 'service')
+    - Add to providers in respective module
+    - Call to service will be removed from users-list.component
+     ```ts
+    /* users-resolver.ts*/
+    @Injectable
+    export class UsersResolver implements Resolve<any> {
+
+        constructor(private usersService: UsersService){}
+
+        resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
+            return this.usersService.getAll();
+        }
+    }
+    /*users-routing.module.ts*/
+    const routes: Routes = [
+        { path: 'all', component: UsersListComponent, resolve: 'users': UsersResolver }
+    ]
+
+    /* users-list.component.ts*/
+    constructor(private activatedRoute : ActivatedRoute){}
+
+    ngOnInit() {
+        this.users = this.activatedRoute.snapshot.data['users'];
+    }
+    ```
+
+ 3. #### Guards
+
+    Routes in Angular Router can have one or many guards - i.e. operations/services that can be executed before the actual route is reached. Can be used to limit the access to certain routes, load data before hand, etc.
+
+    Route guards:
+    - `CanActivate` - `/users/23435` is a valid route (if we have route :id, so no redirect to ** wild-card NotFoundComponent will happen)
+
+         ```ts
+        /* users-routing.module.ts */
+        const routes: Routes = [
+            { path: ':id', component: UsersListComponent, canActivate: [ UsersGuardService ]}
+        ]
+
+        /* create UsersGuardService to prevent non-existent :ids */
+        export class UsersGuardService implements CanActivate {
+
+            constructor(private usersService: UsersService,
+            private router: Router){}
+
+            canActivate(route: ActivatedRouteSnapshot, 
+            state: RouterStateSnapshot) {
+                const id = +route.params['id'];
+                const userFound = !!this.usersService.getById(id);
+                let check = true;
+                if(userFound){check = true}
+                else{ 
+                    this.router.navigate(['/home']); /*or not found*/
+                    check = false;
+                }
+
+                return check;
+            }
+        }
+        ```
+
+    - `CanActivateChild`
+    - `CanDeactivate`
+    - `Resolve` - does route data retrieval before route activation (see sample above)
+    - `CanLoad` - mediate navigation to a feature module loaded asynchronously
+
+    Using route guards - create a class that implements one of the guards or add a function which resolves to boolean, then add the guard to the route registration.
+
+     ```ts
+    @Injectable()
+    export class AuthGuard implements CanActivate {
+        canActivate(){
+            // return true if the route is reachable
+            // return false if the route is not reachable
+        }
+    }
+    ```
+     ```ts
+    const routes: Routes = [{
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate: AuthGuard
+    }]
+    ```
+
+ 4. #### Lazy Loaded Modules
+
+    (See [#Lazy loading sample 1](#lazy-loading-sample-1) The root route definition is set in the `app-routing.module.ts`. The term lazy loaded is **not a guarantee for asynchrony**. Register the module in the Angular application only when the route hits. Important:
+    - Use property `loadChildren` instead of `component` (`DetailModule` is lazy loaded)
+    - Pass string instead of a symbol to avoid loading the module eagerly(where route declared??)
+    - Define not only the path to the module, but the name of the class too
+    - Use `forChild()` method when importing RouterModule in all feature module (i.e. DetailModule) instead of `forRoot()` to create the routing object. (regardless if the module is to be loaded eagerly or laziliy)
+     ```ts
+    /* app.routing-module.ts */
+    export const ROUTES: Routes = [
+    { path: '',      component: HomeComponent },
+    { path: 'home',  component: HomeComponent },
+    { path: 'about', component: AboutComponent },
+    { path: 'detail', loadChildren: './detail#DetailModule'},
+    { path: '**',    component: NoContentComponent },
+    ];
+    ```
+
+    **Preloading strategy**
+
+    Angular provides a preloading strategy that preloads all modules as quickly as possible. Lazy loading speeds up application load time by splitting it into multiple bundles and loading them on demand - when the user navigates to the lazy-loadable route/section, the router will fetch the required module from the server.
+
+    The router can **preload lazy-loadable modules in the background** while the user is interacting with the application. Load stages:
+    - Initial load (eg. `main.module.js`) - load the initial bundle (contains only the components needed to bootstrap the application)
+    - Bootstrap the app using a small bundle
+    - Preload other modules (eg. `contacts.module.js`) in the background while the app is working (with `PreloadAllModules`)
+    - Navigate - when the user clicks on a link leading to a lazy-loadable module, the navigation is instant.
+
+
+     ```ts
+    /* app-routing.module.ts*/
+    @NgModule({
+        imports: [RouterModule.forRoot(routes, 
+            {preloadingStrategy: PreloadAllModules})],
+        exports: [RouterModule]
+    })
+    ```
+
+    Can have custom preloading strategy - to load only specific modules. Just implement an interface.
  .
 ## Services and DI
  29.August.2017 Steven (no sound video)
 
+ Demo: 
+ - app module, post module 
+ - listing component, posts models, IPost interface, routing
+ - posts creating component, 
+ - post service - returns data - manual, manualAsync with observable
+ - how to use http service
+
+     ```ts
+    posts
+    /*posts.service.ts*/
+    public getPosts(): Observable<IPost[]> {
+        return this.http
+            .get('https://jsonplaceholder.typicode.com/posts')
+            .map(x => x.json() as IPost[])
+            .map(x => x.slice(0,5));
+    }
+
+    public getPostsManualAsync(): Observable<IPost[]>{
+        const obsv = Observable.create((observer: Observer<IPost[]>) => {
+            observer.next(this.posts);
+            observer.complete();
+
+            /* demo each .next() executes subscribers again*/
+            setTimeout(function(){
+                observer.next([
+                    {title: 'New collection', body: 'Pesho!'}
+                ]);
+            }, 2000);
+        })
+    });
+    ```
+
+    **Registering services**
+
+    (See [#Modules Providers Scope](#modules-providers-scope))
+
+    * NB! Service injectors are inherited - important when working with observables. When calling .next(), all subscribers are executed again. Could have problems if a service has two instances - subscribers use both of them.
+
+    Services are singleton down the inheritance tree.
+
+
 ## PDF
  31.August.2017 Steven [video](https://youtu.be/kZwHjnrBdnQ)
- 1. Forms and Form controls
-    - Template-based forms
-    - Reactive forms (in backend logic)
- 2. Pipes
- 3. Directives
+ 1. #### Template-based forms 
+    - Easier to write. Write validation logic in component, more complex to support.
+
+    ```html
+    <!-- posts-create.component.html -->
+    <!-- no need for action attribute -->
+    <form (ngSubmit)="create(createForm.value)" #createMyForm=ngForm novalidate>
+        <div>
+            <label for="title">Title:</label>
+            <!-- careful local var names to be diff from code data-binding vars-->
+            <input type="text" name="title" #titleInput=ngModel [(ngModel)]="title">
+            <!-- create local var instead of this long declaration-->
+            <!-- <span *ngIf=!createForm.form.controls.title?.valid>This field is required</span> -->
+            <span *ngIf="!titleInput.valid && titleInput.touched  || mouseover">This field is required</span>
+        </div>
+        <!-- create mouseover variable-->
+        <span (mouseenter)="mouseover=true" (mouseleave)="mouseover=false">
+        <!-- instead of submit button-->
+        <input type="submit" [disabled]="!createMyForm.valid"> 
+    </form>
+    ```
+
+     ```ts
+    /* posts-create.component.ts*/
+    export class PostsCreateComponent implements OnInit {
+        /* needed for bi-directional binding*/
+        private title = 'Pesho';
+    }
+    ```
+
+    - ngSubmit vs click - adds additional properties - valid state, touched, has invalid data, etc. (from NgModule??)
+
+    - Input data binding could be one-directional or bi-directional. NgModel value is good to match name value (to be able to build get/post requests strings). Bi-directional `[get-from-comp] (send-to-comp) => [(get-send)]`
+    - `novalidate` prevents browser validations
+
+    - `touched`/`untouched` - show state only when form has been edited 
+    - `dirty` - form has been touched and fields have data in them.
+    - `[disabled] = !form.valid` - disable submit button if form not valid. Could be confusing to the end user if no feedback is provided why submit is disabled.
+    - show messages on hover (no events are active on disabled elements!). Create variable `mouseover` and set it to true or false.
+
+ 2. #### Reactive forms 
+    
+    In back-end logic/code-behind, can have validations, more difficult to write but more powerful.
+
+    - FormsGroup - groups controls in the form - title, body, etc.
+    
+     ```ts
+    /* post-edit.component.ts*/
+    /* imports.. @Component meta*/
+    export class PostsEditComponent implements OnInit {
+        public editForm: FormGroup; 
+        /*import ReactiveFormsModule in posts.module.ts*/
+
+        constructor(private postsService: PostsService) {}
+
+        ngOnInit() {}
+    }
+    ```
+    > Continoue video from 00:38:00
+ 3. #### Pipes
+ 4. #### Directives
  .
 ## Http Observables?
+
+## Q&A Session
+
+ - Resolvers - functions executed before a route is loaded. Useful for inserting loaders while content is being retrieved.
